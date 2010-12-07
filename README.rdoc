@@ -1,0 +1,15 @@
+= Redmine Tags
+
+Allows marking up different models in Redmine with tags.
+Inspired by original redmine_tags of Eric Davis. But in
+comparison extended with some code that was already wrote
+as part of my own redmine taggable_issues branch.
+
+== Supported models
+
+* Issues
+
+== License
+
+This plugin is licensed under the GNU/GPL v3.
+See COPYING and LICENSE for details.

@@ -1,0 +1,14 @@
+<fieldset><legend><%= l(:setting_issue_tags) %></legend>
+  <p>
+    <label><%= l(:issues_sidebar) %></label>
+    <%= select_tag 'settings[issues_sidebar]', options_for_select(%w(none list cloud).collect{|v| [l("issue_tags_sidebar_#{v}"), v]}, @settings[:issues_sidebar]) %>
+  </p>
+  <p>
+    <label><%= l(:issues_show_count) %></label>
+    <%= check_box_tag 'settings[issues_show_count]', 1, 1 == @settings[:issues_show_count].to_i %>
+  </p>
+  <p>
+    <label><%= l(:issues_open_only) %></label>
+    <%= check_box_tag 'settings[issues_open_only]', 1, 1 == @settings[:issues_open_only].to_i %>
+  </p>
+</fieldset>

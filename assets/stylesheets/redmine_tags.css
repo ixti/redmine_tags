@@ -1,0 +1,24 @@
+ul.tags {
+  list-style: none;
+  padding: 0px;
+}
+
+ul.tags li {
+  margin: .25em 0px;
+}
+
+div.tags { text-align: center; }
+
+.tag-count {
+  font-size: .75em;
+  margin-left: .5em;
+}
+
+div.tags .tag-nube-1 { font-size: .8em; }
+div.tags .tag-nube-2 { font-size: 1em; }
+div.tags .tag-nube-3 { font-size: 1.2em; }
+div.tags .tag-nube-4 { font-size: 1.4em; }
+div.tags .tag-nube-5 { font-size: 1.6em; }
+div.tags .tag-nube-6 { font-size: 1.8em; }
+div.tags .tag-nube-7 { font-size: 2em; }
+div.tags .tag-nube-8 { font-size: 2.2em; }
