@@ -32,13 +32,11 @@ Dispatcher.to_prepare :redmine_tags do
   end
 
   unless IssuesHelper.included_modules.include?(RedmineTags::Patches::IssuesHelperPatch)
-    # TagsHelper is included in this patch to IssuesHelper as I still
-    # can't get how to include it into the IssuesController and make
-    # available to views. If you simply mix-in TagsHelper to the
-    # IssuesController from here, you'll be able to see these methods
-    # in console, but ActiveView will not get them :(( Unfortunatelly
-    # nobody on IRC could explain me why in details.
     IssuesHelper.send(:include, RedmineTags::Patches::IssuesHelperPatch)
+  end
+
+  unless AutoCompletesController.included_modules.include?(RedmineTags::Patches::AutoCompletesControllerPatch)
+    AutoCompletesController.send(:include, RedmineTags::Patches::AutoCompletesControllerPatch)
   end
 
   unless QueriesHelper.included_modules.include?(RedmineTags::Patches::QueriesHelperPatch)

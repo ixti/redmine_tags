@@ -3,6 +3,6 @@
   <p id="issue_tags"><%= f.text_field :tag_list, :label => :tags, :size => 60, :class => 'hol' %></p>
   <div id="issue_tag_candidates" class="autocomplete"></div>
   <%= javascript_include_tag 'tags_input', :plugin => 'redmine_tags' %>
-  <%= javascript_tag "observeIssueTagsField()" %>
+  <%= javascript_tag "observeIssueTagsField('#{url_for(:controller => 'auto_completes', :action => 'issue_tags', :project_id => issue.project)}')" %>
 </div>
 <% end -%>

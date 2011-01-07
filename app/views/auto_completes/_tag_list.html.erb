@@ -1,0 +1,9 @@
+<ul>
+<% if @tags.any? -%>
+  <% @tags.each do |tag| -%>
+    <%= content_tag 'li', h("#{tag.name}") %>
+  <% end -%>
+<% else -%>
+  <%= content_tag("li", l(:label_none), :style => 'display:none') %>
+<% end -%>
+</ul>
