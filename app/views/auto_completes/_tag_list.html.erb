@@ -1,9 +1,6 @@
 <ul>
-<% if @tags.any? -%>
-  <% @tags.each do |tag| -%>
-    <%= content_tag 'li', h("#{tag.name}") %>
-  <% end -%>
-<% else -%>
-  <%= content_tag("li", l(:label_none), :style => 'display:none') %>
+<% @tags.each do |tag| -%>
+  <%= content_tag 'li', h('%s (%d)' % [tag.name, tag.count]) %>
 <% end -%>
+<%= content_tag 'li', l(:auto_complete_new_tag) % @name, :name => @name %>
 </ul>

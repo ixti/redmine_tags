@@ -20,7 +20,7 @@ module RedmineTags
             @sidebar_tags = []
             if :none != redmine_tags_settings[:issues_sidebar].to_sym
               @sidebar_tags = Issue.available_tags(:project => @project,
-                                                  :open_only => true || (redmine_tags_settings[:issues_open_only].to_i == 1))
+                                                   :open_only => true || (redmine_tags_settings[:issues_open_only].to_i == 1))
             end
           end
           @sidebar_tags

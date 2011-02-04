@@ -14,7 +14,8 @@ module RedmineTags
 
       module InstanceMethods
         def issue_tags
-          @tags = Issue.available_tags :project_id => @project
+          @name = params[:q].to_s
+          @tags = Issue.available_tags :project_id => @project, :name_like => @name
           render :layout => false, :partial => 'tag_list'
         end
       end
