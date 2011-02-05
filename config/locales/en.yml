@@ -1,2 +1,13 @@
 en:
-  tags: "Tags"
+  tags: Tags
+  field_tags: Tags
+  setting_issue_tags: Issues Tags
+  issues_sidebar: Display tags on sidebar as
+  issues_show_count: Display amount of issues
+  issues_open_only: Display open issues only
+  
+  issue_tags_sidebar_none: None
+  issue_tags_sidebar_list: List
+  issue_tags_sidebar_cloud: Cloud
+
+  auto_complete_new_tag: Add new...
