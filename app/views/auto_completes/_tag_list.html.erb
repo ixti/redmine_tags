@@ -1,6 +1,6 @@
 <ul>
 <% @tags.each do |tag| -%>
-  <%= content_tag 'li', h('%s (%d)' % [tag.name, tag.count]) %>
+  <%= content_tag 'li', h('%s (%d)' % [tag.name, tag.count]), :name => tag.name %>
 <% end -%>
 <%= content_tag 'li', l(:auto_complete_new_tag) % @name, :name => @name %>
 </ul>
