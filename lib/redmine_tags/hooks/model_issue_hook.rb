@@ -10,8 +10,8 @@ module RedmineTags
       # cleared on reload. So instead, hook in after the Issue#save to update
       # this issue's tag_list and call #save ourselves.
       def controller_issues_new_after_save(context={})
-      #  save_tags_to_issue(context, false)
-      #  context[:issue].save
+        save_tags_to_issue(context, false)
+        context[:issue].save
       end
 
       def save_tags_to_issue(context, create_journal)
