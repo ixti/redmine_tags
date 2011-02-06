@@ -9,7 +9,7 @@ module TagsHelper
   #   * open_only   - Boolean. Whenever link to the filter with "open" issues
   #                   only limit.
   def render_tag_link(tag, options = {})
-    filters = [[:tags, '~', tag.name]]
+    filters = [[:tags, '=', tag.name]]
     filters << [:status_id, 'o'] if options[:open_only]
 
     content = link_to_filter tag.name, filters, :project_id => @project

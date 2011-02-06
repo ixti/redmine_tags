@@ -13,10 +13,6 @@ module RedmineTags
 
           alias_method :available_filters_original, :available_filters
           alias_method :available_filters, :available_filters_extended
-
-          base.operators_by_filter_type.merge!({
-            :list_tags => [ "=", "!", "~", "!~" ]
-          })
         end
       end
 
@@ -49,47 +45,33 @@ module RedmineTags
 
       module InstanceMethods
         def statement_extended
-          tags_filter     = filters.delete 'tags'
-          sql_statements  = statement_original
+          filter  = filters.delete 'tags'
+          clauses = statement_original
 
-          if tags_filter
-            filters.merge!( 'tags' => tags_filter )
+          if filter
+            filters.merge!( 'tags' => filter )
 
-            operator  = operator_for('tags')
-            values    = values_for('tags').clone
             tags      = ActsAsTaggableOn::Tag.table_name
             taggings  = ActsAsTaggableOn::Tagging.table_name
-
-            ids = <<-SQL
+            values    = values_for('tags').clone
+            compare   = operator_for('tags').eql?('=') ? 'IN' : 'NOT IN'
+            ids_sql   = <<-SQL
               SELECT DISTINCT #{taggings}.taggable_id 
                 FROM #{taggings}
                INNER JOIN #{tags} ON #{tags}.id = #{taggings}.tag_id #{Query.joins_for_match_all_tags(values)}
                WHERE #{taggings}.taggable_type = 'Issue'
             SQL
 
-            # TODO: uncomment, once :list_tags will be successfully added?
-            #if "=" == operator or "!" == operator
-            #  taggings_alias  = taggings + "_recursive"
-            #  strict_subquery = <<-SQL
-            #    SELECT COUNT(#{taggings_alias}.taggable_id) 
-            #      FROM #{taggings} #{taggings_alias}
-            #    WHERE #{taggings_alias}.taggable_id = #{taggings}.taggable_id
-            #  SQL
-            #  ids << " AND #{values.length} = (#{strict_subquery})"
-            #end
-
-            compare = operator.start_with?("!") ? "NOT IN" : "IN"
-            sql_statements << " AND ( #{Issue.table_name}.id #{compare} ( #{ids} ) )"
+            clauses << " AND ( #{Issue.table_name}.id #{compare} ( #{ids_sql} ) )"
           end
 
-          sql_statements
+          clauses
         end
 
 
         def available_filters_extended
           unless @available_filters 
             available_filters_original.merge!({ 'tags' => {
-              # TODO: should be :list_tags instead, but it makes list of values empty
               :type   => :list,
               :order  => 6,
               :values => Issue.available_tags(:project => project).collect{ |t| [t.name, t.name] }
