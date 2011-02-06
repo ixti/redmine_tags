@@ -36,10 +36,10 @@ module RedmineTags
 
               INNER JOIN #{ActsAsTaggableOn::Tag.table_name} #{tags_alias} ON
                 #{taggings_alias}.tag_id = #{tags_alias}.id AND
-                #{tags_alias}.name = ?
+                #{tags_alias}.name = '%s'
             END
 
-            joins << sanitize_sql([join, tag])
+            joins << sanitize_sql_array([join, tag])
           end
           
           joins.join(" ")
