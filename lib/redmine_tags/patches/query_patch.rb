@@ -18,28 +18,6 @@ module RedmineTags
 
 
       module ClassMethods
-        # TODO: Should be extension of ActsAsTaggableOn
-        def joins_for_match_all_tags(tags)
-          joins = []
-          
-          tags.each_with_index do |tag, index|
-            taggings_alias, tags_alias = "taggings_#{index}", "tags_#{index}"
-
-            join = <<-END
-              INNER JOIN #{ActsAsTaggableOn::Tagging.table_name} #{taggings_alias} ON
-                #{taggings_alias}.taggable_id = #{Issue.table_name}.#{Issue.primary_key} AND
-                #{taggings_alias}.taggable_type = #{quote_value(Issue.base_class.name)}
-
-              INNER JOIN #{ActsAsTaggableOn::Tag.table_name} #{tags_alias} ON
-                #{taggings_alias}.tag_id = #{tags_alias}.id AND
-                #{tags_alias}.name = '%s'
-            END
-
-            joins << sanitize_sql_array([join, tag])
-          end
-          
-          joins.join(" ")
-        end
       end
 
 
@@ -51,18 +29,13 @@ module RedmineTags
           if filter
             filters.merge!( 'tags' => filter )
 
-            tags      = ActsAsTaggableOn::Tag.table_name
-            taggings  = ActsAsTaggableOn::Tagging.table_name
             values    = values_for('tags').clone
             compare   = operator_for('tags').eql?('=') ? 'IN' : 'NOT IN'
-            ids_sql   = <<-SQL
-              SELECT DISTINCT #{taggings}.taggable_id 
-                FROM #{taggings}
-               INNER JOIN #{tags} ON #{tags}.id = #{taggings}.tag_id #{Query.joins_for_match_all_tags(values)}
-               WHERE #{taggings}.taggable_type = 'Issue'
-            SQL
 
-            clauses << " AND ( #{Issue.table_name}.id #{compare} ( #{ids_sql} ) )"
+            #TODO: Replace with pure SQL restriction
+            ids_list  = Issue.tagged_with(values).collect{ |issue| issue.id }.push(-1).join(',')
+
+            clauses << " AND ( #{Issue.table_name}.id #{compare} (#{ids_list}) ) "
           end
 
           clauses
