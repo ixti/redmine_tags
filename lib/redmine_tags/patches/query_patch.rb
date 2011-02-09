@@ -31,9 +31,7 @@ module RedmineTags
 
             values    = values_for('tags').clone
             compare   = operator_for('tags').eql?('=') ? 'IN' : 'NOT IN'
-
-            #TODO: Replace with pure SQL restriction
-            ids_list  = Issue.tagged_with(values).collect{ |issue| issue.id }.push(-1).join(',')
+            ids_list  = Issue.tagged_with(values).collect{ |issue| issue.id }.push(0).join(',')
 
             clauses << " AND ( #{Issue.table_name}.id #{compare} (#{ids_list}) ) "
           end
