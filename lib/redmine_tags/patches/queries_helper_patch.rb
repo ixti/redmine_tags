@@ -5,13 +5,19 @@ module RedmineTags
         base.extend(ClassMethods)
         base.send(:include, InstanceMethods)
 
-        base.class_eval {}
+        base.class_eval do
+          alias_method :column_content_original, :column_content
+          alias_method :column_content, :column_content_extended
+        end
       end
 
       module ClassMethods
       end
 
       module InstanceMethods
+        include TagsHelper
+
+
         # Returns link to the page with issues filtered by specified filters
         # === Parameters
         # * <i>title</i> = Link title text
@@ -24,6 +30,7 @@ module RedmineTags
           options.merge! link_to_filter_options(filters)
           link_to title, options
         end
+
 
         # Returns Hash suitable for passing it to the <tt>to_link</tt>
         # === Parameters
@@ -48,6 +55,15 @@ module RedmineTags
           end
 
           options
+        end
+
+
+        def column_content_extended(column, issue)
+          if column.name.eql? :tags
+            column.value(issue).collect{ |t| render_tag_link(t) }.join(', ')
+          else
+            column_content_original(column, issue)
+          end
         end
       end
     end

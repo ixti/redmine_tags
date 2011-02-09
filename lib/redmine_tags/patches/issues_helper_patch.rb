@@ -5,16 +5,15 @@ module RedmineTags
         base.extend(ClassMethods)
         base.send(:include, InstanceMethods)
 
-        base.class_eval do
-          # See init.rb for explanation why TagsHelper is included here
-          include TagsHelper
-        end
+        base.class_eval {}
       end
 
       module ClassMethods
       end
 
       module InstanceMethods
+        include TagsHelper
+
         def sidebar_tags
           unless @sidebar_tags
             @sidebar_tags = []

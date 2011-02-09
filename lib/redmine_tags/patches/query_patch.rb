@@ -13,6 +13,8 @@ module RedmineTags
 
           alias_method :available_filters_original, :available_filters
           alias_method :available_filters, :available_filters_extended
+
+          base.add_available_column(QueryColumn.new(:tags))
         end
       end
 
