@@ -1,7 +1,5 @@
 # This file is a part of redmine_tags
-#
-# redmine_tags is a plugin for redMine project management system, which
-# adds tagging support for the issues.
+# redMine plugin, that adds tagging support.
 #
 # Copyright (c) 2010 Aleksey V Zapparov AKA ixti
 #
@@ -23,9 +21,9 @@ config.gem "acts-as-taggable-on", :version => '2.0.6'
 require 'redmine'
 
 Redmine::Plugin.register :redmine_tags do
-  name        'Redmine Tags'
+  name        'redmine_tags'
   author      'Aleksey V Zapparov AKA "ixti"'
-  description 'Adds tagging to Redmine'
+  description 'redMine tagging support'
   version     '1.0.0'
   url         'http://www.ixti.ru/'
   author_url  'http://www.ixti.ru/'
@@ -43,27 +41,22 @@ end
 require 'dispatcher'
 
 Dispatcher.to_prepare :redmine_tags do
-  require_dependency 'issue'
   unless Issue.included_modules.include?(RedmineTags::Patches::IssuePatch)
     Issue.send(:include, RedmineTags::Patches::IssuePatch)
   end
 
-  require_dependency 'issues_helper'
   unless IssuesHelper.included_modules.include?(RedmineTags::Patches::IssuesHelperPatch)
     IssuesHelper.send(:include, RedmineTags::Patches::IssuesHelperPatch)
   end
 
-  require_dependency 'auto_completes_controller'
   unless AutoCompletesController.included_modules.include?(RedmineTags::Patches::AutoCompletesControllerPatch)
     AutoCompletesController.send(:include, RedmineTags::Patches::AutoCompletesControllerPatch)
   end
 
-  require_dependency 'query'
   unless Query.included_modules.include?(RedmineTags::Patches::QueryPatch)
     Query.send(:include, RedmineTags::Patches::QueryPatch)
   end
 
-  require_dependency 'queries_helper'
   unless QueriesHelper.included_modules.include?(RedmineTags::Patches::QueriesHelperPatch)
     QueriesHelper.send(:include, RedmineTags::Patches::QueriesHelperPatch)
   end

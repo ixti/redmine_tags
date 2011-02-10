@@ -1,8 +1,7 @@
 # This file is a part of redmine_tags
+# redMine plugin, that adds tagging support.
 #
-# redmine_tags is a plugin for redMine project management system, which
-# adds tagging support for the issues.
-#
+# Copyright (c) 2010 Eric Davis
 # Copyright (c) 2010 Aleksey V Zapparov AKA ixti
 #
 # redmine_tags is free software: you can redistribute it and/or modify

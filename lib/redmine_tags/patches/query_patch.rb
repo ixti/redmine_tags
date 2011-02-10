@@ -1,7 +1,5 @@
 # This file is a part of redmine_tags
-#
-# redmine_tags is a plugin for redMine project management system, which
-# adds tagging support for the issues.
+# redMine plugin, that adds tagging support.
 #
 # Copyright (c) 2010 Aleksey V Zapparov AKA ixti
 #
@@ -18,11 +16,12 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
+require_dependency 'query'
+
 module RedmineTags
   module Patches
     module QueryPatch
       def self.included(base)
-        base.extend(ClassMethods)
         base.send(:include, InstanceMethods)
 
         base.class_eval do
@@ -36,10 +35,6 @@ module RedmineTags
 
           base.add_available_column(QueryColumn.new(:tags))
         end
-      end
-
-
-      module ClassMethods
       end
 
 
