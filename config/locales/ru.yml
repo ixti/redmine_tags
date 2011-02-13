@@ -16,17 +16,17 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-en:
-  tags: Tags
-  field_tags: Tags
-  field_tag_list: Tags
-  setting_issue_tags: Issues Tags
-  issues_sidebar: Display tags on sidebar as
-  issues_show_count: Display amount of issues
-  issues_open_only: Display open issues only
+ru:
+  tags: Метки
+  field_tags: Метки
+  field_tag_list: Метки
+  setting_issue_tags: Метки задач
+  issues_sidebar: Боковую панель как
+  issues_show_count: Показать кол-во задач
+  issues_open_only: Только открытые задачи
   
-  issue_tags_sidebar_none: None
-  issue_tags_sidebar_list: List
-  issue_tags_sidebar_cloud: Cloud
+  issue_tags_sidebar_none: Не показывать
+  issue_tags_sidebar_list: Список
+  issue_tags_sidebar_cloud: Облако
 
-  auto_complete_new_tag: Add new...
+  auto_complete_new_tag: Добавить...
