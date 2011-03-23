@@ -1,8 +1,8 @@
 # This file is a part of redmine_tags
 # redMine plugin, that adds tagging support.
 #
-# Russian translation for redmine_tags
-# by Aleksey V Zapparov AKA ixti
+# German translation for redmine_tags
+# by Terence Miller aka cforce, <cforce(at)gmx.de>
 #
 # Copyright (c) 2010 Aleksey V Zapparov AKA ixti
 #
@@ -19,17 +19,17 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-ru:
-  tags: Метки
-  field_tags: Метки
-  field_tag_list: Метки
-  setting_issue_tags: Метки задач
-  issues_sidebar: Боковую панель как
-  issues_show_count: Показать кол-во задач
-  issues_open_only: Только открытые задачи
-  
-  issue_tags_sidebar_none: Не показывать
-  issue_tags_sidebar_list: Список
-  issue_tags_sidebar_cloud: Облако
+de:
+ tags: Tags
+ field_tags: Tags
+ field_tag_list: Tags
+ setting_issue_tags: Ticket Tags
+ issues_sidebar: Zeige die Tags auf der Sidebar
+ issues_show_count: Zeige die Ticketanzahl an
+ issues_open_only: Zeige nur noch offene Tickets
 
-  auto_complete_new_tag: Добавить...
+ issue_tags_sidebar_none: Keine
+ issue_tags_sidebar_list: Liste
+ issue_tags_sidebar_cloud: Cloud
+
+ auto_complete_new_tag: Hinzufügen...
