@@ -24,7 +24,7 @@ fr:
   field_tags: Tags
   field_tag_list: Tags
   setting_issue_tags: Tags des demandes
-  issues_sidebar: Display tags on sidebar as
+  issues_sidebar: Afficher les Tags comme
   issues_show_count: Afficher le nombre de demande
   issues_open_only: N'afficher que les demandes ouvertes
   
