@@ -24,7 +24,7 @@ Redmine::Plugin.register :redmine_tags do
   name        'redmine_tags'
   author      'Aleksey V Zapparov AKA "ixti"'
   description 'redMine tagging support'
-  version     '1.1.2-dev'
+  version     '1.1.2'
   url         'http://www.ixti.ru/'
   author_url  'http://www.ixti.ru/'
 
