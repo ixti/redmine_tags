@@ -36,7 +36,7 @@ module RedmineTags
       def save_tags_to_issue(context, create_journal)
         params = context[:params]
 
-        if params && params[:issue] && params[:issue][:tag_list].present?
+        if params && params[:issue] && !params[:issue][:tag_list].nil?
           old_tag_list = context[:issue].tag_list
           new_tag_list = params[:issue][:tag_list]
           
