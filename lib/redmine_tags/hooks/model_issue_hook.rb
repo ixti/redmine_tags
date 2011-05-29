@@ -37,18 +37,16 @@ module RedmineTags
         params = context[:params]
 
         if params && params[:issue] && !params[:issue][:tag_list].nil?
-          old_tag_list = context[:issue].tag_list
-          new_tag_list = params[:issue][:tag_list]
-          
-          context[:issue].tag_list = new_tag_list
+          old_tags = context[:issue].tag_list.to_s
+          context[:issue].tag_list = params[:issue][:tag_list]
+          new_tags = context[:issue].tag_list.to_s
 
-          if create_journal
+          if create_journal and not (old_tags == new_tags || context[:issue].current_journal.blank?)
             context[:issue].current_journal.details << JournalDetail.new(:property => 'attr',
                                                                          :prop_key => 'tag_list',
-                                                                         :old_value => old_tag_list.to_s,
-                                                                         :value => new_tag_list.to_s) unless old_tag_list == new_tag_list || context[:issue].current_journal.blank?
+                                                                         :old_value => old_tags,
+                                                                         :value => new_tags)
           end
-          
         end
       end
     end
