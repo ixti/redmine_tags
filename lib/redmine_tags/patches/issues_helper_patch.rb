@@ -28,6 +28,11 @@ module RedmineTags
       module InstanceMethods
         include TagsHelper
 
+        def redmine_tags_settings
+            @redmine_tags_settings = Setting.plugin_redmine_tags unless @redmine_tags_settings
+            @redmine_tags_settings
+        end
+
         def sidebar_tags
           unless @sidebar_tags
             @sidebar_tags = []
