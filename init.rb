@@ -28,7 +28,7 @@ Redmine::Plugin.register :redmine_tags do
   url         'http://www.ixti.ru/'
   author_url  'http://www.ixti.ru/'
 
-  requires_redmine :version_or_higher => '1.0.0'
+  requires_redmine :version_or_higher => '1.2.0'
 
   settings :default => {
     :issues_sidebar => 'none',
