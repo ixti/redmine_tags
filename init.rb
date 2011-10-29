@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-config.gem "acts-as-taggable-on", :version => '2.0.6'
+config.gem "acts-as-taggable-on", :version => '2.1.0'
 
 require 'redmine'
 
