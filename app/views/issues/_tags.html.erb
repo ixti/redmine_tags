@@ -1,6 +1,6 @@
 <% unless issue.tag_list.empty? %>
-  <hr />
-  <div>
-    <strong><%=l(:tags)%>:</strong> <%= issue.tag_counts.collect{ |t| render_tag_link(t, :show_count => false, :open_only => false) }.join(', ') %>
-  </div>
+  <tr>
+    <td><b><%=l(:tags)%>:</b></td>
+    <td><%= issue.tag_counts.collect{ |t| render_tag_link(t, :show_count => false, :open_only => false) }.join(', ') %></td>
+  </tr>
 <% end %>

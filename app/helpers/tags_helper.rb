@@ -74,11 +74,6 @@ module TagsHelper
     end
   end
 
-  def redmine_tags_settings
-    @redmine_tags_settings = Setting.plugin_redmine_tags unless @redmine_tags_settings
-    @redmine_tags_settings
-  end
-
   private
   # put most massive tags in the middle
   def cloudify(tags)
