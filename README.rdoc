@@ -1,9 +1,7 @@
 = Redmine Tags
 
 Allows marking up different models in Redmine with tags.
-Inspired by original redmine_tags of Eric Davis. But in
-comparison extended with some code that was already wrote
-as part of my own redmine taggable_issues branch.
+Inspired by original redmine_tags of Eric Davis.
 
 == Supported models
 
