@@ -41,7 +41,7 @@ module RedmineTags
       module InstanceMethods
         def statement_extended
           filter  = filters.delete 'tags'
-          clauses = statement_original
+          clauses = statement_original || ""
 
           if filter
             filters.merge!( 'tags' => filter )
@@ -50,7 +50,8 @@ module RedmineTags
             compare   = operator_for('tags').eql?('=') ? 'IN' : 'NOT IN'
             ids_list  = Issue.tagged_with(values).collect{ |issue| issue.id }.push(0).join(',')
 
-            clauses << " AND ( #{Issue.table_name}.id #{compare} (#{ids_list}) ) "
+            clauses << " AND " unless clauses.empty?
+            clauses << "( #{Issue.table_name}.id #{compare} (#{ids_list}) ) "
           end
 
           clauses
