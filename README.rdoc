@@ -12,6 +12,14 @@ Inspired by original redmine_tags of Eric Davis.
 * Redmine >= 1.2.0
 * acts-as-taggable-on == 2.10
 
+== Installation
+
+TBD
+
+== Migrating from 1.1.x to 1.2.x
+
+TBD
+
 == License
 
 This plugin is licensed under the GNU/GPL v3.
