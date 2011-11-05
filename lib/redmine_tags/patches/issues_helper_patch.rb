@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
+require_dependency 'tags_helper'
 require_dependency 'issues_helper'
 
 module RedmineTags
@@ -23,6 +24,10 @@ module RedmineTags
     module IssuesHelperPatch
       def self.included(base)
         base.send(:include, InstanceMethods)
+
+        base.class_eval do
+          unloadable
+        end
       end
 
       module InstanceMethods
