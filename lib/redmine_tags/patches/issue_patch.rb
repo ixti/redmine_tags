@@ -27,10 +27,23 @@ module RedmineTags
         base.class_eval do
           unloadable
           acts_as_taggable
+
+          named_scope :on_project, lambda { |project|
+            project = project.id if project.is_a? Project
+            { :conditions => ["#{Project.table_name}.id=?", project] }
+          }
         end
       end
 
       module ClassMethods
+        TAGGING_IDS_LIMIT_SQL = <<-SQL
+          tag_id IN (
+            SELECT #{ActsAsTaggableOn::Tagging.table_name}.tag_id
+              FROM #{ActsAsTaggableOn::Tagging.table_name}
+             WHERE #{ActsAsTaggableOn::Tagging.table_name}.taggable_id IN (?)
+          )
+        SQL
+
         # Returns available issue tags
         # === Parameters
         # * <i>options</i> = (optional) Options hash of
@@ -38,30 +51,20 @@ module RedmineTags
         #   * open_only - Boolean. Whenever search within open issues only.
         #   * name_like - String. Substring to filter found tags.
         def available_tags(options = {})
-          project   = options[:project]
-          open_only = options[:open_only]
-          name_like = options[:name_like]
-          options   = {}
-          visible   = ARCondition.new
-          
-          if project
-            project = project.id if project.is_a? Project
-            visible << ["#{Issue.table_name}.project_id = ?", project]
-          end
+          ids_scope = Issue.visible
+          ids_scope = ids_scope.on_project(options[:project]) if options[:project]
+          ids_scope = ids_scope.open if options[:open_only]
 
-          if open_only
-            visible << ["#{Issue.table_name}.status_id IN " +
-                        "( SELECT issue_status.id " + 
-                        "    FROM #{IssueStatus.table_name} issue_status " +
-                        "   WHERE issue_status.is_closed = ? )", false]
-          end
+          visible = ARCondition.new
 
-          if name_like
-            visible << ["#{ActsAsTaggableOn::Tag.table_name}.name LIKE ?", "%#{name_like.downcase}%"]
-          end
+          # limit to the tags matching given %name_like%
+          visible << ["#{ActsAsTaggableOn::Tag.table_name}.name LIKE ?",
+                      "%#{options[:name_like].downcase}%"] if options[:name_like]
 
-          options[:conditions] = visible.conditions
-          self.all_tag_counts(options)
+          visible << [TAGGING_IDS_LIMIT_SQL,
+                      ids_scope.map{ |issue| issue.id }.push(-1)]
+
+          self.all_tag_counts(:conditions => visible.conditions)
         end
       end
     end
