@@ -16,30 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-require_dependency 'auto_completes_controller'
-
 module RedmineTags
-  module Patches
-    module AutoCompletesControllerPatch
-      def self.included(base)
-        base.send(:include, InstanceMethods)
-
-        base.class_eval do
-          unloadable
-        end
-      end
-
-
-      module InstanceMethods
-        def issue_tags
-          @name = params[:q].to_s
-          @tags = Issue.available_tags({
-            :project_id => @project,
-            :name_like => @name
-          })
-          render :layout => false, :partial => 'tag_list'
-        end
-      end
-    end
-  end
+  def self.settings() Setting[:plugin_redmine_tags] end
 end

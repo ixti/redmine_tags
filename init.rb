@@ -20,6 +20,7 @@ config.gem "acts-as-taggable-on", :version => '2.1.0'
 
 
 require 'redmine'
+require 'redmine_tags'
 
 
 Redmine::Plugin.register :redmine_tags do
