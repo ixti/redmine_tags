@@ -27,9 +27,15 @@ en:
   issues_sidebar: Display tags on sidebar as
   issues_show_count: Display amount of issues
   issues_open_only: Display open issues only
+  issues_sort_by: Sort tags by
   
   issue_tags_sidebar_none: None
   issue_tags_sidebar_list: List
   issue_tags_sidebar_cloud: Cloud
+
+  issues_sort_by_name: Name
+  issues_sort_by_count: Issues amount
+  issues_sort_order_asc: Ascending
+  issues_sort_order_desc: Descending
 
   auto_complete_new_tag: Add new...

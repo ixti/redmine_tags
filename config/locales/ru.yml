@@ -27,9 +27,15 @@ ru:
   issues_sidebar: Боковую панель как
   issues_show_count: Показать кол-во задач
   issues_open_only: Только открытые задачи
+  issues_sort_by: Упорядочить метки по
   
   issue_tags_sidebar_none: Не показывать
   issue_tags_sidebar_list: Список
   issue_tags_sidebar_cloud: Облако
+
+  issues_sort_by_name: Названию
+  issues_sort_by_count: Кол-ву задач
+  issues_sort_order_asc: по возрастанию
+  issues_sort_order_desc: по убыванию
 
   auto_complete_new_tag: Добавить...

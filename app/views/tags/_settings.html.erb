@@ -11,4 +11,9 @@
     <label><%= l(:issues_open_only) %></label>
     <%= check_box_tag 'settings[issues_open_only]', 1, 1 == @settings[:issues_open_only].to_i %>
   </p>
+  <p>
+    <label><%= l(:issues_sort_by) %></label>
+    <%= select_tag 'settings[issues_sort_by]', options_for_select(%w(name count).collect{|v| [l("issues_sort_by_#{v}"), v]}, @settings[:issues_sort_by]) %>
+    <%= select_tag 'settings[issues_sort_order]', options_for_select(%w(asc desc).collect{|v| [l("issues_sort_order_#{v}"), v]}, @settings[:issues_sort_order]) %>
+  </p>
 </fieldset>

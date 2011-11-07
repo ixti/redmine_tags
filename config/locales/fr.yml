@@ -5,6 +5,7 @@
 # by Stéphane HANNEQUIN, <stephane.hannequin(at)aster-ingenierie.com>
 #
 # Copyright (c) 2010 Aleksey V Zapparov AKA ixti
+# Copyright (c) 2010 Stéphane HANNEQUIN
 #
 # redmine_tags is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,9 +28,15 @@ fr:
   issues_sidebar: Afficher les Tags comme
   issues_show_count: Afficher le nombre de demande
   issues_open_only: N'afficher que les demandes ouvertes
+  issues_sort_by: (en) Sort tags by
   
   issue_tags_sidebar_none: Ne pas afficher
   issue_tags_sidebar_list: Liste
   issue_tags_sidebar_cloud: Nuage
+
+  issues_sort_by_name: (en) Name
+  issues_sort_by_count: (en) Issues amount
+  issues_sort_order_asc: (en) Ascending
+  issues_sort_order_desc: (en) Descending
 
   auto_complete_new_tag: Nouveau...
