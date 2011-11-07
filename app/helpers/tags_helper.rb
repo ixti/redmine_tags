@@ -54,8 +54,18 @@ module TagsHelper
   def render_tags_list(tags, options = {})
     unless tags.nil? or tags.empty?
       content, style = '', options.delete(:style)
-    
-      tags.sort! { |a,b| b.count <=> a.count }
+
+      # prevent ActsAsTaggableOn::TagsHelper from calling `all`
+      # otherwise we will need sort tags after `tag_cloud`
+      tags = tags.all if tags.respond_to?(:all)
+
+      case "#{RedmineTags.settings[:issues_sort_by]}:#{RedmineTags.settings[:issues_sort_order]}"
+      when "name:asc"; tags.sort! { |a,b| a.name <=> b.name }
+      when "name:desc"; tags.sort! { |a,b| b.name <=> a.name }
+      when "count:asc"; tags.sort! { |a,b| a.count <=> b.count }
+      when "count:desc"; tags.sort! { |a,b| b.count <=> a.count }
+      else throw "Unknown sorting option"
+      end
 
       if :list == style
         list_el, item_el = 'ul', 'li'
@@ -75,7 +85,8 @@ module TagsHelper
   end
 
   private
-  # put most massive tags in the middle
+
+  # make snowball. first tags comes in th middle.
   def cloudify(tags)
     temp, tags, trigger = tags, [], true
     temp.each do |tag|
