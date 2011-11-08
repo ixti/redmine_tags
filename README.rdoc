@@ -3,22 +3,33 @@
 Allows marking up different models in Redmine with tags.
 Inspired by original redmine_tags of Eric Davis.
 
+
 == Supported models
 
-* Issues
+- Issues
+
 
 == Requirements
 
-* Redmine >= 1.2.0
-* acts-as-taggable-on == 2.10
+- Redmine >= 1.2.0
+- acts-as-taggable-on == 2.1.0
+
 
 == Installation
 
-TBD
+- Follow the Redmine plugin installation steps at:
+  www.redmine.org/wiki/redmine/Plugins and make sure
+  the plugin is installed to +vendor/plugins/redmine_tags+
+- Install +acts-as-taggable-on+
+  - Run migration generator: +script/generate acts_as_taggable_on_migration+
+  - Run migration: +rake db:migrate+
+- Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
+
 
 == Migrating from 1.1.x to 1.2.x
 
 TBD
+
 
 == License
 
