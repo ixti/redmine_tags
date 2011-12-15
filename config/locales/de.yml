@@ -2,10 +2,11 @@
 # redMine plugin, that adds tagging support.
 #
 # German translation for redmine_tags
-# by Terence Miller AKA cforce, <cforce(at)gmx.de>
+# by: Terence Miller AKA cforce, <cforce(at)gmx.de>,
+#     Jörg Jans
 #
-# Copyright (c) 2010 Aleksey V Zapparov AKA ixti
 # Copyright (c) 2010 Terence Miller AKA cforce
+# Copyright (c) 2010 Jörg Jans
 #
 # redmine_tags is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,15 +29,15 @@ de:
   issues_sidebar: Zeige die Tags auf der Sidebar
   issues_show_count: Zeige die Ticketanzahl an
   issues_open_only: Zeige nur noch offene Tickets
-  issues_sort_by: (en) Sort tags by
+  issues_sort_by: Sortiere Tags nach
 
   issue_tags_sidebar_none: Keine
   issue_tags_sidebar_list: Liste
   issue_tags_sidebar_cloud: Cloud
 
-  issues_sort_by_name: (en) Name
-  issues_sort_by_count: (en) Issues amount
-  issues_sort_order_asc: (en) Ascending
-  issues_sort_order_desc: (en) Descending
+  issues_sort_by_name: Name
+  issues_sort_by_count: Anzahl tickets
+  issues_sort_order_asc: Aufsteigend
+  issues_sort_order_desc: Absteigend
 
   auto_complete_new_tag: Hinzufügen...
