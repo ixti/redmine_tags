@@ -26,7 +26,13 @@ Inspired by original redmine_tags of Eric Davis.
 - Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
 
 
-== Migrating from 1.1.x to 1.2.x
+== Migrating from 1.x to 2.x
+
+As of 2.0.0 redmine_tags is not compatible with 1.x branch. So the easiest way
+to install redmine_tags 2.x is to uninstall redmine_tags 1.x completely first.
+Alternatively you can "fix" migration names in the database, but that requires
+you to clearly understand what are you doing (full instructions will come
+later).
 
 TBD
 
