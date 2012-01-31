@@ -50,10 +50,6 @@ Dispatcher.to_prepare :redmine_tags do
     Issue.send(:include, RedmineTags::Patches::IssuePatch)
   end
 
-  unless IssuesHelper.included_modules.include?(RedmineTags::Patches::IssuesHelperPatch)
-    IssuesHelper.send(:include, RedmineTags::Patches::IssuesHelperPatch)
-  end
-
   unless AutoCompletesController.included_modules.include?(RedmineTags::Patches::AutoCompletesControllerPatch)
     AutoCompletesController.send(:include, RedmineTags::Patches::AutoCompletesControllerPatch)
   end
