@@ -1,0 +1,41 @@
+# This file is a part of redmine_tags
+# redMine plugin, that adds tagging support.
+#
+# Bulgarian translation for redmine_tags
+# by Ivan Cenov (jwalker_@Skype) i_cenov@botevgrad.com
+#
+# Copyright (c) 2010 Aleksey V Zapparov AKA ixti
+#
+# redmine_tags is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# redmine_tags is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
+
+bg:
+  tags: Маркери
+  field_tags: Маркери
+  field_tag_list: Маркери
+  setting_issue_tags: Маркери на задачите
+  issues_sidebar: Показване на страничния панел като
+  issues_show_count: Показване на броя на задачите
+  issues_open_only: Само отворените задачи
+  issues_sort_by: Подреждане на маркерите по
+
+  issue_tags_sidebar_none: Да не се показват
+  issue_tags_sidebar_list: Списък
+  issue_tags_sidebar_cloud: Облак
+
+  issues_sort_by_name: Наименование
+  issues_sort_by_count: Количество задачи
+  issues_sort_order_asc: Нарастване
+  issues_sort_order_desc: Намаляване
+
+  auto_complete_new_tag: Добавяне на нов...
