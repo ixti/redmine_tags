@@ -59,12 +59,15 @@ module TagsHelper
       # otherwise we will need sort tags after `tag_cloud`
       tags = tags.all if tags.respond_to?(:all)
 
-      case "#{RedmineTags.settings[:issues_sort_by]}:#{RedmineTags.settings[:issues_sort_order]}"
-      when "name:asc"; tags.sort! { |a,b| a.name <=> b.name }
-      when "name:desc"; tags.sort! { |a,b| b.name <=> a.name }
-      when "count:asc"; tags.sort! { |a,b| a.count <=> b.count }
-      when "count:desc"; tags.sort! { |a,b| b.count <=> a.count }
-      else throw "Unknown sorting option"
+      case sorting = "#{RedmineTags.settings[:issues_sort_by]}:#{RedmineTags.settings[:issues_sort_order]}"
+        when "name:asc";    tags.sort! { |a,b| a.name <=> b.name }
+        when "name:desc";   tags.sort! { |a,b| b.name <=> a.name }
+        when "count:asc";   tags.sort! { |a,b| a.count <=> b.count }
+        when "count:desc";  tags.sort! { |a,b| b.count <=> a.count }
+        # Unknown sorting option. Fallback to default one
+        else
+          logger.warn "[redmine_tags] Unknown sorting option: <#{sorting}>"
+          tags.sort! { |a,b| a.name <=> b.name }
       end
 
       if :list == style
