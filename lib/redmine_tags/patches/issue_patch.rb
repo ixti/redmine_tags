@@ -28,7 +28,7 @@ module RedmineTags
           unloadable
           acts_as_taggable
 
-          named_scope :on_project, lambda { |project|
+          scope :on_project, lambda { |project|
             project = project.id if project.is_a? Project
             { :conditions => ["#{Project.table_name}.id=?", project] }
           }
