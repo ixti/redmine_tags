@@ -40,9 +40,7 @@ Redmine::Plugin.register :redmine_tags do
 end
 
 
-require 'dispatcher'
-
-Dispatcher.to_prepare :redmine_tags do
+ActionDispatch::Callbacks.to_prepare do
   unless Issue.included_modules.include?(RedmineTags::Patches::IssuePatch)
     Issue.send(:include, RedmineTags::Patches::IssuePatch)
   end
