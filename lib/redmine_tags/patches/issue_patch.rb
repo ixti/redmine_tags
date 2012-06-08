@@ -55,16 +55,18 @@ module RedmineTags
           ids_scope = ids_scope.on_project(options[:project]) if options[:project]
           ids_scope = ids_scope.open if options[:open_only]
 
-          visible = ARCondition.new
+          conditions = [""]
 
           # limit to the tags matching given %name_like%
-          visible << ["#{ActsAsTaggableOn::Tag.table_name}.name LIKE ?",
-                      "%#{options[:name_like].downcase}%"] if options[:name_like]
+          if options[:name_like]
+            conditions[0] << "#{ActsAsTaggableOn::Tag.table_name}.name LIKE ? AND "
+            conditions << "%#{options[:name_like].downcase}%"
+          end
 
-          visible << [TAGGING_IDS_LIMIT_SQL,
-                      ids_scope.map{ |issue| issue.id }.push(-1)]
+          conditions[0] << TAGGING_IDS_LIMIT_SQL
+          conditions << ids_scope.map{ |issue| issue.id }.push(-1)
 
-          self.all_tag_counts(:conditions => visible.conditions)
+          self.all_tag_counts(:conditions => conditions)
         end
       end
     end
