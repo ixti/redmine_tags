@@ -1,8 +1,14 @@
-<% fields_for :issue, issue, :builder => Redmine::Views::LabelledFormBuilder do |f| -%>
 <div>
-  <p id="issue_tags"><%= f.text_field :tag_list, :label => :tags, :size => 60, :class => 'hol' %></p>
+  <p id="issue_tags">
+  <% issue = Issue.new({:project => issues.first.project}) if defined? issues %>
+  <% text_field_options = {:label => :tags, :size => 60, :class => 'hol'} %>
+  <% if defined? form %>
+    <%= form.text_field :tag_list, text_field_options %>
+  <% else %>
+    <% text_field_tag :tag_list, text_field_options %>
+  <% end %>
+  </p>
   <div id="issue_tag_candidates" class="autocomplete"></div>
   <%= javascript_include_tag 'tags_input', :plugin => 'redmine_tags' %>
   <%= javascript_tag "observeIssueTagsField('#{url_for(:controller => 'auto_completes', :action => 'issue_tags', :project_id => issue.project.id)}')" %>
 </div>
-<% end -%>

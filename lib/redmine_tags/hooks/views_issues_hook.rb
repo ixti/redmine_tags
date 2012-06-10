@@ -22,7 +22,7 @@ module RedmineTags
       render_on :view_issues_show_details_bottom, :partial => 'issues/tags'
       render_on :view_issues_form_details_bottom, :partial => 'issues/tags_form'
       render_on :view_issues_sidebar_planning_bottom, :partial => 'issues/tags_sidebar'
-      render_on :view_issues_bulk_edit_details_bottom, :partial => 'issues/bulk_tags_form'
+      render_on :view_issues_bulk_edit_details_bottom, :partial => 'issues/tags_form'
     end
   end
 end

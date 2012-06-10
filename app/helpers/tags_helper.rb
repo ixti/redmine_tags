@@ -79,8 +79,9 @@ module TagsHelper
         raise "Unknown list style"
       end
 
+      content = content.html_safe
       tag_cloud tags, (1..8).to_a do |tag, weight|
-        content << " " + content_tag(item_el, render_tag_link(tag, options), :class => "tag-nube-#{weight}") + " "
+        content << " ".html_safe + content_tag(item_el, render_tag_link(tag, options), :class => "tag-nube-#{weight}") + " ".html_safe
       end
 
       content_tag(list_el, content, :class => 'tags')
