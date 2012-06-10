@@ -5,7 +5,8 @@
   <% if defined? form %>
     <%= form.text_field :tag_list, text_field_options %>
   <% else %>
-    <% text_field_tag :tag_list, text_field_options %>
+    <%= label_tag :tags, nil, :for => :issue_tag_list  %>
+    <%= text_field_tag 'issue[tag_list]', "", :class => text_field_options[:class], :size => text_field_options[:size], :id => :issue_tag_list %>
   <% end %>
   </p>
   <div id="issue_tag_candidates" class="autocomplete"></div>
