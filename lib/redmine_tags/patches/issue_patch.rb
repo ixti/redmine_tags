@@ -32,6 +32,8 @@ module RedmineTags
             project = project.id if project.is_a? Project
             { :conditions => ["#{Project.table_name}.id=?", project] }
           }
+
+          Issue.safe_attributes 'tag_list'
         end
       end
 
