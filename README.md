@@ -23,13 +23,13 @@ Installation
 
 - Clone this repository into `redmine/plugins/redmine_tags`
 - Install dependencies and migrate database:
-```bash
-cd redmine/
-bundle install 
-RAILS_ENV=production rails generate acts_as_taggable_on:migration
-RAILS_ENV=production rake db:migrate
-RAILS_ENV=production rake redmine:plugins:migrate
-```
+
+        cd redmine/
+        bundle install
+        RAILS_ENV=production rails generate acts_as_taggable_on:migration
+        RAILS_ENV=production rake db:migrate
+        RAILS_ENV=production rake redmine:plugins:migrate
+
 - Restart your Redmine web server (e.g. mongrel, thin, mod\_rails)
 
 
