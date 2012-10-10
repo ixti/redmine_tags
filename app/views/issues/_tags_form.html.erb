@@ -10,6 +10,20 @@
   <% end %>
   </p>
   <div id="issue_tag_candidates" class="autocomplete"></div>
-  <%= javascript_include_tag 'tags_input', :plugin => 'redmine_tags' %>
-  <%= javascript_tag "observeIssueTagsField('#{url_for(:controller => 'auto_completes', :action => 'issue_tags', :project_id => issue.project.id)}')" %>
+  <%= stylesheet_link_tag 'jquery.tagit.css', :plugin => 'redmine_tags' %>
+  <%= stylesheet_link_tag 'redmine_tags', :plugin => 'redmine_tags' %>
+  <%= javascript_include_tag 'tag-it', :plugin => 'redmine_tags' %>
+  <%= javascript_tag "$('#issue_tag_list').tagit({
+		tagSource: function(search, showChoices) {
+		  var that = this;
+		  $.ajax({
+			url: '#{url_for(:controller => 'auto_completes', :action => 'issue_tags', :project_id => issue.project.id)}',
+			data: {q: search.term},
+			success: function(choices) {
+			  showChoices(that._subtractArray(jQuery.parseJSON(choices), that.assignedTags()));
+			}
+		  });
+		},
+	});
+" %>
 </div>
