@@ -70,6 +70,7 @@ module RedmineTags
         def available_filters_extended
           unless @available_filters 
             available_filters_original.merge!({ 'tags' => {
+              :name   => l(:tags),
               :type   => :list_optional,
               :order  => 6,
               :values => Issue.available_tags(:project => project).collect{ |t| [t.name, t.name] }
