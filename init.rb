@@ -53,12 +53,14 @@ ActionDispatch::Callbacks.to_prepare do
     AutoCompletesController.send(:include, RedmineTags::Patches::AutoCompletesControllerPatch)
   end
 
-  unless Query.included_modules.include?(RedmineTags::Patches::QueryPatch)
-    Query.send(:include, RedmineTags::Patches::QueryPatch)
+  base = ActiveSupport::Dependencies::search_for_file('issue_query') ? IssueQuery : Query
+  unless base.included_modules.include?(RedmineTags::Patches::QueryPatch)
+    base.send(:include, RedmineTags::Patches::QueryPatch)
   end
 
-  unless QueriesHelper.included_modules.include?(RedmineTags::Patches::QueriesHelperPatch)
-    QueriesHelper.send(:include, RedmineTags::Patches::QueriesHelperPatch)
+  base = ActiveSupport::Dependencies::search_for_file('issue_queries_helper') ? IssueQueriesHelper : QueriesHelper
+  unless base.included_modules.include?(RedmineTags::Patches::QueriesHelperPatch)
+    base.send(:include, RedmineTags::Patches::QueriesHelperPatch)
   end
 end
 
