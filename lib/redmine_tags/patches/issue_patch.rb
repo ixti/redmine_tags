@@ -33,7 +33,8 @@ module RedmineTags
             { :conditions => ["#{Project.table_name}.id=?", project] }
           }
 
-          Issue.safe_attributes 'tag_list'
+#          with this changes do not saved in journal
+#          Issue.safe_attributes 'tag_list'
         end
       end
 
