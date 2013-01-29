@@ -45,23 +45,34 @@ ActionDispatch::Callbacks.to_prepare do
     Issue.send(:include, RedmineTags::Patches::IssuePatch)
   end
 
+  unless WikiPage.included_modules.include?(RedmineTags::Patches::WikiPagePatch)
+    WikiPage.send(:include, RedmineTags::Patches::WikiPagePatch)
+  end
+
   unless IssuesHelper.included_modules.include?(RedmineTags::Patches::IssuesHelperPatch)
     IssuesHelper.send(:include, RedmineTags::Patches::IssuesHelperPatch)
+  end
+
+  unless WikiHelper.included_modules.include?(RedmineTags::Patches::WikiHelperPatch)
+    WikiHelper.send(:include, RedmineTags::Patches::WikiHelperPatch)
   end
 
   unless AutoCompletesController.included_modules.include?(RedmineTags::Patches::AutoCompletesControllerPatch)
     AutoCompletesController.send(:include, RedmineTags::Patches::AutoCompletesControllerPatch)
   end
 
-  unless Query.included_modules.include?(RedmineTags::Patches::QueryPatch)
-    Query.send(:include, RedmineTags::Patches::QueryPatch)
+  base = ActiveSupport::Dependencies::search_for_file('issue_query') ? IssueQuery : Query
+  unless base.included_modules.include?(RedmineTags::Patches::QueryPatch)
+    base.send(:include, RedmineTags::Patches::QueryPatch)
   end
 
-  unless QueriesHelper.included_modules.include?(RedmineTags::Patches::QueriesHelperPatch)
-    QueriesHelper.send(:include, RedmineTags::Patches::QueriesHelperPatch)
+  base = ActiveSupport::Dependencies::search_for_file('issue_queries_helper') ? IssueQueriesHelper : QueriesHelper
+  unless base.included_modules.include?(RedmineTags::Patches::QueriesHelperPatch)
+    base.send(:include, RedmineTags::Patches::QueriesHelperPatch)
   end
 end
 
 
 require 'redmine_tags/hooks/model_issue_hook'
 require 'redmine_tags/hooks/views_issues_hook'
+require 'redmine_tags/hooks/views_wiki_hook'

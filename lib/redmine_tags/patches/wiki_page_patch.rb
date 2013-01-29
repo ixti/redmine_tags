@@ -16,18 +16,19 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-require_dependency 'issue'
+require_dependency 'wiki_page'
 
 module RedmineTags
   module Patches
-    module IssuePatch
+    module WikiPagePatch
       def self.included(base)
         base.extend(ClassMethods)
+
 
         base.class_eval do
           unloadable
           acts_as_taggable
-  
+
           searchable_options[:columns] << "#{ActsAsTaggableOn::Tag.table_name}.name"
           searchable_options[:include] << :tags
 
@@ -36,8 +37,7 @@ module RedmineTags
             { :conditions => ["#{Project.table_name}.id=?", project] }
           }
 
-#          with this changes do not saved in journal
-#          Issue.safe_attributes 'tag_list'
+          WikiPage.safe_attributes 'tag_list'
         end
       end
 
@@ -46,7 +46,7 @@ module RedmineTags
           tag_id IN (
             SELECT #{ActsAsTaggableOn::Tagging.table_name}.tag_id
               FROM #{ActsAsTaggableOn::Tagging.table_name}
-             WHERE #{ActsAsTaggableOn::Tagging.table_name}.taggable_id IN (?) AND #{ActsAsTaggableOn::Tagging.table_name}.taggable_type = 'Issue'
+             WHERE #{ActsAsTaggableOn::Tagging.table_name}.taggable_id IN (?) AND #{ActsAsTaggableOn::Tagging.table_name}.taggable_type = 'WikiPage'
           )
         SQL
 

@@ -31,15 +31,23 @@ module TagsHelper
   def render_tag_link(tag, options = {})
     filters = [[:tags, '=', tag.name]]
     filters << [:status_id, 'o'] if options[:open_only]
-
-    content = link_to_filter tag.name, filters, :project_id => @project
+    if options[:use_search]
+      content =  link_to(tag, {:controller => "search", :action => "index", :id => @project, :q => tag.name, :wiki_pages => true, :issues => true})
+    else
+      content = link_to_filter tag.name, filters, :project_id => @project
+    end
     if options[:show_count]
       content << content_tag('span', "(#{tag.count})", :class => 'tag-count')
     end
 
-    content_tag('span', content, :class => 'tag-label')
+    style = RedmineTags.settings[:issues_use_colors].to_i > 0 ? {:class => "tag-label-color", :style => "background-color: #{tag_color(tag)}"} : {:class => "tag-label"}
+    content_tag('span', content, style)
   end
 
+  def tag_color(tag)
+    "##{"%06x" % (tag.name.hash % 0xffffff).to_s}"
+  end
+        
   # Renders list of tags
   # Clouds are rendered as block <tt>div</tt> with internal <tt>span</t> per tag.
   # Lists are rendered as unordered lists <tt>ul</tt>. Lists are ordered by
@@ -72,7 +80,9 @@ module TagsHelper
 
       if :list == style
         list_el, item_el = 'ul', 'li'
-      elsif :cloud == style
+      elsif  :simple_cloud == style
+        list_el, item_el = 'div', 'span'
+      elsif :cloud == style 
         list_el, item_el = 'div', 'span'
         tags = cloudify(tags)
       else
@@ -81,10 +91,10 @@ module TagsHelper
 
       content = content.html_safe
       tag_cloud tags, (1..8).to_a do |tag, weight|
-        content << " ".html_safe + content_tag(item_el, render_tag_link(tag, options), :class => "tag-nube-#{weight}") + " ".html_safe
+        content << " ".html_safe + content_tag(item_el, render_tag_link(tag, options), :class => "tag-nube-#{weight}", :style => (:simple_cloud == style ? "font-size: 1em;" : "")) + " ".html_safe
       end
 
-      content_tag(list_el, content, :class => 'tags')
+      content_tag(list_el, content, :class => 'tags', :style => (:simple_cloud == style ? "text-align: left;" : ""))
     end
   end
 

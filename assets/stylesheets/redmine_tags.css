@@ -22,7 +22,18 @@ ul.tags { list-style: none; padding: 0px; }
 ul.tags li { margin: .25em 0px; }
 
 div.tags { text-align: center; }
-div.tags .tag-label { margin: .25em; }
+.tag-label { margin: .25em; }
+.tag-label-color { 
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 2px 4px; 
+    display: inline-block;
+    margin: 1px;
+    color: white;
+}
+
+.tag-label-color a { color: white; }
+
 div.tags .tag-nube-1 { font-size: .8em; }
 div.tags .tag-nube-2 { font-size: .9em; }
 div.tags .tag-nube-3 { font-size: 1em; }
