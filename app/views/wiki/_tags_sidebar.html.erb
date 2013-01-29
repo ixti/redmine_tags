@@ -1,0 +1,6 @@
+<% unless sidebar_tags.empty? -%>
+  <%= stylesheet_link_tag 'jquery.tagit.css', :plugin => 'redmine_tags' %>
+  <%= stylesheet_link_tag 'redmine_tags', :plugin => 'redmine_tags' %>
+  <h3><%= l(:tags) %></h3>
+  <%= render_sidebar_tags %>
+<% end -%>

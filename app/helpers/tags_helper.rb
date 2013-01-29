@@ -31,8 +31,11 @@ module TagsHelper
   def render_tag_link(tag, options = {})
     filters = [[:tags, '=', tag.name]]
     filters << [:status_id, 'o'] if options[:open_only]
-
-    content = link_to_filter tag.name, filters, :project_id => @project
+    if options[:use_search]
+      content =  link_to(tag, {:controller => "search", :action => "index", :id => @project, :q => tag.name, :wiki_pages => true, :issues => true})
+    else
+      content = link_to_filter tag.name, filters, :project_id => @project
+    end
     if options[:show_count]
       content << content_tag('span', "(#{tag.count})", :class => 'tag-count')
     end
