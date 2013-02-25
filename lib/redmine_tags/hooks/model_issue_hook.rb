@@ -45,6 +45,9 @@ module RedmineTags
           context[:issue].tag_list = params[:issue][:tag_list]
           new_tags = context[:issue].tag_list.to_s
 
+          # without this when reload called in Issue#save all changes will be gone :(
+          context[:issue].save_tags
+
           if create_journal and not (old_tags == new_tags || context[:issue].current_journal.blank?)
             context[:issue].current_journal.details << JournalDetail.new(:property => 'attr',
                                                                          :prop_key => 'tag_list',
