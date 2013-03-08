@@ -45,12 +45,12 @@ ActionDispatch::Callbacks.to_prepare do
     Issue.send(:include, RedmineTags::Patches::IssuePatch)
   end
 
-  unless WikiPage.included_modules.include?(RedmineTags::Patches::WikiPagePatch)
-    WikiPage.send(:include, RedmineTags::Patches::WikiPagePatch)
+  unless IssuesController.included_modules.include?(RedmineTags::Patches::IssuesControllerPatch)
+    IssuesController.send(:include, RedmineTags::Patches::IssuesControllerPatch)
   end
 
-  unless IssuesHelper.included_modules.include?(RedmineTags::Patches::IssuesHelperPatch)
-    IssuesHelper.send(:include, RedmineTags::Patches::IssuesHelperPatch)
+  unless WikiPage.included_modules.include?(RedmineTags::Patches::WikiPagePatch)
+    WikiPage.send(:include, RedmineTags::Patches::WikiPagePatch)
   end
 
   unless WikiHelper.included_modules.include?(RedmineTags::Patches::WikiHelperPatch)
@@ -70,6 +70,8 @@ ActionDispatch::Callbacks.to_prepare do
   unless base.included_modules.include?(RedmineTags::Patches::QueriesHelperPatch)
     base.send(:include, RedmineTags::Patches::QueriesHelperPatch)
   end
+
+  require_dependency 'issues_tags_helper'
 end
 
 
