@@ -70,8 +70,6 @@ ActionDispatch::Callbacks.to_prepare do
   unless base.included_modules.include?(RedmineTags::Patches::QueriesHelperPatch)
     base.send(:include, RedmineTags::Patches::QueriesHelperPatch)
   end
-
-  require_dependency 'issues_tags_helper'
 end
 
 
