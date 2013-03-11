@@ -9,6 +9,7 @@ Supported models
 ----------------
 
 - Issues
+- Wiki pages
 
 
 Requirements
