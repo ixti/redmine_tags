@@ -45,16 +45,16 @@ ActionDispatch::Callbacks.to_prepare do
     Issue.send(:include, RedmineTags::Patches::IssuePatch)
   end
 
+  unless IssuesController.included_modules.include?(RedmineTags::Patches::IssuesControllerPatch)
+    IssuesController.send(:include, RedmineTags::Patches::IssuesControllerPatch)
+  end
+
   unless WikiPage.included_modules.include?(RedmineTags::Patches::WikiPagePatch)
     WikiPage.send(:include, RedmineTags::Patches::WikiPagePatch)
   end
 
-  unless IssuesHelper.included_modules.include?(RedmineTags::Patches::IssuesHelperPatch)
-    IssuesHelper.send(:include, RedmineTags::Patches::IssuesHelperPatch)
-  end
-
-  unless WikiHelper.included_modules.include?(RedmineTags::Patches::WikiHelperPatch)
-    WikiHelper.send(:include, RedmineTags::Patches::WikiHelperPatch)
+  unless WikiController.included_modules.include?(RedmineTags::Patches::WikiControllerPatch)
+    WikiController.send(:include, RedmineTags::Patches::WikiControllerPatch)
   end
 
   unless AutoCompletesController.included_modules.include?(RedmineTags::Patches::AutoCompletesControllerPatch)
