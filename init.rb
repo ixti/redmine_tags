@@ -45,8 +45,8 @@ ActionDispatch::Callbacks.to_prepare do
     Issue.send(:include, RedmineTags::Patches::IssuePatch)
   end
 
-  unless IssuesController.included_modules.include?(RedmineTags::Patches::IssuesControllerPatch)
-    IssuesController.send(:include, RedmineTags::Patches::IssuesControllerPatch)
+  [IssuesController, CalendarsController, GanttsController].each do |controller|
+    RedmineTags::Patches::AddHelpersForIssueTagsPatch.apply(controller)
   end
 
   unless WikiPage.included_modules.include?(RedmineTags::Patches::WikiPagePatch)
