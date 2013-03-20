@@ -1,7 +1,7 @@
-redmine_tags is a redMine plugin, that adds tagging support.
+redmine_tags is a Redmine plugin, that adds tagging support.
 
 Copyright (c) 2010 Eric Davis
-Copyright (c) 2010 Aleksey V Zapparov AKA ixti
+Copyright (c) 2010-2013 Aleksey V Zapparov AKA ixti
 
 redmine_tags is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
