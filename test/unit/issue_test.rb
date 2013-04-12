@@ -19,7 +19,12 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RedmineTags::Patches::IssueTest < ActiveSupport::TestCase
+  fixtures :users, :projects, :issue_statuses, :enumerations, :trackers
+
   def setup
+    # run as the admin
+    User.stubs(:current).returns(users(:users_001))
+
     @project_a = Project.generate!
     @project_b = Project.generate!
 
@@ -31,7 +36,7 @@ class RedmineTags::Patches::IssueTest < ActiveSupport::TestCase
   end
 
   def add_issue project, tags, closed
-    issue = Issue.generate_for_project!(project).reload
+    issue = Issue.generate!(:project_id => project.id)
     issue.tag_list = tags
 
     if closed
@@ -53,9 +58,7 @@ class RedmineTags::Patches::IssueTest < ActiveSupport::TestCase
   end
 
   test "available tags should allow list tags of open issues only" do
-    # testing database may have open issues already, so we need to be sure
-    # that open_only will find at least our open issues
-    assert 4 <= Issue.available_tags(:open_only => true).count
+    assert_equal 5, Issue.available_tags(:open_only => true).count
   end
 
   test "available tags should allow list tags of specific project only" do
