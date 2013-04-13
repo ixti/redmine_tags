@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'digest/md5'
+
 module TagsHelper
   include ActsAsTaggableOn::TagsHelper
   include FiltersHelper
@@ -45,7 +47,7 @@ module TagsHelper
   end
 
   def tag_color(tag)
-    "##{"%06x" % (tag.name.hash % 0xffffff).to_s}"
+    "##{Digest::MD5.hexdigest(tag.name)[0..5]}"
   end
         
   # Renders list of tags
