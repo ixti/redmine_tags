@@ -27,8 +27,6 @@ Installation
 
         cd redmine/
         bundle install
-        RAILS_ENV=production rails generate acts_as_taggable_on:migration
-        RAILS_ENV=production rake db:migrate
         RAILS_ENV=production rake redmine:plugins:migrate
 
 - Restart your Redmine web server (e.g. mongrel, thin, mod\_rails)
