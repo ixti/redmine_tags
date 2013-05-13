@@ -16,7 +16,6 @@ Requirements
 ------------
 
 - Redmine `>= 2.1.0`
-- acts-as-taggable-on `= 2.3.3`
 
 
 Installation
