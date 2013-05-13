@@ -47,7 +47,8 @@ module TagsHelper
   end
 
   def tag_color(tag)
-    "##{Digest::MD5.hexdigest(tag.name)[0..5]}"
+    tag_name = tag.respond_to?(:name) ? tag.name : tag
+    "##{Digest::MD5.hexdigest(tag_name)[0..5]}"
   end
         
   # Renders list of tags
