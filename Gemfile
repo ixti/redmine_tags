@@ -1,1 +1,1 @@
-gem "acts-as-taggable-on", "2.3.3"
+gem "redmine_acts_as_taggable_on", '~> 1.0'

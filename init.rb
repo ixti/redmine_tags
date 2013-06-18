@@ -18,7 +18,7 @@
 
 require 'redmine'
 require 'redmine_tags'
-
+require 'redmine_acts_as_taggable_on/initialize'
 
 Redmine::Plugin.register :redmine_tags do
   name        'redmine_tags'
@@ -29,6 +29,7 @@ Redmine::Plugin.register :redmine_tags do
   author_url  'http://www.ixti.net/'
 
   requires_redmine :version_or_higher => '2.1.0'
+  requires_acts_as_taggable_on
 
   settings :default => {
     :issues_sidebar => 'none',
