@@ -27,7 +27,7 @@ module RedmineTags
         base.class_eval do
           unloadable
           acts_as_taggable
-  
+
           searchable_options[:columns] << "#{ActsAsTaggableOn::Tag.table_name}.name"
           searchable_options[:include] << :tags
 
@@ -64,6 +64,9 @@ module RedmineTags
           # https://github.com/rails/rails/issues/8743?source=cc
           unless sql_query.upcase.include? "JOIN"
             sql_query.sub!("`#{Issue.table_name}`.*", "`#{Issue.table_name}`.`id`")
+            if sql_query.upcase.include? "ISSUE_STATUSES.IS_CLOSED"
+              sql_query.sub!("FROM `#{Issue.table_name}`", "FROM `#{Issue.table_name}` INNER JOIN `#{IssueStatus.table_name}` ON `#{IssueStatus.table_name}`.`id` = `#{Issue.table_name}`.`status_id`")
+            end
             sql_query.sub!("FROM `#{Issue.table_name}`", "FROM `#{Issue.table_name}` INNER JOIN `#{Project.table_name}` ON `#{Project.table_name}`.`id` = `#{Issue.table_name}`.`project_id`")
           end
 
