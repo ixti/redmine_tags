@@ -42,13 +42,6 @@ module RedmineTags
       end
 
       module ClassMethods
-        TAGGING_IDS_LIMIT_SQL = <<-SQL
-          tag_id IN (
-            SELECT #{ActsAsTaggableOn::Tagging.table_name}.tag_id
-              FROM #{ActsAsTaggableOn::Tagging.table_name}
-             WHERE #{ActsAsTaggableOn::Tagging.table_name}.taggable_id IN (?) AND #{ActsAsTaggableOn::Tagging.table_name}.taggable_type = 'Issue'
-          )
-        SQL
 
         # Returns available issue tags
         # === Parameters
@@ -63,16 +56,16 @@ module RedmineTags
 
           conditions = [""]
 
-          # limit to the tags matching given %name_like%
-          if options[:name_like]
-            conditions[0] << "#{ActsAsTaggableOn::Tag.table_name}.name LIKE ? AND "
-            conditions << "%#{options[:name_like].downcase}%"
-          end
-
-          # Work around bug in rails
           sql_query = ids_scope.to_sql
-          sql_query.sub!("`issues`.*", "`issues`.`id`")
-          sql_query.sub!("FROM `issues`", "FROM `issues` INNER JOIN `projects` ON `projects`.`id` = `issues`.`project_id`")
+
+          # work around bug in rails where to_sql is wrong, essentially it's forgetting
+          # all it knew about joins so a safe check would be to check for the keyword JOIN
+          # https://github.com/rails/rails/issues/6132?source=cc
+          # https://github.com/rails/rails/issues/8743?source=cc
+          unless sql_query.include? "JOIN"
+            sql_query.sub!("`issues`.*", "`issues`.`id`")
+            sql_query.sub!("FROM `issues`", "FROM `issues` INNER JOIN `projects` ON `projects`.`id` = `issues`.`project_id`")
+          end
 
           conditions[0] << <<-SQL
             tag_id IN (
@@ -81,6 +74,12 @@ module RedmineTags
                WHERE #{ActsAsTaggableOn::Tagging.table_name}.taggable_id IN (#{sql_query}) AND #{ActsAsTaggableOn::Tagging.table_name}.taggable_type = 'Issue'
             )
           SQL
+
+          # limit to the tags matching given %name_like%
+          if options[:name_like]
+            conditions[0] << "#{ActsAsTaggableOn::Tag.table_name}.name LIKE ? AND "
+            conditions << "%#{options[:name_like].downcase}%"
+          end
 
           self.all_tag_counts(:conditions => conditions)
         end
