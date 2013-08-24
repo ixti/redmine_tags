@@ -63,8 +63,8 @@ module RedmineTags
           # https://github.com/rails/rails/issues/6132?source=cc
           # https://github.com/rails/rails/issues/8743?source=cc
           unless sql_query.include? "JOIN"
-            sql_query.sub!("`issues`.*", "`issues`.`id`")
-            sql_query.sub!("FROM `issues`", "FROM `issues` INNER JOIN `projects` ON `projects`.`id` = `issues`.`project_id`")
+            sql_query.sub!("`#{Issue.table_name}`.*", "`#{Issue.table_name}`.`id`")
+            sql_query.sub!("FROM `#{Issue.table_name}`", "FROM `#{Issue.table_name}` INNER JOIN `#{Project.table_name}` ON `#{Project.table_name}`.`id` = `#{Issue.table_name}`.`project_id`")
           end
 
           conditions[0] << <<-SQL
