@@ -62,7 +62,7 @@ module RedmineTags
           # all it knew about joins so a safe check would be to check for the keyword JOIN
           # https://github.com/rails/rails/issues/6132?source=cc
           # https://github.com/rails/rails/issues/8743?source=cc
-          unless sql_query.include? "JOIN"
+          unless sql_query.upcase.include? "JOIN"
             sql_query.sub!("`#{Issue.table_name}`.*", "`#{Issue.table_name}`.`id`")
             sql_query.sub!("FROM `#{Issue.table_name}`", "FROM `#{Issue.table_name}` INNER JOIN `#{Project.table_name}` ON `#{Project.table_name}`.`id` = `#{Issue.table_name}`.`project_id`")
           end
