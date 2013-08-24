@@ -69,8 +69,18 @@ module RedmineTags
             conditions << "%#{options[:name_like].downcase}%"
           end
 
-          conditions[0] << TAGGING_IDS_LIMIT_SQL
-          conditions << ids_scope.map{ |issue| issue.id }.push(-1)
+          # Work around bug in rails
+          sql_query = ids_scope.to_sql
+          sql_query.sub!("`issues`.*", "`issues`.`id`")
+          sql_query.sub!("FROM `issues`", "FROM `issues` INNER JOIN `projects` ON `projects`.`id` = `issues`.`project_id`")
+
+          conditions[0] << <<-SQL
+            tag_id IN (
+              SELECT #{ActsAsTaggableOn::Tagging.table_name}.tag_id
+                FROM #{ActsAsTaggableOn::Tagging.table_name}
+               WHERE #{ActsAsTaggableOn::Tagging.table_name}.taggable_id IN (#{sql_query}) AND #{ActsAsTaggableOn::Tagging.table_name}.taggable_type = 'Issue'
+            )
+          SQL
 
           self.all_tag_counts(:conditions => conditions)
         end
