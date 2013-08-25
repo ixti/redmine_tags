@@ -80,7 +80,7 @@ module RedmineTags
 
           # limit to the tags matching given %name_like%
           if options[:name_like]
-            conditions[0] << "#{ActsAsTaggableOn::Tag.table_name}.name LIKE ? AND "
+            conditions[0] << "AND #{ActsAsTaggableOn::Tag.table_name}.name LIKE ?"
             conditions << "%#{options[:name_like].downcase}%"
           end
 
