@@ -23,10 +23,10 @@ ul.tags li { margin: .25em 0px; }
 
 div.tags { text-align: center; }
 .tag-label { margin: .25em; }
-.tag-label-color { 
+.tag-label-color {
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    padding: 2px 4px; 
+    padding: 2px 4px;
     display: inline-block;
     margin: 1px;
     color: white;
@@ -61,4 +61,8 @@ ul.tagit li.tagit-choice:hover, ul.tagit li.tagit-choice.remove {
 
 ul.tagit input[type="text"] {
 	background: transparent;
+}
+
+tr.issue td.tags {
+	white-space: normal;
 }
