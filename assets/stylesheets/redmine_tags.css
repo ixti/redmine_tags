@@ -32,7 +32,12 @@ div.tags { text-align: center; }
     color: white;
 }
 
-.tag-label-color a { color: white; }
+table.list tr.issue .tag-label-color a, .tag-label-color a { color: white; }
+
+tr.issue td.tags {
+  text-align: left;
+  white-space: normal;
+}
 
 div.tags .tag-nube-1 { font-size: .8em; }
 div.tags .tag-nube-2 { font-size: .9em; }
@@ -45,24 +50,67 @@ div.tags .tag-nube-8 { font-size: 1.5em; }
 
 .tag-count { font-size: .75em; margin-left: .5em; }
 
-.tagit.ui-widget {
-	font-size: 1em;
-	margin: 0px;
+ul.tagit {
+  border: 1px solid #d7d7d7;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -khtml-border-radius: 0px;
+  border-radius: 0px;
+  background: white;
+  padding: 0px;
+  margin: 0px;
 }
 
 ul.tagit li.tagit-choice {
-	color: #505050;
-	font-weight: normal;
+  font-weight: normal;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  font-size: 11px;
+  color: inherit;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: #f7f7f7;
+  margin: 1px;
 }
 
 ul.tagit li.tagit-choice:hover, ul.tagit li.tagit-choice.remove {
-	border-color: #6D95E0;
+  background-color: #e5e5e5;
+  text-decoration: none;
+  color: black;
 }
 
-ul.tagit input[type="text"] {
-	background: transparent;
+ul.tagit li.tagit-choice a.tagit-close {
+  text-decoration: none;
 }
 
-tr.issue td.tags {
-	white-space: normal;
+ul.tagit li.tagit-choice .tagit-close {
+  right: .4em;
+}
+
+ul.tagit li.tagit-choice .ui-icon {
+  display: none;
+}
+
+ul.tagit li.tagit-choice .tagit-close .text-icon{
+  display: inline;
+  /*font-size: 13px;*/
+  line-height: 16px;
+  /*color: white;*/
+}
+
+ul.tagit li.tagit-choice .tagit-close .text-icon:hover {
+  color: black;
+}
+
+ul.tagit li.tagit-new input {
+  font-size: 11px;
+  background: white;
+  margin-bottom: 2px;
+  margin-left: 2px;
+  width: 200px;
+}
+
+ul.tagit li.tagit-new {
+  padding: 0px;
 }
