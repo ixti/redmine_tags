@@ -41,3 +41,5 @@ en:
   issues_sort_order_desc: Descending
 
   auto_complete_new_tag: Add new...
+
+  issue_tags_label_add_tag: + add tag
