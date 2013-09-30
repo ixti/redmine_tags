@@ -1,6 +1,6 @@
 <% unless issue.tag_list.empty? %>
   <tr>
     <td><b><%=l(:tags)%>:</b></td>
-    <td><%= safe_join(issue.tag_counts.collect{ |t| render_tag_link(t, :show_count => false, :open_only => false) }, ', ') %></td>
+    <td><%= safe_join(issue.tag_counts.collect{ |t| render_tag_link(t, :show_count => false, :open_only => false) }, RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ') %></td>
   </tr>
 <% end %>

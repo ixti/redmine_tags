@@ -41,7 +41,7 @@ module RedmineTags
 
         def column_content_extended(column, issue)
           if column.name.eql? :tags
-            column.value(issue).collect{ |t| render_tag_link(t) }.join(', ')
+            column.value(issue).collect{ |t| render_tag_link(t) }.join(RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ')
           else
             column_content_original(column, issue)
           end
