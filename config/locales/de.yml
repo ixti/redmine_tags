@@ -26,18 +26,20 @@ de:
   field_tags: Tags
   field_tag_list: Tags
   setting_issue_tags: Ticket Tags
-  issues_sidebar: Zeige die Tags auf der Sidebar
-  issues_show_count: Zeige die Ticketanzahl an
-  issues_open_only: Zeige nur noch offene Tickets
-  issues_sort_by: Sortiere Tags nach
+  issues_sidebar: zeige die Tags auf der Sidebar
+  issues_show_count: zeige die Ticketanzahl an
+  issues_open_only: zeige nur noch offene Tickets
+  issues_sort_by: sortiere Tags nach
+  issues_use_colors: Farben einsetzen
 
   issue_tags_sidebar_none: Keine
   issue_tags_sidebar_list: Liste
   issue_tags_sidebar_cloud: Cloud
 
   issues_sort_by_name: Name
-  issues_sort_by_count: Anzahl tickets
-  issues_sort_order_asc: Aufsteigend
-  issues_sort_order_desc: Absteigend
+  issues_sort_by_count: Anzahl Tickets
+  issues_sort_order_asc: aufsteigend
+  issues_sort_order_desc: absteigend
 
   auto_complete_new_tag: Hinzufügen...
+  issue_tags_label_add_tag: + Tag hinzufügen
