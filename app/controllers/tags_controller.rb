@@ -51,7 +51,7 @@ class TagsController < ApplicationController
     if request.post? && params[:tag] && params[:tag][:name] 
       ActsAsTaggableOn::Tagging.transaction do
         tag = ActsAsTaggableOn::Tag.find_by_name(params[:tag][:name]) || ActsAsTaggableOn::Tag.create(params[:tag])
-        ActsAsTaggableOn::Tagging.where(:tag_id => @tags.map(&:id).delete(tag.id)).update_all(:tag_id => tag.id)
+        ActsAsTaggableOn::Tagging.where(:tag_id => @tags.map(&:id)).update_all(:tag_id => tag.id)
         @tags.select{|t| t.id != tag.id}.each{|t| t.destroy }
         redirect_to plugin_settings_path('redmine_tags', :tab => "manage_tags")
       end
