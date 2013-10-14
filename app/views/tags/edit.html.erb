@@ -1,0 +1,14 @@
+<h2><%= link_to l(:setting_issue_tags), :controller => 'settings', :action => 'plugin', :id => 'redmine_tags', :tab => 'manage_tags' %> &#187; <%=h (l(:issue_tags_tag) + ": " + @tag.name) %></h2>
+
+<%= form_tag(tag_path(@tag, :tab => 'tags'), :class => "tabular", :method => :put) do %>
+  <%= error_messages_for 'tag' %>
+<div class="box">
+<!--[form:optvalue]-->
+<p><label for="tag_name"><%=l(:field_name)%></label>
+<%= text_field 'tag', 'name'  %></p>
+
+
+</div>
+
+  <%= submit_tag l(:button_save) %>
+<% end %>

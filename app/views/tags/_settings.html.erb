@@ -1,23 +1,8 @@
-<fieldset><legend><%= l(:setting_issue_tags) %></legend>
-  <p>
-    <%= label_tag 'settings[issues_sidebar]', l(:issues_sidebar) %>
-    <%= select_tag 'settings[issues_sidebar]', options_for_select(%w(none list cloud simple_cloud).collect{|v| [l("issue_tags_sidebar_#{v}"), v]}, @settings[:issues_sidebar]) %>
-  </p>
-  <p>
-    <%= label_tag 'settings[issues_show_count]', l(:issues_show_count) %>
-    <%= check_box_tag 'settings[issues_show_count]', 1, 1 == @settings[:issues_show_count].to_i %>
-  </p>
-  <p>
-    <%= label_tag 'settings[issues_open_only]', l(:issues_open_only) %>
-    <%= check_box_tag 'settings[issues_open_only]', 1, 1 == @settings[:issues_open_only].to_i %>
-  </p>
-  <p>
-    <%= label_tag 'settings[issues_sort_by]', l(:issues_sort_by) %>
-    <%= select_tag 'settings[issues_sort_by]', options_for_select(%w(name count).collect{|v| [l("issues_sort_by_#{v}"), v]}, @settings[:issues_sort_by]) %>
-    <%= select_tag 'settings[issues_sort_order]', options_for_select(%w(asc desc).collect{|v| [l("issues_sort_order_#{v}"), v]}, @settings[:issues_sort_order]) %>
-  </p>
-  <p>
-    <%= label_tag 'settings[issues_use_colors]', l(:issues_use_colors) %>
-    <%= check_box_tag 'settings[issues_use_colors]', 1, 1 == @settings[:issues_use_colors].to_i %>
-  </p>
-</fieldset>
+<% tags_tabs = [{:name => 'general', :partial => 'tags/general', :label => :label_general},
+                {:name => 'manage_tags', :partial => 'tags/manage_tags', :label => :issue_tags_manage_tags}
+        ]   %>   
+
+
+<%= render_tabs tags_tabs %>
+
+<% html_title(l(:label_settings), l(:tags)) -%>  
