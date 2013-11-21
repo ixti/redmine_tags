@@ -50,25 +50,13 @@ module RedmineTags
         #   * open_only - Boolean. Whenever search within open issues only.
         #   * name_like - String. Substring to filter found tags.
         def available_tags(options = {})
-          ids_scope = Issue.visible
+          ids_scope = Issue.visible.select("#{Issue.table_name}.id").joins(:project)
           ids_scope = ids_scope.on_project(options[:project]) if options[:project]
-          ids_scope = ids_scope.open if options[:open_only]
+          ids_scope = ids_scope.open.joins(:status) if options[:open_only]
 
           conditions = [""]
 
           sql_query = ids_scope.to_sql
-
-          # work around bug in rails where to_sql is wrong, essentially it's forgetting
-          # all it knew about joins so a safe check would be to check for the keyword JOIN
-          # https://github.com/rails/rails/issues/6132
-          # https://github.com/rails/rails/issues/8743
-          unless sql_query.upcase.include? "JOIN"
-            sql_query.sub!("`#{Issue.table_name}`.*", "`#{Issue.table_name}`.`id`")
-            if sql_query.upcase.include? "ISSUE_STATUSES.IS_CLOSED"
-              sql_query.sub!("FROM `#{Issue.table_name}`", "FROM `#{Issue.table_name}` INNER JOIN `#{IssueStatus.table_name}` ON `#{IssueStatus.table_name}`.`id` = `#{Issue.table_name}`.`status_id`")
-            end
-            sql_query.sub!("FROM `#{Issue.table_name}`", "FROM `#{Issue.table_name}` INNER JOIN `#{Project.table_name}` ON `#{Project.table_name}`.`id` = `#{Issue.table_name}`.`project_id`")
-          end
 
           conditions[0] << <<-SQL
             tag_id IN (
