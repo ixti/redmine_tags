@@ -1,5 +1,5 @@
 # This file is a part of redmine_tags
-# redMine plugin, that adds tagging support.
+# Redmine plugin, that adds tagging support.
 #
 # Copyright (c) 2010 Aleksey V Zapparov AKA ixti
 #
@@ -23,7 +23,7 @@ require 'redmine_acts_as_taggable_on/initialize'
 Redmine::Plugin.register :redmine_tags do
   name        'redmine_tags'
   author      'Aleksey V Zapparov AKA "ixti"'
-  description 'redMine tagging support'
+  description 'Redmine tagging support'
   version     '2.0.1-dev'
   url         'https://github.com/ixti/redmine_tags/'
   author_url  'http://www.ixti.net/'

@@ -1,5 +1,5 @@
 # This file is a part of redmine_tags
-# redMine plugin, that adds tagging support.
+# Redmine plugin, that adds tagging support.
 #
 # Copyright (c) 2010 Aleksey V Zapparov AKA ixti
 #
