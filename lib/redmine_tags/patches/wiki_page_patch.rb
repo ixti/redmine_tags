@@ -72,7 +72,7 @@ module RedmineTags
           conditions[0] << TAGGING_IDS_LIMIT_SQL
           conditions << ids_scope.map{ |issue| issue.id }.push(-1)
 
-          self.all_tag_counts(:conditions => conditions)
+          self.all_tag_counts(:conditions => conditions, :order => "#{ActsAsTaggableOn::Tag.table_name}.name ASC")
         end
       end
     end

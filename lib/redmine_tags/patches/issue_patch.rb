@@ -72,7 +72,7 @@ module RedmineTags
             conditions << "%#{options[:name_like].downcase}%"
           end
 
-          self.all_tag_counts(:conditions => conditions)
+          self.all_tag_counts(:conditions => conditions, :order => "#{ActsAsTaggableOn::Tag.table_name}.name ASC")
         end
       end
     end
