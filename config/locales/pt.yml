@@ -1,0 +1,43 @@
+# This file is a part of redmine_tags
+# redMine plugin, that adds tagging support.
+#
+# Portuguese translation for redmine_tags
+# by lijealso
+#
+# Copyright (c) 2010 Aleksey V Zapparov AKA ixti
+#
+# redmine_tags is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# redmine_tags is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
+
+pt:
+  tags: Tags
+  field_tags: Tags
+  field_tag_list: Tags
+  setting_issue_tags: Tags das tarefas
+  issues_sidebar: Mostrar tags na barralateral como
+  issues_show_count: Mostrar número de problemas
+  issues_open_only: Mostrar apenas problemas abertos
+  issues_sort_by: Ordenar tags por
+  issues_use_colors: Usar cores
+
+  issue_tags_sidebar_none: Nenhuma
+  issue_tags_sidebar_list: Lista
+  issue_tags_sidebar_cloud: Núvem
+  issue_tags_sidebar_simple_cloud: Núvem simples
+
+  issues_sort_by_name: Nome
+  issues_sort_by_count: Número de problemas
+  issues_sort_order_asc: Ascendente
+  issues_sort_order_desc: Descendente
+
+  auto_complete_new_tag: Adicionar nova...
