@@ -79,6 +79,15 @@ module RedmineTags
 
           self.all_tag_counts(:conditions => conditions, :order => "#{ActsAsTaggableOn::Tag.table_name}.name ASC")
         end
+
+        def remove_unused_tags!
+          unused = ActsAsTaggableOn::Tag.find_by_sql(<<-SQL)
+            SELECT * FROM tags WHERE id NOT IN (
+              SELECT DISTINCT tag_id FROM taggings
+            )
+          SQL
+          unused.each(&:destroy)
+        end
       end
     end
   end

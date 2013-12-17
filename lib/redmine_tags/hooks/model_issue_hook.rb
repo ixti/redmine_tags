@@ -54,6 +54,8 @@ module RedmineTags
                                                                          :old_value => old_tags,
                                                                          :value => new_tags)
           end
+
+          Issue.remove_unused_tags!
         end
       end
     end
