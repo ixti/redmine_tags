@@ -68,7 +68,12 @@ module RedmineTags
 
           # limit to the tags matching given %name_like%
           if options[:name_like]
-            conditions[0] << "AND #{ActsAsTaggableOn::Tag.table_name}.name LIKE ?"
+            conditions[0] << case self.connection.adapter_name
+            when 'PostgreSQL'
+              "AND #{ActsAsTaggableOn::Tag.table_name}.name ILIKE ?"
+            else
+              "AND #{ActsAsTaggableOn::Tag.table_name}.name LIKE ?"
+            end
             conditions << "%#{options[:name_like].downcase}%"
           end
 
