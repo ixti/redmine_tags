@@ -1,0 +1,47 @@
+# This file is a part of redmine_tags
+# redmine plugin, that adds tagging support.
+#
+# Tranditional Chinese translation for redmine_tags
+# by Timothy Lee (https://github.com/ctiml)
+#
+# Copyright (c) 2010 Aleksey V Zapparov AKA ixti
+#
+# redmine_tags is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# redmine_tags is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
+
+zh-TW:
+  tags: 標籤
+  field_tags: 標籤
+  field_tag_list: 標籤
+  setting_issue_tags: 問題標籤
+  issues_sidebar: 在側邊欄顯示標籤
+  issues_show_count: 顯示問計數
+  issues_open_only: 僅顯示進行中的問題
+  issues_sort_by: 標籤依哪種方式排序
+
+  issue_tags_sidebar_none: 無
+  issue_tags_sidebar_list: 列表顯示
+  issue_tags_sidebar_cloud: 標籤雲
+
+  issues_sort_by_name: 名稱名称
+  issues_sort_by_count: 問題計數
+  issues_sort_order_asc: 順序
+  issues_sort_order_desc: 倒序
+
+  auto_complete_new_tag: 增加新標籤 ...
+
+  issue_tags_label_add_tag: + 新增
+  issue_tags_manage_tags: 管理標籤
+  issue_tags_tag: 標籤
+  issue_tags_button_merge: 合併
+  issue_tags_label_merge: 合併選擇的標籤
