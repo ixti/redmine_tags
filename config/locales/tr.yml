@@ -1,0 +1,41 @@
+# This file is a part of redmine_tags
+# Redmine plugin, that adds tagging support.
+#
+# Turkish translation for redmine_tags
+# by Gürkan Gür a.k.a. seqizz
+#
+# redmine_tags is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# redmine_tags is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
+
+tr:
+  tags: Etiketler
+  field_tags: Etiketler
+  field_tag_list: Etiketler
+  setting_issue_tags: Issues Tags
+  issues_sidebar: Etiketleri yan panelde gösterme şekli
+  issues_show_count: Ticket sayısını göster
+  issues_open_only: Sadece açık ticket'ları göster
+  issues_sort_by: Etiketleri sırala
+  issues_use_colors: Renk kullan
+   
+  issue_tags_sidebar_none: Hiçbiri
+  issue_tags_sidebar_list: Liste
+  issue_tags_sidebar_cloud: Bulut
+  issue_tags_sidebar_simple_cloud: Basit bulut
+
+  issues_sort_by_name: İsim
+  issues_sort_by_count: Ticket sayısı
+  issues_sort_order_asc: Artan
+  issues_sort_order_desc: Azalan
+
+  auto_complete_new_tag: Yeni ekle...
