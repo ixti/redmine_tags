@@ -37,6 +37,7 @@ module RedmineTags
             :project_id => @project,
             :name_like => @name
           })
+
           render :layout => false, :partial => 'tag_list'
         end
 

@@ -1,4 +1,5 @@
-<%= raw @tags.collect {|tag| 
-       tag.name
+<%=
+    raw @tags.collect {|tag|
+        tag.name
     }.to_json
 %>

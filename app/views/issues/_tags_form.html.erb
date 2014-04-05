@@ -14,20 +14,13 @@
   <%= stylesheet_link_tag 'redmine_tags', :plugin => 'redmine_tags' %>
   <%= javascript_include_tag 'tag-it', :plugin => 'redmine_tags' %>
   <%= javascript_tag "$('#issue_tag_list').tagit({
-		tagSource: function(search, showChoices) {
-		  var that = this;
-		  $.ajax({
-			url: '#{url_for(:controller => 'auto_completes', :action => 'issue_tags', :project_id => issue.project.id)}',
-			data: {q: search.term},
-			success: function(choices) {
-			  showChoices(that._subtractArray(jQuery.parseJSON(choices), that.assignedTags()));
-			}
-		  });
-		},
+    availableTags: ['On Hold','Need Info','Waiting For Client','Waiting For 3rt Party'],
+    tagLimit: 4,
     allowSpaces: true, 
     placeholderText: '#{l(:issue_tags_label_add_tag)}',
     caseSensitive: false, 
     removeConfirmation: true,
+    showAutocompleteOnFocus: true,
 	});
 " %>
 </div>
