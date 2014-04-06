@@ -31,6 +31,10 @@ Redmine::Plugin.register :redmine_tags do
   requires_redmine :version_or_higher => '2.1.0'
   requires_acts_as_taggable_on
 
+  project_module :issue_tracking do
+    permission :edit_tag, { }
+  end
+
   settings :default => {
     :issues_sidebar => 'none',
     :issues_show_count => 0,
