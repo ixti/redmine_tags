@@ -1,3 +1,4 @@
+<% if User.current.allowed_to?(:edit_tag, @project) %>
 <div>
   <p id="issue_tags">
   <% issue = Issue.new({:project => issues.first.project}) if defined? issues %>
@@ -27,3 +28,4 @@
 	});
 " %>
 </div>
+<% end %>
