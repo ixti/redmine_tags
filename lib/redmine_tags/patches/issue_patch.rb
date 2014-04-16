@@ -32,8 +32,8 @@ module RedmineTags
           searchable_options[:include] << :tags
 
           scope :on_project, lambda { |project|
-            project = project.id if project.is_a? Project
-            { :conditions => ["#{Project.table_name}.id=?", project] }
+            project = Project.find(project) unless project.is_a? Project
+            { :conditions => "#{project.project_condition(Setting.display_subprojects_issues?)}" }
           }
 
 #          with this changes do not saved in journal
