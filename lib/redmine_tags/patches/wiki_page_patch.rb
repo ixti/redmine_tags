@@ -57,20 +57,32 @@ module RedmineTags
         #   * open_only - Boolean. Whenever search within open issues only.
         #   * name_like - String. Substring to filter found tags.
         def available_tags(options = {})
-          ids_scope = Issue.visible
+          ids_scope = WikiPage.select("#{WikiPage.table_name}.id").joins(wiki: :project)
           ids_scope = ids_scope.on_project(options[:project]) if options[:project]
-          ids_scope = ids_scope.open if options[:open_only]
+          ids_scope = ids_scope.open.joins(:status) if options[:open_only]
 
           conditions = [""]
 
+          sql_query = ids_scope.to_sql
+
+          conditions[0] << <<-SQL
+            tag_id IN (
+              SELECT #{ActsAsTaggableOn::Tagging.table_name}.tag_id
+                FROM #{ActsAsTaggableOn::Tagging.table_name}
+               WHERE #{ActsAsTaggableOn::Tagging.table_name}.taggable_id IN (#{sql_query}) AND #{ActsAsTaggableOn::Tagging.table_name}.taggable_type = 'WikiPage'
+            )
+          SQL
+
           # limit to the tags matching given %name_like%
           if options[:name_like]
-            conditions[0] << "#{ActsAsTaggableOn::Tag.table_name}.name LIKE ? AND "
+            conditions[0] << case self.connection.adapter_name
+                               when 'PostgreSQL'
+                                 "AND #{ActsAsTaggableOn::Tag.table_name}.name ILIKE ?"
+                               else
+                                 "AND #{ActsAsTaggableOn::Tag.table_name}.name LIKE ?"
+                             end
             conditions << "%#{options[:name_like].downcase}%"
           end
-
-          conditions[0] << TAGGING_IDS_LIMIT_SQL
-          conditions << ids_scope.map{ |issue| issue.id }.push(-1)
 
           self.all_tag_counts(:conditions => conditions, :order => "#{ActsAsTaggableOn::Tag.table_name}.name ASC")
         end
