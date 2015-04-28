@@ -23,6 +23,7 @@ module RedmineTags
     module IssuePatch
       def self.included(base)
         base.extend(ClassMethods)
+        base.send(:include, InstanceMethods)
 
         base.class_eval do
           unloadable
@@ -38,6 +39,8 @@ module RedmineTags
 
 #          with this changes do not saved in journal
 #          Issue.safe_attributes 'tag_list'
+
+          alias_method_chain :copy_from, :redmine_tags
         end
       end
 
@@ -89,6 +92,18 @@ module RedmineTags
           unused.each(&:destroy)
         end
       end
+
+      module InstanceMethods
+
+        def copy_from_with_redmine_tags(arg, options={})
+          copy_from_without_redmine_tags(arg, options)
+          issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)
+          self.tag_list = issue.tag_list
+          self
+        end
+
+      end
+
     end
   end
 end
