@@ -30,7 +30,6 @@ module FiltersHelper
     link_to title, options
   end
 
-
   # returns hash suitable for passing it to the <tt>to_link</tt>
   # === parameters
   # * <i>filters</i> = array of arrays. each child array is an array of strings:
@@ -41,22 +40,14 @@ module FiltersHelper
   # filters = [[ :tags, '~', 'bazbaz' ], [:status_id, 'o']]
   # link_to 'bazbaz', link_to_filter_options filters
   def link_to_filter_options(filters)
-    options = {
-      :controller => 'issues',
-      :action => 'index',
-      :set_filter => 1,
-      :fields => [],
-      :values => {},
-      :operators => {}
-    }
-
+    options = { controller: 'issues', action: 'index', set_filter: 1,
+      fields: [], values: {}, operators: {} }
     filters.each do |f|
       name, operator, value = f
-      options[:fields].push(name)
+      options[:fields].push name
       options[:operators][name] = operator
       options[:values][name] = [value]
     end
-
     options
   end
 end
