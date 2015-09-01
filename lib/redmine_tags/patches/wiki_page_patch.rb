@@ -30,7 +30,7 @@ module RedmineTags
           acts_as_taggable
 
           searchable_options[:columns] << "#{ActsAsTaggableOn::Tag.table_name}.name"
-          searchable_options[:include] << :tags
+          searchable_options[:preload] << :tags
 
           scope :on_project, lambda { |project|
             project = project.id if project.is_a? Project

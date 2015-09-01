@@ -29,7 +29,7 @@ module RedmineTags
           acts_as_taggable
 
           searchable_options[:columns] << "#{ActsAsTaggableOn::Tag.table_name}.name"
-          searchable_options[:include] << :tags
+          searchable_options[:preload] << :tags
 
           scope :on_project, lambda { |project|
             project = project.id if project.is_a? Project
@@ -92,29 +92,29 @@ module RedmineTags
           scope = {}
 
           ## Generate conditions:
-          options[:conditions] = sanitize_sql(options[:conditions]) if options[:conditions]     
+          options[:conditions] = sanitize_sql(options[:conditions]) if options[:conditions]
 
           start_at_conditions = sanitize_sql(["#{ActsAsTaggableOn::Tagging.table_name}.created_at >= ?", options.delete(:start_at)]) if options[:start_at]
           end_at_conditions   = sanitize_sql(["#{ActsAsTaggableOn::Tagging.table_name}.created_at <= ?", options.delete(:end_at)])   if options[:end_at]
-          
+
           taggable_conditions  = sanitize_sql(["#{ActsAsTaggableOn::Tagging.table_name}.taggable_type = ?", base_class.name])
           taggable_conditions << sanitize_sql([" AND #{ActsAsTaggableOn::Tagging.table_name}.taggable_id = ?", options.delete(:id)])  if options[:id]
           taggable_conditions << sanitize_sql([" AND #{ActsAsTaggableOn::Tagging.table_name}.context = ?", options.delete(:on).to_s]) if options[:on]
-          
+
           tagging_conditions = [
             taggable_conditions,
             scope[:conditions],
             start_at_conditions,
             end_at_conditions
           ].compact.reverse
-          
+
           tag_conditions = [
-            options[:conditions]        
+            options[:conditions]
           ].compact.reverse
-          
+
           ## Generate joins:
           taggable_join = "INNER JOIN #{table_name} ON #{table_name}.#{primary_key} = #{ActsAsTaggableOn::Tagging.table_name}.taggable_id"
-          taggable_join << " AND #{table_name}.#{inheritance_column} = '#{name}'" unless descends_from_active_record? # Current model is STI descendant, so add type checking to the join condition      
+          taggable_join << " AND #{table_name}.#{inheritance_column} = '#{name}'" unless descends_from_active_record? # Current model is STI descendant, so add type checking to the join condition
 
           tagging_joins = [
             taggable_join,
@@ -126,9 +126,9 @@ module RedmineTags
 
           ## Generate scope:
           tagging_scope = ActsAsTaggableOn::Tagging.select("#{ActsAsTaggableOn::Tagging.table_name}.tag_id, COUNT(#{ActsAsTaggableOn::Tagging.table_name}.tag_id) AS tags_count")
-          tag_scope = ActsAsTaggableOn::Tag.select("#{ActsAsTaggableOn::Tag.table_name}.*, #{ActsAsTaggableOn::Tagging.table_name}.tags_count AS count").order(options[:order]).limit(options[:limit])   
+          tag_scope = ActsAsTaggableOn::Tag.select("#{ActsAsTaggableOn::Tag.table_name}.*, #{ActsAsTaggableOn::Tagging.table_name}.tags_count AS count").order(options[:order]).limit(options[:limit])
           # Joins and conditions
-          tagging_joins.each      { |join|      tagging_scope = tagging_scope.joins(join)      }        
+          tagging_joins.each      { |join|      tagging_scope = tagging_scope.joins(join)      }
           tagging_conditions.each { |condition| tagging_scope = tagging_scope.where(condition) }
 
           tag_joins.each          { |join|      tag_scope     = tag_scope.joins(join)          }
@@ -137,7 +137,7 @@ module RedmineTags
           # GROUP BY and HAVING clauses:
           at_least  = sanitize_sql(["COUNT(#{ActsAsTaggableOn::Tagging.table_name}.tag_id) >= ?", options.delete(:at_least)]) if options[:at_least]
           at_most   = sanitize_sql(["COUNT(#{ActsAsTaggableOn::Tagging.table_name}.tag_id) <= ?", options.delete(:at_most)]) if options[:at_most]
-          having    = ["COUNT(#{ActsAsTaggableOn::Tagging.table_name}.tag_id) > 0", at_least, at_most].compact.join(' AND ')    
+          having    = ["COUNT(#{ActsAsTaggableOn::Tagging.table_name}.tag_id) > 0", at_least, at_most].compact.join(' AND ')
 
           group_columns = "#{ActsAsTaggableOn::Tagging.table_name}.tag_id"
 
