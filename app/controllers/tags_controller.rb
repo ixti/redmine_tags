@@ -25,6 +25,7 @@ class TagsController < ApplicationController
         format.html do
           redirect_to controller: 'settings', action: 'plugin',
             id: 'redmine_tags', tab: 'manage_tags'
+        end
         format.xml
       end
     else

@@ -45,14 +45,14 @@ module RedmineTags
             op = operator_for 'tags'
             case op
             when '=', '!'
-              issues = Issue.tagged_with values_for('tags').clone
+              issues = Issue.tagged_with values_for('tags')
             when '!*'
               issues = Issue.tagged_with ActsAsTaggableOn::Tag.all.map(&:to_s), exclude: true
             else
               issues = Issue.tagged_with ActsAsTaggableOn::Tag.all.map(&:to_s), any: true
             end
-            compare   = op.eql?('!') ? 'NOT IN' : 'IN'
-            ids_list  = issues.collect {|issue| issue.id }.push(0).join(',')
+            compare = op.eql?('!') ? 'NOT IN' : 'IN'
+            ids_list = issues.collect {|issue| issue.id }.push(0).join(',')
             clauses << " AND " unless clauses.empty?
             clauses << "( #{ Issue.table_name }.id #{ compare } (#{ ids_list }) ) "
           end

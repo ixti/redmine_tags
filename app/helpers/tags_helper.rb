@@ -33,7 +33,7 @@ module TagsHelper
     filters = [[:tags, '=', tag.name]]
     filters << [:status_id, 'o'] if options[:open_only]
     if options[:use_search]
-      content =  link_to tag, { controller: 'search', action: 'index',
+      content = link_to tag, { controller: 'search', action: 'index',
         id: @project, q: tag.name, wiki_pages: true, issues: true }
     else
       content = link_to_filter tag.name, filters, project_id: @project
@@ -52,7 +52,7 @@ module TagsHelper
 
   def tag_color(tag)
     tag_name = tag.respond_to?(:name) ? tag.name : tag
-    "##{ Digest::MD5.hexdigest(tag_name).take(6) }"
+    "##{ Digest::MD5.hexdigest(tag_name)[0..5] }"
   end
 
   # Renders list of tags
@@ -71,7 +71,7 @@ module TagsHelper
       content, style = '', options.delete(:style)
       # prevent ActsAsTaggableOn::TagsHelper from calling `all`
       # otherwise we will need sort tags after `tag_cloud`
-      tags = tags.all if tags.respond_to?(:all)
+      tags = tags.to_a
       case sorting = "#{ RedmineTags.settings[:issues_sort_by] }:#{ RedmineTags.settings[:issues_sort_order] }"
         when 'name:asc'
           tags.sort! {|a, b| a.name <=> b.name }

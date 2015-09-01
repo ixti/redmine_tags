@@ -16,7 +16,7 @@
       <% tags.each do |tag| %>
         <tr id="<%= tag.id %>" class="<%= cycle('odd', 'even') %> hascontextmenu">
           <td class="checkbox hide-when-print">
-            <%= check_box_tag 'ids[]', tag.id, false, id: nil) %>
+            <%= check_box_tag 'ids[]', tag.id, false, id: nil %>
           </td>
           <td><%= render_tag_link(tag) %></td>
           <td class="buttons">

@@ -28,7 +28,7 @@ Redmine::Plugin.register :redmine_tags do
   url         'https://github.com/redminecrm/redmine_tags/'
   author_url  'http://www.redminecrm.com/'
 
-  requires_redmine :version_or_higher => '2.1.0'
+  requires_redmine version_or_higher: '3.1.0'
   requires_acts_as_taggable_on
 
   settings :default => {
