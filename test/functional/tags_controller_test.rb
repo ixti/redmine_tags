@@ -1,6 +1,6 @@
-require File.expand_path('../../test_helper', __FILE__)      
+require File.expand_path('../../test_helper', __FILE__)
 
-class TagsControllerTest < ActionController::TestCase  
+class TagsControllerTest < ActionController::TestCase
   fixtures :projects,
            :users,
            :roles,
@@ -20,8 +20,8 @@ class TagsControllerTest < ActionController::TestCase
            :custom_values,
            :custom_fields_projects,
            :custom_fields_trackers
-         
-  
+
+
   def setup
     # run as the admin
     @request.session[:user_id] = 1
@@ -36,7 +36,7 @@ class TagsControllerTest < ActionController::TestCase
     add_issue @project_b, %w{b8 b9}, false
   end
 
-  test "should get edit" do 
+  test "should get edit" do
     @request.session[:user_id] = 1
     tag = ActsAsTaggableOn::Tag.find_by_name("a1")
     get :edit, :id => tag.id
@@ -46,7 +46,7 @@ class TagsControllerTest < ActionController::TestCase
     assert_equal tag, assigns(:tag)
   end
 
-  test "should put update" do 
+  test "should put update" do
     @request.session[:user_id] = 1
     tag1 = ActsAsTaggableOn::Tag.find_by_name("a1")
     old_name = tag1.name
@@ -54,8 +54,8 @@ class TagsControllerTest < ActionController::TestCase
     put :update, :id => tag1.id, :tag => {:name => new_name}
     assert_redirected_to :controller => 'settings', :action => 'plugin', :id => "redmine_tags", :tab => "manage_tags"
     tag1.reload
-    assert_equal new_name, tag1.name 
-  end  
+    assert_equal new_name, tag1.name
+  end
 
   test "should delete destroy" do
     @request.session[:user_id] = 1
@@ -64,7 +64,7 @@ class TagsControllerTest < ActionController::TestCase
       post :destroy, :ids => tag1.id
       assert_response 302
     end
-  end    
+  end
 
 
   test "should get merge" do
@@ -74,7 +74,7 @@ class TagsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'merge'
     assert_not_nil assigns(:tags)
-  end    
+  end
 
   test "should post merge" do
     tag1 = ActsAsTaggableOn::Tag.find_by_name("a1")
@@ -85,7 +85,7 @@ class TagsControllerTest < ActionController::TestCase
     end
     assert_equal 0, Issue.tagged_with("b8").count
     assert_equal 2, Issue.tagged_with("a1").count
-  end  
+  end
 
   private
 
@@ -94,11 +94,11 @@ class TagsControllerTest < ActionController::TestCase
     issue.tag_list = tags
 
     if closed
-      issue.status = IssueStatus.find(:first, :conditions => {:is_closed => true})
+      issue.status = IssueStatus.where(is_closed: true).first
     end
 
     issue.save
     issue
-  end  
+  end
 
 end
