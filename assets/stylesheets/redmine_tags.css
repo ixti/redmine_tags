@@ -32,7 +32,8 @@ div.tags { text-align: center; }
     color: white;
 }
 
-table.list tr.issue .tag-label-color a, .tag-label-color a { color: white; }
+table.list tr.issue .tag-label-color a,
+.tags .tag-label-color a { color: white; }
 
 tr.issue td.tags {
   text-align: left;
