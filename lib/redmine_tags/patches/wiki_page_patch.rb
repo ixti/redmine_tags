@@ -22,21 +22,18 @@ module RedmineTags
   module Patches
     module WikiPagePatch
       def self.included(base)
-        base.extend(ClassMethods)
-
-
+        base.extend ClassMethods
         base.class_eval do
           unloadable
           acts_as_taggable
 
-          searchable_options[:columns] << "#{ActsAsTaggableOn::Tag.table_name}.name"
-          searchable_options[:include] << :tags
+          searchable_options[:columns] << "#{ ActsAsTaggableOn::Tag.table_name }.name"
+          searchable_options[:preload] << :tags
 
-          scope :on_project, lambda { |project|
-            project = project.id if project.is_a? Project
-            { :conditions => ["#{Project.table_name}.id=?", project] }
-          }
-
+          scope :on_project, -> (project) {
+              project = project.id if project.is_a? Project
+              where "#{ Project.table_name }.id = ?", project
+            }
           WikiPage.safe_attributes 'tag_list'
         end
       end
@@ -44,9 +41,10 @@ module RedmineTags
       module ClassMethods
         TAGGING_IDS_LIMIT_SQL = <<-SQL
           tag_id IN (
-            SELECT #{ActsAsTaggableOn::Tagging.table_name}.tag_id
-              FROM #{ActsAsTaggableOn::Tagging.table_name}
-             WHERE #{ActsAsTaggableOn::Tagging.table_name}.taggable_id IN (?) AND #{ActsAsTaggableOn::Tagging.table_name}.taggable_type = 'WikiPage'
+            SELECT #{ ActsAsTaggableOn::Tagging.table_name }.tag_id
+            FROM #{ ActsAsTaggableOn::Tagging.table_name }
+            WHERE #{ ActsAsTaggableOn::Tagging.table_name }.taggable_id IN (?)
+              AND #{ ActsAsTaggableOn::Tagging.table_name }.taggable_type = 'WikiPage'
           )
         SQL
 
@@ -60,19 +58,15 @@ module RedmineTags
           ids_scope = Issue.visible
           ids_scope = ids_scope.on_project(options[:project]) if options[:project]
           ids_scope = ids_scope.open if options[:open_only]
-
-          conditions = [""]
-
+          conditions = ['']
           # limit to the tags matching given %name_like%
           if options[:name_like]
-            conditions[0] << "#{ActsAsTaggableOn::Tag.table_name}.name LIKE ? AND "
-            conditions << "%#{options[:name_like].downcase}%"
+            conditions[0] << "#{ ActsAsTaggableOn::Tag.table_name }.name LIKE ? AND "
+            conditions << "%#{ options[:name_like].downcase }%"
           end
-
           conditions[0] << TAGGING_IDS_LIMIT_SQL
-          conditions << ids_scope.map{ |issue| issue.id }.push(-1)
-
-          self.all_tag_counts(:conditions => conditions)
+          conditions << ids_scope.map {|issue| issue.id }.push(-1)
+          self.all_tag_counts conditions: conditions
         end
       end
     end

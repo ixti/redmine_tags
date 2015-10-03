@@ -1,26 +1,34 @@
 <div>
   <p id="issue_tags">
-  <% issue = Issue.new({:project => issues.first.project}) if defined? issues %>
-  <% text_field_options = {:label => :tags, :size => 60, :class => 'hol'} %>
+  <% issue = Issue.new project: issues.first.project if defined? issues %>
+  <% text_field_options = { label: :tags, size: 60, class: 'hol' } %>
   <% if defined? form %>
     <%= form.text_field :tag_list, text_field_options %>
   <% else %>
-    <%= label_tag :tags, nil, :for => :issue_tag_list  %>
-    <%= text_field_tag 'issue[tag_list]', "", :class => text_field_options[:class], :size => text_field_options[:size], :id => :issue_tag_list %>
+    <%= label_tag :tags, nil, for: :issue_tag_list %>
+    <%= text_field_tag 'issue[tag_list]', '', class: text_field_options[:class], size: text_field_options[:size], id: :issue_tag_list %>
   <% end %>
   </p>
   <div id="issue_tag_candidates" class="autocomplete"></div>
-  <%= stylesheet_link_tag 'jquery.tagit.css', :plugin => 'redmine_tags' %>
-  <%= stylesheet_link_tag 'redmine_tags', :plugin => 'redmine_tags' %>
-  <%= javascript_include_tag 'tag-it', :plugin => 'redmine_tags' %>
+  <%= stylesheet_link_tag 'jquery.tagit.css', plugin: 'redmine_tags' %>
+  <%= stylesheet_link_tag 'redmine_tags', plugin: 'redmine_tags' %>
+  <%= javascript_include_tag 'tag-it', plugin: 'redmine_tags' %>
   <%= javascript_tag "$('#issue_tag_list').tagit({
-    availableTags: ['On Hold','Need Info','Waiting For Client','Waiting For 3rt Party','Ready for Release'],
+    tagSource: function(search, showChoices) {
+      var that = this;
+      $.ajax({
+        url: '#{url_for(:controller => 'auto_completes', :action => 'issue_tags', :project_id => issue.project.id)}',
+        data: {q: search.term},
+        success: function(choices) {
+          showChoices(that._subtractArray(jQuery.parseJSON(choices), that.assignedTags()));
+        }
+      });
+    },
     tagLimit: 4,
-    allowSpaces: true, 
-    placeholderText: '#{l(:issue_tags_label_add_tag)}',
-    caseSensitive: false, 
+    allowSpaces: true,
+    placeholderText: '#{ l :issue_tags_label_add_tag }',
+    caseSensitive: false,
     removeConfirmation: true,
     showAutocompleteOnFocus: true,
-	});
-" %>
+  });" %>
 </div>

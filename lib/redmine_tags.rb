@@ -17,5 +17,7 @@
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
 module RedmineTags
-  def self.settings() Setting[:plugin_redmine_tags] end
+  def self.settings
+    Setting[:plugin_redmine_tags]
+  end
 end
