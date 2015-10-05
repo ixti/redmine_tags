@@ -27,8 +27,8 @@ module RedmineTags
           unloadable
           acts_as_taggable
 
-          searchable_options[:columns] << "#{ ActsAsTaggableOn::Tag.table_name }.name"
-          searchable_options[:preload] << :tags
+          # searchable_options[:columns] << "#{ ActsAsTaggableOn::Tag.table_name }.name"
+          # searchable_options[:preload] << :tags
 
           scope :on_project, -> (project) {
               project = project.id if project.is_a? Project
