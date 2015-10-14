@@ -1,7 +1,7 @@
 <div class="tabular">
   <p id="issue_tags">
   <% issue = Issue.new project: issues.first.project if defined? issues %>
-  <% text_field_options = { label: :tags, size: 60, class: 'hol', value: @issue.tag_list.to_s } %>
+  <% text_field_options = { label: :tags, size: 60, class: 'hol', value: @issue ? @issue.tag_list.to_s : '' } %>
   <% if defined? form %>
     <%= form.text_field :tag_list, text_field_options %>
   <% else %>
