@@ -34,19 +34,19 @@ module RedmineTags
           # searchable_options[:columns] << "#{ ActsAsTaggableOn::Tag.table_name }.name"
           # searchable_options[:preload] << :tags
 
+          # TODO: should we have this on or not?
+          # with this changes do not saved in journal
+          # Issue.safe_attributes 'tag_list'
+
           # TODO: Not sure which one of these to keep yet
           # scope :on_project, ->(project) {
           #     project = project.id if project.is_a? Project
           #     where "#{ Project.table_name }.id = ?", project
           #   }
 
-          # TODO: should we have this on or not?
-          # with this changes do not saved in journal
-          # Issue.safe_attributes 'tag_list'
-
           scope :on_project, lambda { |project|
             project = Project.find(project) unless project.is_a? Project
-            { :conditions => "#{project.project_condition(Setting.display_subprojects_issues?)}" }
+            where("#{project.project_condition(Setting.display_subprojects_issues?)}")
           }
         end
       end
@@ -63,7 +63,9 @@ module RedmineTags
           ids_scope = ids_scope.on_project(options[:project]) if options[:project]
           ids_scope = ids_scope.open.joins(:status) if options[:open_only]
           conditions = ['']
+
           sql_query = ids_scope.to_sql
+
           conditions[0] << <<-SQL
             tag_id IN (
               SELECT #{ ActsAsTaggableOn::Tagging.table_name }.tag_id
