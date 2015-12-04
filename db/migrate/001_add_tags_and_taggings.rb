@@ -1,1 +1,2 @@
-class AddTagsAndTaggings < RedmineActsAsTaggableOn::Migration; end
+class AddTagsAndTaggings < RedmineActsAsTaggableOn::Migration
+end

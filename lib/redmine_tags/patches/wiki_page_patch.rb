@@ -22,34 +22,23 @@ module RedmineTags
   module Patches
     module WikiPagePatch
       def self.included(base)
-        base.extend(ClassMethods)
-
-
+        base.extend ClassMethods
         base.class_eval do
           unloadable
           acts_as_taggable
 
-          searchable_options[:columns] << "#{ActsAsTaggableOn::Tag.table_name}.name"
-          searchable_options[:include] << :tags
+          # searchable_options[:columns] << "#{ ActsAsTaggableOn::Tag.table_name }.name"
+          # searchable_options[:preload] << :tags
 
-          scope :on_project, lambda { |project|
-            project = project.id if project.is_a? Project
-            { :conditions => ["#{Project.table_name}.id=?", project] }
-          }
-
+          scope :on_project, ->(project) {
+              project = project.id if project.is_a? Project
+              where "#{ Project.table_name }.id = ?", project
+            }
           WikiPage.safe_attributes 'tag_list'
         end
       end
 
       module ClassMethods
-        TAGGING_IDS_LIMIT_SQL = <<-SQL
-          tag_id IN (
-            SELECT #{ActsAsTaggableOn::Tagging.table_name}.tag_id
-              FROM #{ActsAsTaggableOn::Tagging.table_name}
-             WHERE #{ActsAsTaggableOn::Tagging.table_name}.taggable_id IN (?) AND #{ActsAsTaggableOn::Tagging.table_name}.taggable_type = 'WikiPage'
-          )
-        SQL
-
         # Returns available issue tags
         # === Parameters
         # * <i>options</i> = (optional) Options hash of
@@ -59,8 +48,8 @@ module RedmineTags
         def available_tags(options = {})
           ids_scope = WikiPage.select("#{WikiPage.table_name}.id").joins(:wiki => :project)
           ids_scope = ids_scope.on_project(options[:project]) if options[:project]
-
-          conditions = [""]
+          ids_scope = ids_scope.open if options[:open_only]
+          conditions = ['']
 
           sql_query = ids_scope.to_sql
 
@@ -82,7 +71,6 @@ module RedmineTags
                              end
             conditions << "%#{options[:name_like].downcase}%"
           end
-
           self.all_tag_counts(:conditions => conditions, :order => "#{ActsAsTaggableOn::Tag.table_name}.name ASC")
         end
       end

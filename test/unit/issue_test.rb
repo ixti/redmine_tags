@@ -40,7 +40,7 @@ class RedmineTags::Patches::IssueTest < ActiveSupport::TestCase
     issue.tag_list = tags
 
     if closed
-      issue.status = IssueStatus.find(:first, :conditions => {:is_closed => true})
+      issue.status = IssueStatus.where(is_closed: true).first
     end
 
     issue.save!

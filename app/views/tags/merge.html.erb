@@ -1,0 +1,19 @@
+<h2>
+  <%= link_to l(:setting_issue_tags), controller: 'settings', action: 'plugin',
+        id: 'redmine_tags', tab: 'manage_tags' %>
+  &#187;
+  <%= l :issue_tags_label_merge %>
+</h2>
+<%= form_tag merge_tags_path(ids: @tags.map(&:id)), class: 'tabular' do %>
+  <%= error_messages_for 'tag' %>
+  <%= render_tags_list @tags, { show_count: true, open_only: false,
+        style: :simple_cloud } %>
+  <div class="box">
+    <!--[form:optvalue]-->
+    <p>
+      <label for="tag_name"><%= l :field_name %></label>
+      <%= text_field 'tag', 'name', value: @tags.first.name %>
+    </p>
+  </div>
+  <%= submit_tag l(:button_save) %>
+<% end %>

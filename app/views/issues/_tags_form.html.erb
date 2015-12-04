@@ -1,29 +1,33 @@
-<div>
+<div class="tabular">
   <p id="issue_tags">
-  <% issue = Issue.new({:project => issues.first.project}) if defined? issues %>
-  <% text_field_options = {:label => :tags, :size => 60, :class => 'hol'} %>
+  <% issue = Issue.new project: issues.first.project if defined? issues %>
+  <% text_field_options = { label: :tags, size: 60, class: 'hol', value: @issue ? @issue.tag_list.to_s : '' } %>
   <% if defined? form %>
     <%= form.text_field :tag_list, text_field_options %>
   <% else %>
-    <%= label_tag :tags, nil, :for => :issue_tag_list  %>
-    <%= text_field_tag 'issue[tag_list]', "", :class => text_field_options[:class], :size => text_field_options[:size], :id => :issue_tag_list %>
+    <%= label_tag :tags, nil, for: :issue_tag_list %>
+    <%= text_field_tag 'issue[tag_list]', '', class: text_field_options[:class], size: text_field_options[:size], id: :issue_tag_list %>
   <% end %>
   </p>
   <div id="issue_tag_candidates" class="autocomplete"></div>
-  <%= stylesheet_link_tag 'jquery.tagit.css', :plugin => 'redmine_tags' %>
-  <%= stylesheet_link_tag 'redmine_tags', :plugin => 'redmine_tags' %>
-  <%= javascript_include_tag 'tag-it', :plugin => 'redmine_tags' %>
+  <%= stylesheet_link_tag 'jquery.tagit.css', plugin: 'redmine_tags' %>
+  <%= stylesheet_link_tag 'redmine_tags', plugin: 'redmine_tags' %>
+  <%= javascript_include_tag 'tag-it.min', plugin: 'redmine_tags' %>
   <%= javascript_tag "$('#issue_tag_list').tagit({
-		tagSource: function(search, showChoices) {
-		  var that = this;
-		  $.ajax({
-			url: '#{url_for(:controller => 'auto_completes', :action => 'issue_tags', :project_id => issue.project.id)}',
-			data: {q: search.term},
-			success: function(choices) {
-			  showChoices(that._subtractArray(jQuery.parseJSON(choices), that.assignedTags()));
-			}
-		  });
-		},
-	});
-" %>
+    tagSource: function(search, showChoices) {
+      var that = this;
+      $.ajax({
+        url: '#{url_for(:controller => 'auto_completes', :action => 'issue_tags', :project_id => issue.project.id)}',
+        data: {q: search.term},
+        success: function(choices) {
+          showChoices(that._subtractArray(jQuery.parseJSON(choices), that.assignedTags()));
+        }
+      });
+    },
+    allowSpaces: true,
+    placeholderText: '#{ l :issue_tags_label_add_tag }',
+    caseSensitive: false,
+    removeConfirmation: true,
+    showAutocompleteOnFocus: true,
+  });" %>
 </div>
