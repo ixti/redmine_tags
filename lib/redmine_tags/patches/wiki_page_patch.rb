@@ -27,8 +27,15 @@ module RedmineTags
           unloadable
           acts_as_taggable
 
-          # searchable_options[:columns] << "#{ ActsAsTaggableOn::Tag.table_name }.name"
-          # searchable_options[:preload] << :tags
+          searchable_options[:columns] << "#{ ActsAsTaggableOn::Tag.table_name }.name"
+          searchable_options[:preload] << :tags
+          old_scope = searchable_options[:scope]
+          searchable_options[:scope] = lambda do |options|
+            new_scope = old_scope.is_a?(Proc) ? old_scope.call(options) : old_scope
+            new_scope
+              .joins("LEFT JOIN taggings ON taggings.taggable_id = wiki_pages.id AND taggings.context = 'tags' AND taggings.taggable_type = 'WikiPage'")
+              .joins('LEFT JOIN tags ON tags.id = taggings.tag_id')
+          end
 
           scope :on_project, ->(project) {
               project = project.id if project.is_a? Project

@@ -30,9 +30,15 @@ module RedmineTags
 
           alias_method_chain :copy_from, :redmine_tags
 
-          # TODO: See why these caused a crash
-          # searchable_options[:columns] << "#{ ActsAsTaggableOn::Tag.table_name }.name"
-          # searchable_options[:preload] << :tags
+          searchable_options[:columns] << "#{ ActsAsTaggableOn::Tag.table_name }.name"
+          searchable_options[:preload] << :tags
+          old_scope = searchable_options[:scope]
+          searchable_options[:scope] = lambda do |options|
+            new_scope = old_scope.is_a?(Proc) ? old_scope.call(options) : old_scope
+            new_scope
+              .joins("LEFT JOIN taggings ON taggings.taggable_id = issues.id AND taggings.context = 'tags' AND taggings.taggable_type = 'Issue'")
+              .joins('LEFT JOIN tags ON tags.id = taggings.tag_id')
+          end
 
           # TODO: should we have this on or not?
           # with this changes do not saved in journal
