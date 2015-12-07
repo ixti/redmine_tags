@@ -54,30 +54,30 @@ class RedmineTags::Patches::IssueTest < ActiveSupport::TestCase
   end
 
   test "available tags should return list of distinct tags" do
-    assert_equal 9, Issue.available_tags.count
+    assert_equal 9, Issue.available_tags.size
   end
 
   test "available tags should allow list tags of open issues only" do
-    assert_equal 5, Issue.available_tags(:open_only => true).count
+    assert_equal 5, Issue.available_tags(:open_only => true).size
   end
 
   test "available tags should allow list tags of specific project only" do
-    assert_equal 5, Issue.available_tags(:project => @project_a).count
-    assert_equal 4, Issue.available_tags(:project => @project_b).count
+    assert_equal 5, Issue.available_tags(:project => @project_a).size
+    assert_equal 4, Issue.available_tags(:project => @project_b).size
 
-    assert_equal 3, Issue.available_tags(:open_only => true, :project => @project_a).count
-    assert_equal 2, Issue.available_tags(:open_only => true, :project => @project_b).count
+    assert_equal 3, Issue.available_tags(:open_only => true, :project => @project_a).size
+    assert_equal 2, Issue.available_tags(:open_only => true, :project => @project_b).size
   end
 
   test "available tags should allow list tags found by name" do
-    assert_equal 5, Issue.available_tags(:name_like => 'a').count
-    assert_equal 4, Issue.available_tags(:name_like => 'b').count
-    assert_equal 1, Issue.available_tags(:name_like => 'a1').count
-    assert_equal 1, Issue.available_tags(:name_like => 'a2').count
+    assert_equal 5, Issue.available_tags(:name_like => 'a').size
+    assert_equal 4, Issue.available_tags(:name_like => 'b').size
+    assert_equal 1, Issue.available_tags(:name_like => 'a1').size
+    assert_equal 1, Issue.available_tags(:name_like => 'a2').size
 
-    assert_equal 5, Issue.available_tags(:name_like => 'a', :project => @project_a).count
-    assert_equal 0, Issue.available_tags(:name_like => 'b', :project => @project_a).count
-    assert_equal 3, Issue.available_tags(:name_like => 'a', :open_only => true, :project => @project_a).count
-    assert_equal 0, Issue.available_tags(:name_like => 'b', :open_only => true, :project => @project_a).count
+    assert_equal 5, Issue.available_tags(:name_like => 'a', :project => @project_a).size
+    assert_equal 0, Issue.available_tags(:name_like => 'b', :project => @project_a).size
+    assert_equal 3, Issue.available_tags(:name_like => 'a', :open_only => true, :project => @project_a).size
+    assert_equal 0, Issue.available_tags(:name_like => 'b', :open_only => true, :project => @project_a).size
   end
 end
