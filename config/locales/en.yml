@@ -29,7 +29,7 @@ en:
   issues_open_only: Display open issues only
   issues_sort_by: Sort tags by
   issues_use_colors: Use colors
-   
+
   issue_tags_sidebar_none: None
   issue_tags_sidebar_list: List
   issue_tags_sidebar_cloud: Cloud
@@ -41,3 +41,9 @@ en:
   issues_sort_order_desc: Descending
 
   auto_complete_new_tag: Add new...
+
+  issue_tags_label_add_tag: + add tag
+  issue_tags_manage_tags: Manage tags
+  issue_tags_tag: Tag
+  issue_tags_button_merge: Merge
+  issue_tags_label_merge: Merge selected tags

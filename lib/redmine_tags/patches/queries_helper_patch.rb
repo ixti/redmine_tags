@@ -25,8 +25,7 @@ module RedmineTags
   module Patches
     module QueriesHelperPatch
       def self.included(base)
-        base.send(:include, InstanceMethods)
-
+        base.send :include, InstanceMethods
         base.class_eval do
           unloadable
           alias_method :column_content_original, :column_content
@@ -34,16 +33,15 @@ module RedmineTags
         end
       end
 
-
       module InstanceMethods
         include TagsHelper
 
-
         def column_content_extended(column, issue)
           if column.name.eql? :tags
-            column.value(issue).collect{ |t| render_tag_link(t) }.join(', ')
+            column.value(issue).collect{ |t| render_tag_link(t) }
+              .join(RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ')
           else
-            column_content_original(column, issue)
+            column_content_original column, issue
           end
         end
       end

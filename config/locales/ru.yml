@@ -29,15 +29,16 @@ ru:
   issues_open_only: Только открытые задачи
   issues_sort_by: Упорядочить метки по
   issues_use_colors: Использовать цвета
-  
+
   issue_tags_sidebar_none: Не показывать
   issue_tags_sidebar_list: Список
   issue_tags_sidebar_cloud: Облако
   issue_tags_sidebar_simple_cloud: Простое облако
-  
+
   issues_sort_by_name: Названию
   issues_sort_by_count: Кол-ву задач
   issues_sort_order_asc: по возрастанию
   issues_sort_order_desc: по убыванию
 
   auto_complete_new_tag: Добавить...
+  issue_tags_label_add_tag: + добавить метку

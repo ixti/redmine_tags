@@ -18,12 +18,13 @@
 
 # This module patches a controller so that the methods from TagsHelper and
 # IssuesTagsHelper are available in its views.
+
 module RedmineTags
   module Patches
     module AddHelpersForIssueTagsPatch
       def self.apply(controller)
-        controller.send(:helper, 'tags')
-        controller.send(:helper, 'issues_tags')
+        controller.send :helper, 'tags'
+        controller.send :helper, 'issues_tags'
       end
     end
   end
