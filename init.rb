@@ -18,7 +18,6 @@
 
 require 'redmine'
 require 'redmine_tags'
-require 'redmine_acts_as_taggable_on/initialize'
 
 Redmine::Plugin.register :redmine_tags do
   name        'Redmine Tags'
