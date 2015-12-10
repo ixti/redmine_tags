@@ -1,44 +1,50 @@
-Redmine Tags
-============
+# Redmine Tags
 
 Allows marking up different models in Redmine with tags.
-Inspired by original redmine\_tags of Eric Davis.
+Inspired by original `redmine_tags` of Eric Davis.
 
-# To make it actually work
-
-Run `rake acts_as_taggable_on_engine:install:migrations`
-This will generate some migration files in the redmine /db folder. Remove the
-ones already migrated and run 'rake db:migrate'.
-If any of them fail just remove them and re-run 'rake db:migrate'.
-
-Supported models
-----------------
+## Supported models
 
 - Issues
 - Wiki pages
 
 
-Requirements
-------------
+## Requirements
 
-- Redmine `>= 2.1.0`
-
-
-Installation
-------------
-
-- Clone this repository into `redmine/plugins/redmine_tags`
-- Install dependencies and migrate database:
-
-        cd redmine/
-        bundle install
-        RAILS_ENV=production rake redmine:plugins:migrate
-
-- Restart your Redmine web server (e.g. mongrel, thin, mod\_rails)
+- Redmine `>= 3.1.0`
 
 
-License
--------
+## Installing
+
+1. Clone this repository into `redmine/plugins/redmine_tags`
+
+    ```
+    cd redmine/plugins
+    git clone https://github.com/ixti/redmine_tags.git
+    ```
+
+2. Install dependencies and migrate database:
+
+    ```
+    bundle install
+    rake redmine:plugins:migrate NAME=redmine_tags
+    ```
+
+3. Restart your Redmine web server.
+
+
+## Removal
+
+WARNING: This plugin shares the `tags` and `taggings` tables with other plugins
+that use the `acts-as-taggable-on` gem. Do not run the below command if you have
+another active plugin using them.
+
+```
+rake redmine:plugins:migrate NAME=redmine_tags VERSION=0 FORCE_REDMINE_TAGS_TABLES_REMOVAL=yes
+```
+
+
+## License
 
 This plugin is licensed under the terms of GNU/GPL v3+.
 See COPYING and LICENSE for details.
