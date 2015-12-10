@@ -14,7 +14,7 @@ Inspired by original `redmine_tags` of Eric Davis.
 - Redmine `>= 3.1.0`
 
 
-## Install
+## Installing
 
 1. Clone this repository into `redmine/plugins/redmine_tags`
 
@@ -33,14 +33,14 @@ Inspired by original `redmine_tags` of Eric Davis.
 3. Restart your Redmine web server.
 
 
-## Remove
+## Removal
 
 WARNING: This plugin shares the `tags` and `taggings` tables with other plugins
 that use the `acts-as-taggable-on` gem. Do not run the below command if you have
 another active plugin using them.
 
 ```
-rake redmine:plugins:migrate NAME=redmine_tags VERSION=0 ARE_YOU_SURE=yes
+rake redmine:plugins:migrate NAME=redmine_tags VERSION=0 FORCE_REDMINE_TAGS_TABLES_REMOVAL=yes
 ```
 
 

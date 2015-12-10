@@ -81,7 +81,7 @@ class ActsAsTaggableMigration < ActiveRecord::Migration
       puts 'WARNING: This will remove the `tags` and `taggings` tabels which ' \
         'may be used by other plugins.'
       puts 'If you are sure you want to remove them, run the command again ' \
-        'supplying the `ARE_YOU_SURE=yes` variable.'
+        'supplying the `FORCE_REDMINE_TAGS_TABLES_REMOVAL=yes` variable.'
       puts '********' * 10
       raise ActiveRecord::IrreversibleMigration
     end
