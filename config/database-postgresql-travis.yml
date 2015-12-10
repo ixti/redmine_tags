@@ -1,0 +1,5 @@
+# http://about.travis-ci.org/docs/user/database-setup/#PostgreSQL
+test:
+  adapter: postgresql
+  database: redmine
+  username: postgres
