@@ -73,7 +73,7 @@ class ActsAsTaggableMigration < ActiveRecord::Migration
   end
 
   def down
-    if ENV['ARE_YOU_SURE'] == 'yes'
+    if ENV['FORCE_REDMINE_TAGS_TABLES_REMOVAL'] == 'yes'
       drop_table :taggings
       drop_table :tags
     else
