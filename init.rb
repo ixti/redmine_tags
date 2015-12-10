@@ -28,7 +28,7 @@ Redmine::Plugin.register :redmine_tags do
   author_url  'http://www.ixti.net/'
 
   # TODO: add Travis and check with multiple redmine versions.
-  requires_redmine version_or_higher: '3.1.0'
+  requires_redmine version_or_higher: '3.0.0'
   requires_acts_as_taggable_on
 
   settings :default => {
