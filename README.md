@@ -11,7 +11,7 @@ Inspired by original `redmine_tags` of Eric Davis.
 
 ## Requirements
 
-- Redmine `>= 3.1.0`
+- Redmine `>= 3.0.0`
 
 
 ## Installing
