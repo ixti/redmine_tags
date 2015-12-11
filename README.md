@@ -1,4 +1,4 @@
-# Redmine Tags
+# Redmine Tags [![Build Status](https://travis-ci.org/ixti/redmine_tags.svg?branch=master)](https://travis-ci.org/ixti/redmine_tags)
 
 Allows marking up different models in Redmine with tags.
 Inspired by original `redmine_tags` of Eric Davis.
