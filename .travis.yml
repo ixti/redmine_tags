@@ -29,13 +29,15 @@ before_install:
     - export PLUGIN_NAME=redmine_tags
     - export REDMINE_PATH=$HOME/redmine
     - svn co http://svn.redmine.org/redmine/tags/$REDMINE_VER $REDMINE_PATH
+    - git clone https://github.com/ZitecCOM/redmine_testing_gems.git $REDMINE_PATH/plugins/redmine_testing_gems
     - ln -s $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
     - cp config/database-$DB-travis.yml $REDMINE_PATH/config/database.yml
     - cd $REDMINE_PATH
 
 before_script:
     - echo "config.active_record.schema_format = :sql" >> config/additional_environment.rb
-    - bundle exec rake db:create db:migrate redmine:plugins:migrate db:structure:dump
+    - rake db:create db:migrate redmine:plugins:migrate db:structure:dump
 
 script:
-    - bundle exec rake redmine:plugins:test NAME=$PLUGIN_NAME
+    - rake redmine:plugins:test NAME=$PLUGIN_NAME
+    - rake redmine:plugins:spec RAILS_ENV=test NAME=$PLUGIN_NAME

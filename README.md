@@ -3,6 +3,7 @@
 Allows marking up different models in Redmine with tags.
 Inspired by original `redmine_tags` of Eric Davis.
 
+
 ## Supported models
 
 - Issues
@@ -31,6 +32,36 @@ Inspired by original `redmine_tags` of Eric Davis.
     ```
 
 3. Restart your Redmine web server.
+
+
+## Running tests
+
+Make sure you have the latest database structure loaded to the test database:
+
+```
+rake db:structure:dump
+rake db:drop db:create db:structure:load RAILS_ENV=test
+```
+
+For the minitest suite run:
+
+```
+rake redmine:plugins:test NAME=redmine_tags
+```
+
+For the rspec suite you need to have the
+[redmine_testing_gems](https://github.com/ZitecCOM/redmine_testing_gems) plugin:
+
+```
+git clone https://github.com/ZitecCOM/redmine_testing_gems.git
+bundle install
+```
+
+After you cloned the plugin, run the follwing command:
+
+```
+rake redmine:plugins:spec RAILS_ENV=test NAME=redmine_tags
+```
 
 
 ## Removal
