@@ -28,7 +28,7 @@ Inspired by original `redmine_tags` of Eric Davis.
 
     ```
     bundle install
-    rake redmine:plugins:migrate NAME=redmine_tags
+    rake redmine:plugins:migrate NAME=redmine_tags RAILS_ENV=production
     ```
 
 3. Restart your Redmine web server.
