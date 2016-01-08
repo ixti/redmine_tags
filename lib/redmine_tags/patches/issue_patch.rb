@@ -25,7 +25,6 @@ module RedmineTags
         base.extend(ClassMethods)
         base.send(:include, InstanceMethods)
         base.class_eval do
-          unloadable
           acts_as_taggable
 
           alias_method_chain :copy_from, :redmine_tags
