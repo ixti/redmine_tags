@@ -24,7 +24,6 @@ module RedmineTags
       def self.included(base)
         base.extend ClassMethods
         base.class_eval do
-          unloadable
           acts_as_taggable
 
           searchable_options[:columns] << "#{ ActsAsTaggableOn::Tag.table_name }.name"

@@ -27,7 +27,6 @@ module RedmineTags
       def self.included(base)
         base.send :include, InstanceMethods
         base.class_eval do
-          unloadable
           alias_method :statement_original, :statement
           alias_method :statement, :statement_extended
           alias_method :available_filters_original, :available_filters

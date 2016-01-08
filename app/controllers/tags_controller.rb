@@ -1,5 +1,4 @@
 class TagsController < ApplicationController
-  unloadable
   before_action :require_admin
   before_action :find_tag, only: [:edit, :update]
   before_action :bulk_find_tags, only: [:context_menu, :merge, :destroy]
