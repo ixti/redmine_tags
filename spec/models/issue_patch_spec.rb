@@ -8,21 +8,8 @@ describe Issue, type: :model do
     expect(Issue.included_modules).to include(patch)
   end
 
-  def create_issue(project, tags, author, tracker, status)
-    issue = build(
-      :issue,
-      project: project,
-      author:  author,
-      tracker: tracker,
-      status:  status
-    )
-    issue.tag_list = tags
-    issue.save
-    issue
-  end
-
   context 'with default settings' do
-    let(:author)        { create :user }
+    let(:author)        { create :admin }
     let(:priority)      { create :issue_priority }
     let(:status_open)   { create :issue_status }
     let(:status_closed) { create :issue_status, is_closed: true }
@@ -42,11 +29,11 @@ describe Issue, type: :model do
 
     before :example do
       allow(User).to receive(:current).and_return(author)
-      create_issue(project_1, %w{a1 a2}, author, tracker, status_open)
-      create_issue(project_1, %w{a2 a3}, author, tracker, status_open)
-      create_issue(project_1, %w{a4 a5}, author, tracker, status_closed)
-      create_issue(project_2, %w{b6 b7}, author, tracker, status_closed)
-      create_issue(project_2, %w{b8 b9}, author, tracker, status_open)
+      create_issue(project_1, %w{a1 a2}, author, tracker, status_open, priority)
+      create_issue(project_1, %w{a2 a3}, author, tracker, status_open, priority)
+      create_issue(project_1, %w{a4 a5}, author, tracker, status_closed, priority)
+      create_issue(project_2, %w{b6 b7}, author, tracker, status_closed, priority)
+      create_issue(project_2, %w{b8 b9}, author, tracker, status_open, priority)
     end
 
     it 'returns a list of distinct tags' do
