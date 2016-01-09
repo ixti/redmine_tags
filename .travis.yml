@@ -6,8 +6,8 @@ services:
 
 rvm:
     - 2.0.0
-    - 2.1.7
-    - 2.2.3
+    - 2.1.8
+    - 2.2.4
     - 2.3.0
     - jruby
 
@@ -29,8 +29,8 @@ env:
 before_install:
     - export PLUGIN_NAME=redmine_tags
     - export REDMINE_PATH=$HOME/redmine
-    - git clone https://github.com/redmine/redmine.git --branch $REDMINE_VER $REDMINE_PATH
-    - git clone https://github.com/ZitecCOM/redmine_testing_gems.git $REDMINE_PATH/plugins/redmine_testing_gems
+    - svn co http://svn.redmine.org/redmine/tags/$REDMINE_VER $REDMINE_PATH
+    - git clone https://github.com/ZitecCOM/redmine_testing_gems.git --depth 1 $REDMINE_PATH/plugins/redmine_testing_gems
     - ln -s $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
     - cp config/database-$DB-travis.yml $REDMINE_PATH/config/database.yml
     - cd $REDMINE_PATH
