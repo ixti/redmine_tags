@@ -50,12 +50,10 @@ module RedmineTags
         # === Parameters
         # * <i>options</i> = (optional) Options hash of
         #   * project   - Project to search in.
-        #   * open_only - Boolean. Whenever search within open issues only.
         #   * name_like - String. Substring to filter found tags.
         def available_tags(options = {})
           ids_scope = WikiPage.select("#{WikiPage.table_name}.id").joins(:wiki => :project)
           ids_scope = ids_scope.on_project(options[:project]) if options[:project]
-          ids_scope = ids_scope.open if options[:open_only]
           conditions = ['']
 
           sql_query = ids_scope.to_sql
