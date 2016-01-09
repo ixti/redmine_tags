@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-require_dependency 'wiki_page'
-
 module RedmineTags
   module Patches
     module WikiPagePatch
