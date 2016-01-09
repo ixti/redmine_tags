@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Issue, type: :model do
+  include SetupSupport
+
   it 'is patched with RedmineTags::Patches::IssuePatch' do
     patch = RedmineTags::Patches::IssuePatch
     expect(Issue.included_modules).to include(patch)
@@ -40,11 +42,7 @@ describe Issue, type: :model do
 
     before :example do
       allow(User).to receive(:current).and_return(author)
-      create_issue(project_1, %w{a1 a2}, author, tracker, status_open)
-      create_issue(project_1, %w{a2 a3}, author, tracker, status_open)
-      create_issue(project_1, %w{a4 a5}, author, tracker, status_closed)
-      create_issue(project_2, %w{b6 b7}, author, tracker, status_closed)
-      create_issue(project_2, %w{b8 b9}, author, tracker, status_open)
+      create_issues_with_tags
     end
 
     it 'returns a list of distinct tags' do
