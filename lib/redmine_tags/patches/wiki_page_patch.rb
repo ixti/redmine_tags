@@ -81,3 +81,7 @@ module RedmineTags
     end
   end
 end
+
+base = WikiPage
+patch = RedmineTags::Patches::WikiPagePatch
+base.send(:include, patch) unless base.included_modules.include?(patch)

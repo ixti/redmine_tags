@@ -16,11 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-require_dependency 'queries_helper'
-if ActiveSupport::Dependencies::search_for_file('issue_queries_helper')
-  require_dependency 'issue_queries_query'
-end
-
 module RedmineTags
   module Patches
     module QueriesHelperPatch
@@ -47,3 +42,7 @@ module RedmineTags
     end
   end
 end
+
+base = QueriesHelper
+patch = RedmineTags::Patches::QueriesHelperPatch
+base.send(:include, patch) unless base.included_modules.include?(patch)

@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-require_dependency 'issue'
-
 module RedmineTags
   module Patches
     module IssuePatch
@@ -177,3 +175,7 @@ module RedmineTags
     end
   end
 end
+
+base = Issue
+patch = RedmineTags::Patches::IssuePatch
+base.send(:include, patch) unless base.included_modules.include?(patch)
