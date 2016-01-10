@@ -62,37 +62,29 @@ module RedmineTags
         #   * open_only - Boolean. Whenever search within open issues only.
         #   * name_like - String. Substring to filter found tags.
         def available_tags(options = {})
-          ids_scope = Issue.visible.select("#{ Issue.table_name }.id").joins(:project)
-          ids_scope = ids_scope.on_project(options[:project]) if options[:project]
-          ids_scope = ids_scope.open.joins(:status) if options[:open_only]
-          conditions = ['']
+          issues_scope = Issue.visible.select('issues.id').joins(:project)
+          issues_scope = issues_scope.on_project(options[:project]) if options[:project]
+          issues_scope = issues_scope.joins(:status).open if options[:open_only]
 
-          sql_query = ids_scope.to_sql
+          result_scope = ActsAsTaggableOn::Tag
+            .joins(:taggings)
+            .select('tags.id, tags.name, tags.taggings_count, COUNT(taggings.id) as count')
+            .group('tags.id, tags.name, tags.taggings_count')
+            .where(taggings: { taggable_type: 'Issue', taggable_id: issues_scope})
 
-          conditions[0] << <<-SQL
-            tag_id IN (
-              SELECT taggings.tag_id
-                FROM taggings
-              WHERE taggings.taggable_id IN (
-                  #{ sql_query }
-                )
-                AND taggings.taggable_type = 'Issue'
-            )
-          SQL
-          # limit to the tags matching given %name_like%
           if options[:name_like]
-            conditions[0] << case self.connection.adapter_name
+            matcher = "%#{options[:name_like].downcase}%"
+
+            case connection.adapter_name
             when 'PostgreSQL'
-              "AND tags.name ILIKE ?"
+              result_scope = result_scope.where('tags.name ILIKE ?', matcher)
             else
-              "AND tags.name LIKE ?"
+              result_scope = result_scope.where('tags.name LIKE ?', matcher)
             end
-            conditions << "%#{options[:name_like].downcase}%"
+
           end
 
-          # TODO: which one of these to keep?
-          self.specific_tag_counts(conditions: conditions, taggable_id_sql: sql_query)
-          # self.all_tag_counts(:conditions => conditions, :order => "tags.name ASC")
+          result_scope
         end
 
         def remove_unused_tags!
@@ -102,63 +94,6 @@ module RedmineTags
             )
           SQL
           unused.each(&:destroy)
-        end
-
-        ##
-        # Calculate the tag counts for all tags.
-        #
-        # @param [Hash] options Options:
-        #   * :start_at   - Restrict the tags to those created after a certain time
-        #   * :end_at     - Restrict the tags to those created before a certain time
-        #   * :conditions - A piece of SQL conditions to add to the query
-        #   * :limit      - The maximum number of tags to return
-        #   * :order      - A piece of SQL to order by. Eg 'tags.count desc' or 'taggings.created_at desc'
-        #   * :at_least   - Exclude tags with a frequency less than the given value
-        #   * :at_most    - Exclude tags with a frequency greater than the given value
-        #   * :on         - Scope the find to only include a certain context
-        def specific_tag_counts(options = {})
-          options.assert_valid_keys :start_at, :end_at, :conditions, :at_least, :at_most, :order, :limit, :on, :id, :taggable_id_sql
-          scope = {}
-          ## Generate conditions:
-          options[:conditions] = sanitize_sql(options[:conditions]) if options[:conditions]
-          start_at_conditions = sanitize_sql(["taggings.created_at >= ?", options.delete(:start_at)]) if options[:start_at]
-          end_at_conditions = sanitize_sql(["taggings.created_at <= ?", options.delete(:end_at)])   if options[:end_at]
-          taggable_conditions = sanitize_sql(["taggings.taggable_type = ?", base_class.name])
-          taggable_conditions << sanitize_sql([" AND taggings.taggable_id = ?", options.delete(:id)])  if options[:id]
-          taggable_conditions << sanitize_sql([" AND taggings.context = ?", options.delete(:on).to_s]) if options[:on]
-          tagging_conditions = [taggable_conditions, scope[:conditions],
-            start_at_conditions, end_at_conditions].compact.reverse
-          tag_conditions = [options[:conditions]].compact.reverse
-          # Generate joins:
-          taggable_join = "INNER JOIN #{ table_name } ON #{ table_name }.#{ primary_key } = taggings.taggable_id"
-          # Current model is STI descendant, so add type checking to the join condition
-          taggable_join << " AND #{ table_name }.#{ inheritance_column } = '#{ name }'" unless descends_from_active_record?
-          tagging_joins = [taggable_join, scope[:joins]].compact
-          tag_joins = [].compact
-          # Generate scope:
-          tagging_scope = ActsAsTaggableOn::Tagging.select("taggings.tag_id, COUNT(taggings.tag_id) AS tags_count")
-          tag_scope = ActsAsTaggableOn::Tag.select("tags.*, taggings.tags_count AS count")
-            .order(options[:order]).limit(options[:limit])
-          # Joins and conditions
-          tagging_joins.each {|join| tagging_scope = tagging_scope.joins join }
-          tagging_conditions.each {|condition| tagging_scope = tagging_scope.where condition }
-          tag_joins.each {|join| tag_scope = tag_scope.joins join }
-          tag_conditions.each {|condition| tag_scope = tag_scope.where(condition) }
-          # GROUP BY and HAVING clauses:
-          at_least = sanitize_sql(["COUNT(taggings.tag_id) >= ?", options.delete(:at_least)]) if options[:at_least]
-          at_most = sanitize_sql(["COUNT(taggings.tag_id) <= ?", options.delete(:at_most)]) if options[:at_most]
-          having = ["COUNT(taggings.tag_id) > 0", at_least, at_most].compact.join(' AND ')
-          group_columns = "taggings.tag_id"
-          # Append the current scope to the scope, because we can't use scope(:find) in RoR 3.0 anymore:
-          scoped_select = "#{ table_name }.#{ primary_key }"
-          select_query = "#{ select(scoped_select).to_sql }"
-          select_query = options[:taggable_id_sql] if options[:taggable_id_sql]
-          res = ActiveRecord::Base.connection.select_all(select_query).map { |item| item.values }.flatten.compact.join(",")
-          res = "NULL" if res.blank?
-          tagging_scope = tagging_scope.where("taggings.taggable_id IN(#{ res })")
-          tagging_scope = tagging_scope.group(group_columns).having(having)
-          tag_scope = tag_scope.joins("JOIN (#{ tagging_scope.to_sql }) AS taggings ON taggings.tag_id = tags.id")
-          tag_scope
         end
       end
 

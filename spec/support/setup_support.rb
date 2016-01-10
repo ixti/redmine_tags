@@ -10,8 +10,12 @@ module SetupSupport
       status:  status,
       tracker: tracker
     )
-    issue.tag_list = tags
+    issue.tag_list = tags if tags.any?
     issue.save!
+    if status.is_closed?
+      issue.status = status
+      issue.save!
+    end
     issue
   end
 end
