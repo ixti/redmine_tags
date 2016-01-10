@@ -1,9 +1,8 @@
 module LoginSupport
   private
 
-  def login_as_admin
-    admin = create :admin
-    @request.session[:user_id] = admin.id
-    allow(User).to receive(:current).and_return(admin)
+  def login_as(user)
+    @request.session[:user_id] = user.id
+    allow(User).to receive(:current).and_return(user)
   end
 end

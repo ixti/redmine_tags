@@ -6,7 +6,9 @@ describe TagsController, type: :controller do
   render_views
 
   context 'with default settings' do
+    let(:admin)         { create :admin }
     let(:author)        { create :user }
+    let(:role)          { create :role, :manager }
     let(:priority)      { create :issue_priority }
     let(:status_open)   { create :issue_status }
     let(:status_closed) { create :issue_status, is_closed: true }
@@ -14,18 +16,32 @@ describe TagsController, type: :controller do
     let(:project_1) do
       project = create :project
       project.trackers = [tracker]
-      project.save
+      project.save!
+      member = create(
+        :member,
+        project_id: project.id,
+        role_ids:   [role.id],
+        user_id:    author.id
+      )
+      create :member_role, member_id: member.id, role_id: role.id
       project
     end
     let(:project_2) do
       project = create :project
       project.trackers = [tracker]
-      project.save
+      project.save!
+      member = create(
+        :member,
+        project_id: project.id,
+        role_ids:   [role.id],
+        user_id:    author.id
+      )
+      create :member_role, member_id: member.id, role_id: role.id
       project
     end
 
     before :example do
-      login_as_admin
+      login_as admin
       create_issue(project_1, %w{a1 a2}, author, tracker, status_open, priority)
       create_issue(project_1, %w{a2 a3}, author, tracker, status_open, priority)
       create_issue(project_1, %w{a4 a5}, author, tracker, status_closed, priority)
