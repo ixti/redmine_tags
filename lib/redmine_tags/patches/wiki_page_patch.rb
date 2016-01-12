@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-require_dependency 'wiki_page'
-
 module RedmineTags
   module Patches
     module WikiPagePatch
@@ -26,7 +24,7 @@ module RedmineTags
         base.class_eval do
           acts_as_taggable
 
-          searchable_options[:columns] << "#{ ActsAsTaggableOn::Tag.table_name }.name"
+          searchable_options[:columns] << "tags.name"
           searchable_options[:preload] << :tags
           old_scope = searchable_options[:scope]
           searchable_options[:scope] = lambda do |options|
@@ -59,9 +57,9 @@ module RedmineTags
 
           conditions[0] << <<-SQL
             tag_id IN (
-              SELECT #{ActsAsTaggableOn::Tagging.table_name}.tag_id
-                FROM #{ActsAsTaggableOn::Tagging.table_name}
-               WHERE #{ActsAsTaggableOn::Tagging.table_name}.taggable_id IN (#{sql_query}) AND #{ActsAsTaggableOn::Tagging.table_name}.taggable_type = 'WikiPage'
+              SELECT taggings.tag_id
+                FROM taggings
+               WHERE taggings.taggable_id IN (#{sql_query}) AND taggings.taggable_type = 'WikiPage'
             )
           SQL
 
@@ -69,15 +67,19 @@ module RedmineTags
           if options[:name_like]
             conditions[0] << case self.connection.adapter_name
                                when 'PostgreSQL'
-                                 "AND #{ActsAsTaggableOn::Tag.table_name}.name ILIKE ?"
+                                 "AND tags.name ILIKE ?"
                                else
-                                 "AND #{ActsAsTaggableOn::Tag.table_name}.name LIKE ?"
+                                 "AND tags.name LIKE ?"
                              end
             conditions << "%#{options[:name_like].downcase}%"
           end
-          self.all_tag_counts(:conditions => conditions, :order => "#{ActsAsTaggableOn::Tag.table_name}.name ASC")
+          self.all_tag_counts(:conditions => conditions, :order => "tags.name ASC")
         end
       end
     end
   end
 end
+
+base = WikiPage
+patch = RedmineTags::Patches::WikiPagePatch
+base.send(:include, patch) unless base.included_modules.include?(patch)
