@@ -20,3 +20,9 @@ tr:
   issues_sort_order_desc: Azalan
 
   auto_complete_new_tag: Yeni ekle...
+  
+  issue_tags_label_add_tag: + etiket ekle
+  issue_tags_manage_tags: Etiketleri yönet
+  issue_tags_tag: Etiket
+  issue_tags_button_merge: Birleştir
+  issue_tags_label_merge: Seçili etiketleri birleştir
