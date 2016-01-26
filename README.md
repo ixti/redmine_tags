@@ -1,4 +1,6 @@
-# Redmine Tags [![Build Status](https://travis-ci.org/ixti/redmine_tags.svg?branch=master)](https://travis-ci.org/ixti/redmine_tags)
+# Redmine Tags
+
+[![Build Status](https://travis-ci.org/ixti/redmine_tags.svg?branch=master)](https://travis-ci.org/ixti/redmine_tags)
 
 Allows marking up different models in Redmine with tags.
 Inspired by original `redmine_tags` of Eric Davis.
@@ -12,19 +14,20 @@ Inspired by original `redmine_tags` of Eric Davis.
 
 ## Requirements
 
+- Ruby `>= 2.0.0`
 - Redmine `>= 3.0.0`
 
 
 ## Installing
 
-1. Clone this repository into `redmine/plugins/redmine_tags`
+1. Clone this repository into `redmine/plugins/redmine_tags`.
 
     ```
     cd redmine/plugins
     git clone https://github.com/ixti/redmine_tags.git
     ```
 
-2. Install dependencies and migrate database:
+2. Install dependencies and migrate database.
 
     ```
     bundle install
@@ -43,14 +46,9 @@ rake db:structure:dump
 rake db:drop db:create db:structure:load RAILS_ENV=test
 ```
 
-For the minitest suite run:
-
-```
-rake redmine:plugins:test NAME=redmine_tags
-```
-
-For the rspec suite you need to have the
-[redmine_testing_gems](https://github.com/ZitecCOM/redmine_testing_gems) plugin:
+You need to have the
+[redmine_testing_gems](https://github.com/ZitecCOM/redmine_testing_gems)
+plugin:
 
 ```
 git clone https://github.com/ZitecCOM/redmine_testing_gems.git
