@@ -27,3 +27,17 @@ Redmine::Plugin.register :redmine_tags do
     },
     partial:  'tags/settings'
 end
+
+Rails.application.config.after_initialize do
+  test_dependencies = { redmine_testing_gems: '1.3.1' }
+  current_plugin = Redmine::Plugin.find(:redmine_tags)
+  check_dependencies = proc do |plugin, version|
+    begin
+      current_plugin.requires_redmine_plugin(plugin, version)
+    rescue Redmine::PluginNotFound
+      raise Redmine::PluginNotFound,
+        "Redmine Tags depends on plugin: #{plugin} version: #{version}"
+    end
+  end
+  test_dependencies.each(&check_dependencies) if Rails.env.test?
+end

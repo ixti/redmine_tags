@@ -6,7 +6,7 @@ describe TagsController, type: :controller do
   render_views
 
   context 'with default settings' do
-    let(:admin)         { create :admin }
+    let(:admin)         { create :user, :admin }
     let(:author)        { create :user }
     let(:role)          { create :role, :manager }
     let(:priority)      { create :issue_priority }

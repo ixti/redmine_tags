@@ -51,7 +51,7 @@ You need to have the
 plugin:
 
 ```
-git clone https://github.com/ZitecCOM/redmine_testing_gems.git
+git clone https://github.com/ZitecCOM/redmine_testing_gems.git --branch 1.3.1
 bundle install
 ```
 
