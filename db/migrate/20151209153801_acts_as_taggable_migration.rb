@@ -33,7 +33,10 @@ class ActsAsTaggableMigration < ActiveRecord::Migration
 
     # AddMissingUniqueIndices
     unless column_exists?(:tags, :taggings_count)
-      add_index :tags, :name, unique: true
+      unless index_exists?(:tags, :name)
+        add_index :tags, :name, unique: true
+      end
+
       remove_index :taggings, :tag_id
 
       # redmine_crm skips this index
