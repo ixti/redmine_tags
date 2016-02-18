@@ -1,3 +1,7 @@
+<%
+  @settings = ActionController::Parameters.new if !@settings || @settings.blank?
+%>
+
 <p>
   <%= label_tag 'settings[issues_sidebar]', l(:issues_sidebar) %>
   <%= select_tag 'settings[issues_sidebar]', options_for_select(%w(none list cloud simple_cloud).collect{|v| [l("issue_tags_sidebar_#{ v }"), v]}, @settings[:issues_sidebar]) %>

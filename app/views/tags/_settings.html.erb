@@ -1,6 +1,17 @@
-<%  tags_tabs = [{ name: 'general', partial: 'tags/general',
-        label: :label_general },
-      { name: 'manage_tags', partial: 'tags/manage_tags',
-        label: :issue_tags_manage_tags }] %>
-<%= render_tabs tags_tabs %>
+<%
+  tags_tabs = [
+    {
+      name:    'general',
+      partial: 'tags/general',
+      label:   :label_general
+    },
+    {
+      name:    'manage_tags',
+      partial: 'tags/manage_tags',
+      label:   :issue_tags_manage_tags
+    }
+  ]
+%>
+
 <% html_title l(:label_settings), l(:tags) %>
+<%= render_tabs tags_tabs %>
