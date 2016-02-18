@@ -20,11 +20,27 @@ class ActsAsTaggableMigration < ActiveRecord::Migration
       add_index :taggings, [:taggable_id, :taggable_type, :context]
     end
 
+    # redmine_crm skips some collumns when creating the taggings table
+    unless column_exists?(:taggings, :context)
+      add_column :taggings, :context, :string, limit: 128
+    end
+
+    unless column_exists?(:taggings, :tagger_id)
+      change_table :taggings do |t|
+        t.references :tagger, polymorphic: true
+      end
+    end
+
     # AddMissingUniqueIndices
     unless column_exists?(:tags, :taggings_count)
       add_index :tags, :name, unique: true
       remove_index :taggings, :tag_id
-      remove_index :taggings, [:taggable_id, :taggable_type, :context]
+
+      # redmine_crm skips this index
+      if index_exists?(:taggings, [:taggable_id, :taggable_type, :context])
+        remove_index :taggings, [:taggable_id, :taggable_type, :context]
+      end
+
       add_index(
         :taggings,
         [
