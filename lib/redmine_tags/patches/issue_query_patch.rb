@@ -14,7 +14,9 @@ module RedmineTags
 
       module InstanceMethods
         def statement_extended
-          filter  = filters.delete 'tags'
+          if filters
+            filter  = filters.delete 'tags'
+          end
           clauses = statement_original || ''
           if filter
             filters.merge! 'tags' => filter
