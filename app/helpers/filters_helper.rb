@@ -23,12 +23,19 @@ module FiltersHelper
   # link_to 'bazbaz', link_to_filter_options filters
   def link_to_filter_options(filters)
     options = { controller: 'issues', action: 'index', set_filter: 1,
-      fields: [], values: {}, operators: {} }
+      fields: [], values: {}, operators: {}, f:[], v: {}, op: {} }
+
     filters.each do |f|
       name, operator, value = f
-      options[:fields].push name
+
+      options[:fields].push(name)
+      options[:f].push(name)
+
       options[:operators][name] = operator
+      options[:op][name]        = operator
+
       options[:values][name] = [value]
+      options[:v][name]      = [value]
     end
     options
   end
