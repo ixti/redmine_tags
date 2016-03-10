@@ -31,13 +31,13 @@ before_install:
     - cd $REDMINE_PATH
     - echo "gem 'rake', '< 11.0'" >> Gemfile
     - cd plugins/redmine_testing_gems
-    - echo `pwd`
     - make install.all
 
 before_script:
+    - cd $REDMINE_PATH
     - bundle exec rake db:create db:migrate redmine:plugins:migrate RAILS_ENV=test
 
 script:
+    - cd $REDMINE_PATH
     - bundle exec rake redmine:plugins:spec RAILS_ENV=test NAME=$PLUGIN_NAME
-    - echo `pwd`
     - testem ci -R dot --file plugins/redmine_tags/testem.js
