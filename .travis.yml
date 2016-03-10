@@ -31,6 +31,7 @@ before_install:
     - cd $REDMINE_PATH
     - echo "gem 'rake', '< 11.0'" >> Gemfile
     - cd plugins/redmine_testing_gems
+    - echo `pwd`
     - make install.all
 
 before_script:
