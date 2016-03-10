@@ -17,7 +17,7 @@ Redmine::Plugin.register :redmine_tags do
 
   requires_redmine version_or_higher: '3.0.0'
 
-  settings \
+  settings(
     default:  {
       issues_sidebar:    'none',
       issues_show_count: 0,
@@ -26,10 +26,11 @@ Redmine::Plugin.register :redmine_tags do
       issues_sort_order: 'asc'
     },
     partial: 'tags/settings'
+  )
 end
 
 Rails.application.config.after_initialize do
-  test_dependencies = {redmine_testing_gems: '1.3.1'}
+  test_dependencies = {redmine_testing_gems: '1.3.2'}
   current_plugin = Redmine::Plugin.find(:redmine_tags)
   check_dependencies = proc do |plugin, version|
     begin
