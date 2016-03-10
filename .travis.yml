@@ -29,6 +29,7 @@ before_install:
     - ln -s $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
     - cp config/database-$DB-travis.yml $REDMINE_PATH/config/database.yml
     - cd $REDMINE_PATH
+    - echo "gem 'rake', '< 11.0'" >> Gemfile
 
 before_script:
     - bundle exec rake db:create db:migrate redmine:plugins:migrate RAILS_ENV=test
