@@ -29,7 +29,7 @@ before_install:
   - export REDMINE_PATH=$HOME/redmine
   - git clone https://github.com/redmine/redmine.git --branch $REDMINE_VER --depth 1 $REDMINE_PATH
   - git clone https://github.com/ZitecCOM/redmine_testing_gems.git --branch feature/testem-integration --depth 1 $REDMINE_PATH/plugins/redmine_testing_gems
-  - cp $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
+  - cp -R $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
   - cp config/database-$DB-travis.yml $REDMINE_PATH/config/database.yml
   - cd $REDMINE_PATH
   - echo "gem 'rake', '< 11.0'" >> Gemfile
