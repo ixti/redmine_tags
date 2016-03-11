@@ -43,7 +43,4 @@ before_script:
 
 script:
   - bundle exec rake redmine:plugins:spec RAILS_ENV=test NAME=$PLUGIN_NAME
-  - nodejs -v
-  - cd $REDMINE_PATH/plugins/redmine_tags
-  - ls -la ../redmine_testing_gems
-  - testem ci -R dot
+  - cd $REDMINE_PATH/plugins/redmine_tags && testem ci
