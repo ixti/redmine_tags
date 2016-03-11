@@ -31,6 +31,10 @@ before_install:
     - cd $REDMINE_PATH
     - echo "gem 'rake', '< 11.0'" >> Gemfile
     - cd plugins/redmine_testing_gems
+    - npm cache clean -f
+    - npm install -g n
+    - n stable
+    - npm install -g npm
     - make install.all
     - cd $REDMINE_PATH
 
