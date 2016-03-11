@@ -31,9 +31,8 @@ before_install:
   - git clone https://github.com/ZitecCOM/redmine_testing_gems.git --branch feature/testem-integration --depth 1 $REDMINE_PATH/plugins/redmine_testing_gems
   - cp -R $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
   - cp config/database-$DB-travis.yml $REDMINE_PATH/config/database.yml
-  - cd $REDMINE_PATH
-  - echo "gem 'rake', '< 11.0'" >> Gemfile
-  - cd plugins/redmine_testing_gems
+  - echo "gem 'rake', '< 11.0'" >> $REDMINE_PATH/Gemfile
+  - cd $REDMINE_PATH/plugins/redmine_testing_gems
   - nvm install 5.8.0
   - make install.all
   - cd $REDMINE_PATH
