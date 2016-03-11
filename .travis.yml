@@ -43,4 +43,4 @@ before_script:
 
 script:
   - bundle exec rake redmine:plugins:spec RAILS_ENV=test NAME=$PLUGIN_NAME
-  - cd $REDMINE_PATH/plugins/redmine_tags && testem ci --launch PhantomJS
+  - cd $REDMINE_PATH/plugins/redmine_tags && testem ci -R dot --launch PhantomJS
