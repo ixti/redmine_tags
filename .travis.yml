@@ -29,7 +29,7 @@ before_install:
   - export REDMINE_PATH=$HOME/redmine
   - git clone https://github.com/redmine/redmine.git --branch $REDMINE_VER --depth 1 $REDMINE_PATH
   - git clone https://github.com/ZitecCOM/redmine_testing_gems.git --branch feature/testem-integration --depth 1 $REDMINE_PATH/plugins/redmine_testing_gems
-  - ln -s $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
+  - cp $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
   - cp config/database-$DB-travis.yml $REDMINE_PATH/config/database.yml
   - cd $REDMINE_PATH
   - echo "gem 'rake', '< 11.0'" >> Gemfile
@@ -43,4 +43,7 @@ before_script:
 
 script:
   - bundle exec rake redmine:plugins:spec RAILS_ENV=test NAME=$PLUGIN_NAME
-  - cd $REDMINE_PATH/plugins/redmine_tags && testem ci -R dot
+  - nodejs -v
+  - cd $REDMINE_PATH/plugins/redmine_tags
+  - ls -la ../redmine_testing_gems
+  - testem ci -R dot
