@@ -34,7 +34,6 @@ before_install:
   - cd $REDMINE_PATH
   - echo "gem 'rake', '< 11.0'" >> Gemfile
   - cd plugins/redmine_testing_gems
-  - nvm --version
   - nvm install 5.8.0
   - make install.all
   - cd $REDMINE_PATH
@@ -44,4 +43,4 @@ before_script:
 
 script:
   - bundle exec rake redmine:plugins:spec RAILS_ENV=test NAME=$PLUGIN_NAME
-  - testem ci -R dot --file plugins/redmine_tags/testem.js
+  - cd $REDMINE_PATH/plugins/redmine_tags && testem ci -R dot
