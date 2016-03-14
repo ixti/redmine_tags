@@ -14,8 +14,12 @@ Inspired by original `redmine_tags` of Eric Davis.
 
 ## Requirements
 
-- Ruby `>= 2.0.0`
-- Redmine `>= 3.0.0`
+Recommended:
+- Ruby `2.1.8` or `2.2.4`
+- Redmine `3.1.4` or `3.2.1`
+
+While other versions of Ruby `2.x` and Redmine `3.x` are compatible, the
+versions above have the advantage of still being maintained.
 
 
 ## Installing
@@ -40,6 +44,7 @@ You need to have the
 [redmine_testing_gems](https://github.com/ZitecCOM/redmine_testing_gems)
 plugin installed.
 
+
 ### Rails
 
 Make sure you have the latest database structure loaded to the test database:
@@ -51,6 +56,7 @@ After you cloned the plugin, run the follwing command:
 ```bash
 bundle exec rake redmine:plugins:spec RAILS_ENV=test NAME=redmine_tags
 ```
+
 
 ### JavaScript
 
