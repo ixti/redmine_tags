@@ -1,7 +1,6 @@
 ul.tags { list-style: none; padding: 0px; }
 ul.tags li { margin: .25em 0px; }
 
-div.tags { text-align: center; }
 .tag-label { margin: .25em; }
 .tag-label-color {
     border: 1px solid rgba(0, 0, 0, 0.2);

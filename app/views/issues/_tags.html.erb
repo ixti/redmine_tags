@@ -1,8 +1,10 @@
 <% unless issue.tag_list.empty? %>
-  <tr>
-    <th><%= l :tags %>:</th>
-    <td colspan="3">
+  <div class="tags attribute">
+    <div class="label">
+      <span><%= l :tags %>:</span>
+    </div>
+    <div class="value">
       <%= safe_join(issue.tag_counts.collect {|t| render_tag_link(t, show_count: false, open_only: false) }, RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ') %>
-    </td>
-  </tr>
+    </div>
+  </div>
 <% end %>
