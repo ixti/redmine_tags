@@ -1,9 +1,12 @@
-<% unless issue.tag_list.empty? %>
-  <hr></hr>
-  <div id="redmine_tags">
-    <strong><%= l :tags %></strong>
-    <span>
-      <%= safe_join(issue.tag_counts.collect {|t| render_tag_link(t, show_count: false, open_only: false) }, RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ') %>
-    </span>
-  </div>
+<% if User.current.memberships.any? %>
+  <% unless issue.tag_list.empty? %>
+    <hr></hr>
+    <div id="redmine_tags">
+      <strong><%= l :tags %></strong>
+      <span>
+        <%= safe_join(issue.tag_counts.collect {|t| render_tag_link(t, show_count: false, open_only: false) }, RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ') %>
+      </span>
+    </div>
+  <% end %>
+  <% else %>
 <% end %>
