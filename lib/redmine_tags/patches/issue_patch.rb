@@ -61,7 +61,7 @@ module RedmineTags
             when 'PostgreSQL'
               result_scope = result_scope.where('tags.name ILIKE ?', matcher)
             else
-              result_scope = result_scope.where('tags.name LIKE ?', matcher)
+              result_scope = result_scope.where('tags.name LIKE ? COLLATE utf8_general_ci', matcher)
             end
 
           end
