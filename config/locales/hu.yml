@@ -1,0 +1,28 @@
+hu:
+  tags: Tagek
+  field_tags: Tagek
+  field_tag_list: Tagek
+  setting_issue_tags: Ticket tagek
+  issues_sidebar: Tagek megjelenítése oldalt
+  issues_show_count: Ticketek számának megjelenítése
+  issues_open_only: Csak nyitott ticketek mutatása
+  issues_sort_by: Tagek sorrendje
+  issues_use_colors: Színek használata
+
+  issue_tags_sidebar_none: Nincs
+  issue_tags_sidebar_list: Lista
+  issue_tags_sidebar_cloud: Felhő
+  issue_tags_sidebar_simple_cloud: Egyszerű felhő
+
+  issues_sort_by_name: Név
+  issues_sort_by_count: Ticketek száma
+  issues_sort_order_asc: Növekvő
+  issues_sort_order_desc: Csökkenő
+
+  auto_complete_new_tag: Új...
+
+  issue_tags_label_add_tag: + tag felvétele
+  issue_tags_manage_tags: Tagek kezelése
+  issue_tags_tag: Tag
+  issue_tags_button_merge: Egyesítés
+  issue_tags_label_merge: Kiválasztott tag-ek egyesítése
