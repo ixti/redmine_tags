@@ -1,0 +1,3 @@
+function truth() {
+  return true;
+}
