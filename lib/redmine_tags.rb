@@ -1,5 +1,5 @@
 module RedmineTags
   def self.settings
-    Setting[:plugin_redmine_tags]
+    ActionController::Parameters.new(Setting[:plugin_redmine_tags])
   end
 end
