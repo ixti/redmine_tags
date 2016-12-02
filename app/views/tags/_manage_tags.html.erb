@@ -14,7 +14,7 @@
     </thead>
     <tbody>
       <% tags.each do |tag| %>
-        <tr id="<%= tag.id %>" class="<%= cycle('odd', 'even') %> hascontextmenu">
+        <tr id="<%= tag.id %>" class="<%= cycle('odd', 'even') %>">
           <td class="checkbox hide-when-print">
             <%= check_box_tag 'ids[]', tag.id, false, id: nil %>
           </td>
@@ -29,7 +29,6 @@
       <% end %>
     </tbody>
   </table>
-  <%= context_menu tags_context_menu_path %>
 <% else %>
   <p class="nodata"><%= l :label_no_data %></p>
 <% end %>
