@@ -1,0 +1,28 @@
+ja:
+  tags: タグ
+  field_tags: タグ
+  field_tag_list: タグ
+  setting_issue_tags: チケットタグ
+  issues_sidebar: タグをサイドバーに表示する
+  issues_show_count: チケット数を表示する
+  issues_open_only: オープンしているチケットのみ表示する
+  issues_sort_by: タグのソート順
+  issues_use_colors: カラー表示する
+
+  issue_tags_sidebar_none: 表示しない
+  issue_tags_sidebar_list: リスト
+  issue_tags_sidebar_cloud: タグクラウド
+  issue_tags_sidebar_simple_cloud: タグクラウド(シンプル)
+
+  issues_sort_by_name: タグ名
+  issues_sort_by_count: チケット数
+  issues_sort_order_asc: 昇順
+  issues_sort_order_desc: 降順
+
+  auto_complete_new_tag: 新規追加...
+
+  issue_tags_label_add_tag: + タグの追加
+  issue_tags_manage_tags: タグの管理
+  issue_tags_tag: タグ
+  issue_tags_button_merge: 結合
+  issue_tags_label_merge: 選択したタグを結合します
