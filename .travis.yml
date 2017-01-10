@@ -14,6 +14,7 @@ rvm:
 matrix:
   allow_failures:
     - rvm: jruby
+    - rvm: 2.4.0
 
 gemfile:
     - $REDMINE_PATH/Gemfile
