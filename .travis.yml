@@ -17,9 +17,9 @@ matrix:
     - rvm: 2.4.0
       env: REDMINE_VER=3.2.4 DB=mysql
     - rvm: 2.4.0
-      env: REDMINE_VER=3.3.2 DB=postgresql
+      env: REDMINE_VER=3.3.2 DB=mysql
     - rvm: 2.4.0
-      env: REDMINE_VER=3.2.4 DB=mysql
+      env: REDMINE_VER=3.2.4 DB=postgresql
     - rvm: 2.4.0
       env: REDMINE_VER=3.3.2 DB=postgresql
 
