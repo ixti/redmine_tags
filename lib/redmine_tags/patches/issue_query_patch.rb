@@ -8,6 +8,7 @@ module RedmineTags
           alias_method :statement, :statement_extended
           alias_method :available_filters_original, :available_filters
           alias_method :available_filters, :available_filters_extended
+
           base.add_available_column QueryColumn.new(:tags)
         end
       end
@@ -39,10 +40,12 @@ module RedmineTags
 
         def available_filters_extended
           unless @available_filters
-            available_filters_original.merge!({ 'tags' => { name: l(:tags),
-              type: :list_optional, order: 6,
-              values: Issue.available_tags(project: project).collect {|t| [t.name, t.name] }
-            }})
+            filter = QueryFilter.new('tags',
+              type: :list_optional,
+              values: Issue.available_tags(project: project).collect {|t| [t.name, t.name]}
+            )
+
+            available_filters_original.merge!('tags' => filter)
           end
           @available_filters
         end
