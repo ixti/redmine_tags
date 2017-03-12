@@ -7,7 +7,8 @@ services:
 rvm:
     - 2.1.9
     - 2.2.5
-    - 2.3.1
+    - 2.3.3
+    - 2.4.0
     - jruby
 
 matrix:
@@ -18,12 +19,10 @@ gemfile:
     - $REDMINE_PATH/Gemfile
 
 env:
-    - REDMINE_VER=3.1.7 DB=mysql
     - REDMINE_VER=3.2.4 DB=mysql
-    - REDMINE_VER=3.3.1 DB=mysql
-    - REDMINE_VER=3.1.7 DB=postgresql
+    - REDMINE_VER=3.3.2 DB=mysql
     - REDMINE_VER=3.2.4 DB=postgresql
-    - REDMINE_VER=3.3.1 DB=postgresql
+    - REDMINE_VER=3.3.2 DB=postgresql
 
 before_install:
     - export PLUGIN_NAME=redmine_tags
