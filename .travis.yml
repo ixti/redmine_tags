@@ -12,7 +12,7 @@ rvm:
     - jruby
 
 matrix:
-  inclde:
+  include:
     - rvm: 2.4.0
     - env: REDMINE_VER=master DB=mysql
   allow_failures:
