@@ -24,6 +24,8 @@ module RedmineTags
             case op
             when '=', '!'
               issues = Issue.tagged_with(values_for('tags'), any: true)
+            when '&'
+              issues = Issue.tagged_with(values_for('tags'), match_all: true)
             when '!*'
               issues = Issue.tagged_with ActsAsTaggableOn::Tag.all.map(&:to_s), exclude: true
             else

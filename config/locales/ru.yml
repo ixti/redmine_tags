@@ -21,3 +21,4 @@ ru:
 
   auto_complete_new_tag: Добавить...
   issue_tags_label_add_tag: + добавить метку
+  match_all: match all
