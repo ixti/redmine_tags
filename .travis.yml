@@ -5,32 +5,35 @@ services:
     - postgresql
 
 rvm:
-    - 2.0.0
-    - 2.1.8
-    - 2.2.4
-    - 2.3.0
+    - 2.1.9
+    - 2.2.6
+    - 2.3.3
+    - 2.4.0
     - jruby
 
 matrix:
   allow_failures:
     - rvm: jruby
+    - rvm: 2.4.0
 
 gemfile:
     - $REDMINE_PATH/Gemfile
 
 env:
-    - REDMINE_VER=3.0.7 DB=mysql
-    - REDMINE_VER=3.1.3 DB=mysql
-    - REDMINE_VER=3.2.0 DB=mysql
-    - REDMINE_VER=3.0.7 DB=postgresql
-    - REDMINE_VER=3.1.3 DB=postgresql
-    - REDMINE_VER=3.2.0 DB=postgresql
+    - REDMINE_VER=3.1.7 DB=mysql
+    - REDMINE_VER=3.2.5 DB=mysql
+    - REDMINE_VER=3.3.1 DB=mysql
+    - REDMINE_VER=3.3.2 DB=mysql
+    - REDMINE_VER=3.1.7 DB=postgresql
+    - REDMINE_VER=3.2.5 DB=postgresql
+    - REDMINE_VER=3.3.1 DB=postgresql
+    - REDMINE_VER=3.3.2 DB=postgresql
 
 before_install:
     - export PLUGIN_NAME=redmine_tags
     - export REDMINE_PATH=$HOME/redmine
     - git clone https://github.com/redmine/redmine.git --branch $REDMINE_VER --depth 1 $REDMINE_PATH
-    - git clone https://github.com/ZitecCOM/redmine_testing_gems.git --branch 1.3.1 --depth 1 $REDMINE_PATH/plugins/redmine_testing_gems
+    - git clone https://github.com/ZitecCOM/redmine_testing_gems.git --branch 1.3.2 --depth 1 $REDMINE_PATH/plugins/redmine_testing_gems
     - ln -s $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
     - cp config/database-$DB-travis.yml $REDMINE_PATH/config/database.yml
     - cd $REDMINE_PATH

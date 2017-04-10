@@ -1,1 +1,1 @@
-gem 'acts-as-taggable-on', '3.5'
+gem 'acts-as-taggable-on', '~> 4.0'

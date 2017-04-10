@@ -7,10 +7,12 @@ zh:
   issues_show_count: 显示问题计数
   issues_open_only: 仅显示打开的问题
   issues_sort_by: 标签按何种方式排序
+  issues_use_colors: 使用颜色
 
   issue_tags_sidebar_none: 无
   issue_tags_sidebar_list: 列表显示
   issue_tags_sidebar_cloud: 云显示
+  issue_tags_sidebar_simple_cloud: 标签云
 
   issues_sort_by_name: 名称
   issues_sort_by_count: 问题计数

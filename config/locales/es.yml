@@ -1,0 +1,28 @@
+es:
+  tags: Etiquetas
+  field_tags: Etiquetas
+  field_tag_list: Etiquetas
+  setting_issue_tags: Etiquetas para peticiones
+  issues_sidebar: Mostrar etiquetas en panel lateral como
+  issues_show_count: Mostrar cantidad de peticiones
+  issues_open_only: Mostrar solo peticiones abiertas
+  issues_sort_by: Ordenar etiquetas por
+  issues_use_colors: Usar colores
+
+  issue_tags_sidebar_none: Ninguna
+  issue_tags_sidebar_list: Lista
+  issue_tags_sidebar_cloud: Nube
+  issue_tags_sidebar_simple_cloud: Nube simple
+
+  issues_sort_by_name: Nombre
+  issues_sort_by_count: Cantidad de peticiones
+  issues_sort_order_asc: Ascendente
+  issues_sort_order_desc: Descendente
+
+  auto_complete_new_tag: Agregar nueva...
+
+  issue_tags_label_add_tag: + agregar etiqueta
+  issue_tags_manage_tags: Manejar etiquetas
+  issue_tags_tag: Etiqueta
+  issue_tags_button_merge: Combinar
+  issue_tags_label_merge: Combinar etiquetas seleccionadas
