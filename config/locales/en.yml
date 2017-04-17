@@ -2,7 +2,7 @@ en:
   tags: Tags
   field_tags: Tags
   field_tag_list: Tags
-  setting_issue_tags: Issues Tags
+  setting_issue_tags: Issues tags
   issues_sidebar: Display tags on sidebar as
   issues_show_count: Display amount of issues
   issues_open_only: Display open issues only

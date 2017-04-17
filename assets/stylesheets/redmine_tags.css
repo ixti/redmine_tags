@@ -40,6 +40,7 @@ ul.tagit {
   background: white;
   padding: 0px;
   margin: 0px;
+  width: 96%;
 }
 
 ul.tagit li.tagit-choice {
@@ -87,10 +88,9 @@ ul.tagit li.tagit-choice .tagit-close .text-icon:hover {
 ul.tagit li.tagit-new input {
   font-size: 11px;
   background: white;
-  margin-bottom: 2px;
-  margin-left: 2px;
 }
 
 ul.tagit li.tagit-new {
-  padding: 0px;
+  padding: 0;
+  margin: 0;
 }

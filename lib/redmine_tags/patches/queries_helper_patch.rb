@@ -26,10 +26,11 @@ module RedmineTags
 
         def csv_content_with_redmine_tags(column, issue)
           value = column.value_object(issue)
-          if value.respond_to?(:collect)
+
+          if column.name == 'tags'
             value.collect {|v| csv_value(column, issue, v)}.compact.join(', ')
           else
-            csv_value(column, issue, value)
+            csv_content_without_redmine_tags(column, issue)
           end
         end
       end

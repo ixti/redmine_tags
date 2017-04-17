@@ -7,6 +7,7 @@ module RedmineTags
         base.class_eval do
           acts_as_taggable
 
+          safe_attributes 'tag_list'
           alias_method_chain :copy_from, :redmine_tags
 
           searchable_options[:columns] << "tags.name"
@@ -76,6 +77,16 @@ module RedmineTags
             )
           SQL
           unused.each(&:destroy)
+        end
+
+        def get_common_tag_list_from_multiple_issues(ids)
+          common_tags = ActsAsTaggableOn::Tag.joins(:taggings)
+            .select('tags.id', 'tags.name')
+            .where(:taggings => {:taggable_type => 'Issue', :taggable_id => ids})
+            .group('taggings.tag_id')
+            .having("count(*) = #{ids.count}").to_a
+
+          ActsAsTaggableOn::TagList.new(common_tags)
         end
       end
 
