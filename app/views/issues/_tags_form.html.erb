@@ -4,7 +4,7 @@
   tagSource: function(search, showChoices) {
     var that = this;
     $.ajax({
-      url: '#{escape_javascript auto_complete_issue_tags_path(@project)}',
+      url: '#{escape_javascript auto_complete_issue_tags_path(@issue.project)}',
       data: {q: search.term},
       success: function(choices) {
         showChoices(that._subtractArray(jQuery.parseJSON(choices), that.assignedTags()));
