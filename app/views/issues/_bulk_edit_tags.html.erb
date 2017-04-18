@@ -11,7 +11,7 @@
   tagSource: function(search, showChoices) {
     var that = this;
     $.ajax({
-      url: '#{escape_javascript auto_complete_issue_tags_path(@project)}',
+      url: '#{escape_javascript auto_complete_issue_tags_path(@project ? @project : @issues.first.project)}',
       data: {q: search.term},
       success: function(choices) {
         showChoices(that._subtractArray(jQuery.parseJSON(choices), that.assignedTags()));
@@ -21,6 +21,7 @@
   allowSpaces: true,
   placeholderText: '#{ l :issue_tags_label_add_tag }',
   caseSensitive: false,
+  autocomplete: false,
   removeConfirmation: true,
   showAutocompleteOnFocus: true,
   readOnly: #{@issue_params[:tag_list] == 'none'}
@@ -28,10 +29,8 @@
 
 <%= javascript_tag "function enableDisableWidget(element) {
     if ($(element).is(':checked')) {
-      console.log('checked')
       $('#issue_tag_list').tagit('readOnly', true)
     } else {
-      console.log('not checked')
       $('#issue_tag_list').tagit('readOnly', false)
     }
   };"
