@@ -1,3 +1,4 @@
+<% if @project.module_enabled?(:tags) && User.current.allowed_to?(:wiki_edit_tags, @project) %>
 <p id="wiki_tags">
   <%= label_tag l(:tags), nil, for: :wiki_page_tag_list %>
   <%= text_field_tag 'wiki_page[tag_list]', page.tag_list.to_s, class: 'hol',
@@ -23,3 +24,4 @@
     caseSensitive: false,
     removeConfirmation: true,
   });" %>
+<% end %>
