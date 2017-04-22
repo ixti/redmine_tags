@@ -35,6 +35,8 @@ Inspired by original `redmine_tags` of Eric Davis.
     ```
 
 3. Restart your Redmine web server.
+4. Assign edit permissions to roles.
+5. Enable Tags per project.
 
 
 ## Running tests
