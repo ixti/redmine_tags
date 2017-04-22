@@ -1,3 +1,4 @@
+<% if @project.module_enabled?(:tags) && User.current.allowed_to?(:issue_edit_tags, @project) %>
 <div class="tabular">
   <p id="issue_tags">
   <% issue = Issue.new project: issues.first.project if defined? issues %>
@@ -31,3 +32,4 @@
     showAutocompleteOnFocus: true,
   });" %>
 </div>
+<% end %>
