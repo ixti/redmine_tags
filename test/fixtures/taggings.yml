@@ -33,3 +33,9 @@ tagging_006:
   taggable_id: 6
   taggable_type: Issue
   context: tags
+
+tagging_007:
+  tag_id: 2
+  taggable_id: 6
+  taggable_type: Issue
+  context: tags
