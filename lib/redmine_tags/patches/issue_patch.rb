@@ -76,7 +76,7 @@ module RedmineTags
           common_tags = ActsAsTaggableOn::Tag.joins(:taggings)
             .select('tags.id', 'tags.name')
             .where(:taggings => {:taggable_type => 'Issue', :taggable_id => ids})
-            .group('taggings.tag_id')
+            .group('tags.id')
             .having("count(*) = #{ids.count}").to_a
 
           ActsAsTaggableOn::TagList.new(common_tags)
