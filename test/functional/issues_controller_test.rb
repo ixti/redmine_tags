@@ -83,7 +83,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
 
     assert_select 'input[type=hidden][name=?][value=?]', 'common_tags', 'Security'
-    assert_select 'input[name=?][value=?]', 'issue[tag_list]', 'Security'
+    assert_select 'input[name=?][value=?]', 'issue[new_tag_list]', 'Security'
   end
 
   def test_get_bulk_edit_should_not_display_tags_for_issues_without_common_tags
@@ -92,40 +92,41 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
 
     assert_select 'input[type=hidden][name=?][value=?]', 'common_tags', ''
-    assert_select 'input[name=?][value=?]', 'issue[tag_list]', ''
+    assert_select 'input[name=?][value=?]', 'issue[new_tag_list]', ''
   end
 
   def test_bulk_edit_with_no_common_tags_and_add_new_tag
     @request.session[:user_id] = 2
-    post :bulk_update, :ids => [5, 6], :issue => {:tag_list => 'Production'}, :common_tags => ''
+    post :bulk_update, :ids => [5, 6], :issue => {:new_tag_list => 'Production'}, :common_tags => ''
     assert_response 302
 
-    assert_equal ["Functional, Production"], Issue.find(5).tag_list
-    assert_equal ["Front End, Production"], Issue.find(6).tag_list
+    assert_equal ['Functional', 'Production'], Issue.find(5).tag_list.sort
+    assert_equal ['Front End', 'Production'], Issue.find(6).tag_list.sort
   end
 
 
   def test_bulk_edit_with_common_tags_and_new_add_tag
     @request.session[:user_id] = 2
-    post :bulk_update, :ids => [3, 4], :issue => {:tag_list => 'Functional'}, :common_tags => 'Production'
+    post :bulk_update, :ids => [3, 4], :issue => {:new_tag_list => 'Production, Functional'}, :common_tags => 'Production'
+
     assert_response 302
 
-    assert_equal ["Security, Production, Functional"], Issue.find(3).tag_list
-    assert_equal ["Production, Functional"], Issue.find(4).tag_list
+    assert_equal ['Production', 'Functional'], Issue.find(4).tag_list
+    assert_equal ['Security', 'Production', 'Functional'], Issue.find(3).tag_list
   end
 
   def test_bulk_edit_with_no_common_tags_add_same_tag
     @request.session[:user_id] = 2
-    post :bulk_update, :ids => [1, 4], :issue => {:tag_list => 'Security'}, :common_tags => ''
+    post :bulk_update, :ids => [1, 4], :issue => {:new_tag_list => 'Security'}, :common_tags => ''
     assert_response 302
 
     assert_equal ['Security'], Issue.find(1).tag_list
-    assert_equal ['Production, Security'], Issue.find(4).tag_list
+    assert_equal ['Production', 'Security'], Issue.find(4).tag_list.sort
   end
 
   def test_bulk_edit_with_common_tag_and_remove_common_tag
     @request.session[:user_id] = 2
-    post :bulk_update, :ids => [3, 4, 6], :issue => {:tag_list => ''}, :common_tags => 'Production'
+    post :bulk_update, :ids => [3, 4, 6], :issue => {:new_tag_list => ''}, :common_tags => 'Production'
     assert_response 302
 
     assert_equal ['Security'], Issue.find(3).tag_list
@@ -135,7 +136,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_bulk_edit_clear_all_tags
     @request.session[:user_id] = 2
-    post :bulk_update, :ids => [1, 3], :issue => {:tag_list => '__none__'}, :common_tags => 'Security'
+    post :bulk_update, :ids => [1, 3], :issue => {:new_tag_list => '__none__'}, :common_tags => 'Security'
     assert_response 302
 
     assert_equal [], Issue.find(1).tag_list

@@ -2,12 +2,12 @@
 
 <p>
 <label for="issue_tags"><%= l(:tags) %></label>
-<%= text_field_tag 'issue[tag_list]', tags %>
+<%= text_field_tag 'issue[new_tag_list]', tags %>
 <%= hidden_field_tag'common_tags', tags %>
 <label class="inline"><%= check_box_tag 'issue[tag_list]', '__none__', (@issue_params[:tag_list] == 'none'), :id => nil, :data => {:disables => '#issue_tag_list'}, :onclick => 'enableDisableWidget(this)' %><%= l(:button_clear) %></label>
 </p>
 
-<%= javascript_tag "$('#issue_tag_list').tagit({
+<%= javascript_tag "$('#issue_new_tag_list').tagit({
   tagSource: function(search, showChoices) {
     var that = this;
     $.ajax({

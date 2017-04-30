@@ -40,7 +40,7 @@ module RedmineTags
         common_tags = []
 
         common_tags = params[:common_tags].split(ActsAsTaggableOn.delimiter).collect(&:strip) if params[:common_tags].present?
-        tag_list = params[:issue][:tag_list].split(ActsAsTaggableOn.delimiter) if params[:issue] && !params[:issue][:tag_list].nil?
+        tag_list = params[:issue][:new_tag_list].split(ActsAsTaggableOn.delimiter) if params[:issue] && !params[:issue][:new_tag_list].nil?
 
         if common_tags && tag_list
           current_tags = issue.tag_list
@@ -59,7 +59,6 @@ module RedmineTags
           new_tags = current_tags.add(tags_to_add).remove(tags_to_remove)
 
           issue.tag_list = new_tags
-
           # without this when reload called in Issue#save all changes will be
           # gone :(
           issue.save_tags
