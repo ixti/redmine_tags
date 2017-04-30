@@ -101,8 +101,8 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_response 302
 
-    assert_equal ['Functional', 'Production'], Issue.find(4).tag_list
-    assert_equal ['Functional', 'Production', 'Security'], Issue.find(3).tag_list
+    assert_equal ['Production', 'Functional'], Issue.find(4).tag_list.sort
+    assert_equal ['Functional', 'Production', 'Security'], Issue.find(3).tag_list.sort
   end
 
   def test_bulk_edit_with_no_common_tags_add_same_tag
