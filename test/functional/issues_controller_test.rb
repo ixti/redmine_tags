@@ -90,8 +90,8 @@ class IssuesControllerTest < ActionController::TestCase
     post :bulk_update, :ids => [5, 6], :issue => {:new_tag_list => 'Production'}, :common_tags => ''
     assert_response 302
 
-    assert_equal ['Functional', 'Production'], Issue.find(5).tag_list.sort
-    assert_equal ['Front End', 'Production'], Issue.find(6).tag_list.sort
+    assert_equal ['Functional', 'Production'], Issue.find(5).tag_list
+    assert_equal ['Front End', 'Production'], Issue.find(6).tag_list
   end
 
 
@@ -101,8 +101,8 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_response 302
 
-    assert_equal ['Functional', 'Production'], Issue.find(4).tag_list.sort
-    assert_equal ['Functional', 'Production', 'Security'], Issue.find(3).tag_list.sort
+    assert_equal ['Production', 'Functional'], Issue.find(4).tag_list
+    assert_equal [ 'Security', 'Production', 'Functional'], Issue.find(3).tag_list
   end
 
   def test_bulk_edit_with_no_common_tags_add_same_tag
@@ -111,7 +111,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response 302
 
     assert_equal ['Security'], Issue.find(1).tag_list
-    assert_equal ['Production', 'Security'], Issue.find(4).tag_list.sort
+    assert_equal ['Production', 'Security'], Issue.find(4).tag_list
   end
 
   def test_bulk_edit_with_common_tag_and_remove_common_tag

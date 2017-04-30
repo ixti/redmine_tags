@@ -5,7 +5,7 @@ module RedmineTags
         base.extend(ClassMethods)
         base.send(:include, InstanceMethods)
         base.class_eval do
-          acts_as_taggable
+          acts_as_ordered_taggable
 
           safe_attributes 'tag_list'
           alias_method_chain :copy_from, :redmine_tags
