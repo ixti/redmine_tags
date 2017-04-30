@@ -101,7 +101,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_response 302
 
-    assert_equal ['Production', 'Functional'], Issue.find(4).tag_list.sort
+    assert_equal ['Functional', 'Production'], Issue.find(4).tag_list.sort
     assert_equal ['Functional', 'Production', 'Security'], Issue.find(3).tag_list.sort
   end
 
