@@ -67,18 +67,6 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'input[name=?][value=?]', 'issue[tag_list]', 'Security, Production'
   end
 
-  def test_show_issue_should_display_tags
-    @request.session[:user_id] = 1
-    get :show, :id => 3
-    assert_response :success
-
-    assert_select 'div.tags .value', :text => 'Security, Production' do
-      assert_select 'span.tag-label', 2, :text
-      assert_select 'span.tag-label a', :text => 'Security'
-      assert_select 'span.tag-label a', :text => 'Production'
-    end
-  end
-
   def test_get_bulk_edit_should_display_only_common_tags
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 3]
@@ -113,8 +101,8 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_response 302
 
-    assert_equal ['Production', 'Functional'], Issue.find(4).tag_list
-    assert_equal ['Security', 'Production', 'Functional'], Issue.find(3).tag_list
+    assert_equal ['Functional', 'Production'], Issue.find(4).tag_list
+    assert_equal ['Functional', 'Production', 'Security'], Issue.find(3).tag_list
   end
 
   def test_bulk_edit_with_no_common_tags_add_same_tag
