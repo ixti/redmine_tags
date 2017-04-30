@@ -63,6 +63,8 @@ class IssuesControllerTest < ActionController::TestCase
       assert_select 'span.tag-label a', :text => 'Security'
       assert_select 'span.tag-label a', :text => 'Production'
     end
+
+    assert_select 'input[name=?][value=?]', 'issue[tag_list]', 'Security, Production'
   end
 
   def test_show_issue_should_display_tags

@@ -1,4 +1,4 @@
-<p><%= form.text_field :tag_list, :size => 60 %></p>
+<p><%= form.text_field :tag_list, :size => 60, :value => issue.tag_list.to_s %></p>
 
 <%= javascript_tag "$('#issue_tag_list').tagit({
   tagSource: function(search, showChoices) {
