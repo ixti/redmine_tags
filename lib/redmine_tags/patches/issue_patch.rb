@@ -56,15 +56,8 @@ module RedmineTags
             .where(taggings: { taggable_type: 'Issue', taggable_id: issues_scope})
 
           if options[:name_like]
-            matcher = "%#{options[:name_like].downcase}%"
-
-            case connection.adapter_name
-            when 'PostgreSQL'
-              result_scope = result_scope.where('tags.name ILIKE ?', matcher)
-            else
-              result_scope = result_scope.where('tags.name LIKE ? COLLATE utf8_general_ci', matcher)
-            end
-
+            pattern = "%#{options[:name_like].to_s.strip}%"
+            result_scope = result_scope.where('LOWER(tags.name) LIKE LOWER(:p)', :p => pattern)
           end
 
           result_scope
