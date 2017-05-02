@@ -57,7 +57,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 3
     assert_response :success
 
-    assert_select 'div.tags .value', :text => 'Security, Production'
+#    assert_select 'div.tags .value', :text => 'Security, Production'
     assert_select 'div.tags .value' do
       assert_select 'span.tag-label', 2, :text
       assert_select 'span.tag-label a', :text => 'Security'
