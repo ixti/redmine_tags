@@ -47,12 +47,7 @@ module RedmineTags
 
           # calculate tags to be added or removed
           tags_to_add = tag_list - common_tags
-          # if clear input is checked, we should remove all tags
-          if (tag_list.count == 1 && tag_list.first == '__none__')
-            tags_to_remove = current_tags
-          else
-            tags_to_remove = common_tags - tag_list
-          end
+          tags_to_remove = common_tags - tag_list
 
           # variables for journal entry
           old_tags = current_tags.to_s

@@ -4,7 +4,6 @@
 <label for="issue_tags"><%= l(:tags) %></label>
 <%= text_field_tag 'issue[new_tag_list]', tags %>
 <%= hidden_field_tag'common_tags', tags %>
-<label class="inline"><%= check_box_tag 'issue[new_tag_list]', '__none__', (@issue_params[:new_tag_list] == 'none'), :id => nil, :data => {:disables => '#issue_new_tag_list'}, :onclick => 'enableDisableWidget(this)' %><%= l(:button_clear) %></label>
 </p>
 
 <%= javascript_tag "$('#issue_new_tag_list').tagit({
@@ -23,15 +22,7 @@
   caseSensitive: false,
   autocomplete: false,
   removeConfirmation: true,
-  showAutocompleteOnFocus: true,
-  readOnly: #{@issue_params[:new_tag_list] == 'none'}
+  showAutocompleteOnFocus: true
 });" %>
 
-<%= javascript_tag "function enableDisableWidget(element) {
-    if ($(element).is(':checked')) {
-      $('#issue_new_tag_list').tagit('readOnly', true)
-    } else {
-      $('#issue_new_tag_list').tagit('readOnly', false)
-    }
-  };"
 %>
