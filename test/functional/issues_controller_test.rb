@@ -123,21 +123,4 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [], Issue.find(4).tag_list
     assert_equal ['Front End'], Issue.find(6).tag_list
   end
-
-  def test_bulk_edit_clear_tags_checkbox_should_be_checked_when_new_tag_list_param_is_none
-    @request.session[:user_id] = 1
-    get :bulk_edit, :ids => [1, 3], :issue => {:new_tag_list => 'none'}
-    assert_response :success
-
-    assert_select 'input[type=checkbox][name=?][checked=?][value=?]', 'issue[new_tag_list]', 'checked', '__none__'
-  end
-
-  def test_bulk_edit_clear_all_tags
-    @request.session[:user_id] = 2
-    post :bulk_update, :ids => [1, 3], :issue => {:new_tag_list => '__none__'}, :common_tags => 'Security'
-    assert_response 302
-
-    assert_equal [], Issue.find(1).tag_list
-    assert_equal [], Issue.find(3).tag_list
-  end
 end
