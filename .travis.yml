@@ -9,25 +9,27 @@ rvm:
     - 2.2.6
     - 2.3.3
     - 2.4.0
-    - jruby
 
 matrix:
   allow_failures:
-    - rvm: jruby
     - rvm: 2.4.0
+      env: REDMINE_VER=3.2.6 DB=mysql
+    - rvm: 2.4.0
+      env: REDMINE_VER=3.3.3 DB=mysql
+    - rvm: 2.4.0
+      env: REDMINE_VER=3.2.6 DB=postgresql
+    - rvm: 2.4.0
+      env: REDMINE_VER=3.3.3 DB=postgresql
 
 gemfile:
     - $REDMINE_PATH/Gemfile
 
 env:
-    - REDMINE_VER=3.1.7 DB=mysql
-    - REDMINE_VER=3.2.5 DB=mysql
-    - REDMINE_VER=3.3.1 DB=mysql
-    - REDMINE_VER=3.3.2 DB=mysql
-    - REDMINE_VER=3.1.7 DB=postgresql
-    - REDMINE_VER=3.2.5 DB=postgresql
-    - REDMINE_VER=3.3.1 DB=postgresql
-    - REDMINE_VER=3.3.2 DB=postgresql
+    - REDMINE_VER=3.2.6 DB=mysql
+    - REDMINE_VER=3.3.3 DB=mysql
+    - REDMINE_VER=3.2.6 DB=postgresql
+    - REDMINE_VER=3.3.3 DB=postgresql
+    - REDMINE_VER=master DB=mysql
 
 before_install:
     - export PLUGIN_NAME=redmine_tags
@@ -43,4 +45,5 @@ before_script:
     - rake db:create db:migrate redmine:plugins:migrate db:structure:dump
 
 script:
+    - rake redmine:plugins:test RAILS_ENV=test NAME=$PLUGIN_NAME
     - rake redmine:plugins:spec RAILS_ENV=test NAME=$PLUGIN_NAME

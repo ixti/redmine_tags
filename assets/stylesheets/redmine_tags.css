@@ -1,7 +1,6 @@
 ul.tags { list-style: none; padding: 0px; }
 ul.tags li { margin: .25em 0px; }
 
-.tag-label { margin: .25em; }
 .tag-label-color {
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
@@ -40,6 +39,7 @@ ul.tagit {
   background: white;
   padding: 0px;
   margin: 0px;
+  width: 96%;
 }
 
 ul.tagit li.tagit-choice {
@@ -87,10 +87,9 @@ ul.tagit li.tagit-choice .tagit-close .text-icon:hover {
 ul.tagit li.tagit-new input {
   font-size: 11px;
   background: white;
-  margin-bottom: 2px;
-  margin-left: 2px;
 }
 
 ul.tagit li.tagit-new {
-  padding: 0px;
+  padding: 0;
+  margin: 0;
 }

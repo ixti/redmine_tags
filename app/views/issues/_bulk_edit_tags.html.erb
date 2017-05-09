@@ -1,0 +1,26 @@
+<% tags = Issue.get_common_tag_list_from_multiple_issues(@issues.map(&:id)).to_s %>
+
+<p>
+<label for="issue_tags"><%= l(:tags) %></label>
+<%= text_field_tag 'issue[new_tag_list]', tags %>
+<%= hidden_field_tag'common_tags', tags %>
+</p>
+
+<%= javascript_tag "$('#issue_new_tag_list').tagit({
+  tagSource: function(search, showChoices) {
+    var that = this;
+    $.ajax({
+      url: '#{escape_javascript auto_complete_issue_tags_path(@project ? @project : @issues.first.project)}',
+      data: {q: search.term},
+      success: function(choices) {
+        showChoices(that._subtractArray(jQuery.parseJSON(choices), that.assignedTags()));
+      }
+    });
+  },
+  allowSpaces: true,
+  placeholderText: '#{ l :issue_tags_label_add_tag }',
+  caseSensitive: false,
+  autocomplete: false,
+  removeConfirmation: true,
+  showAutocompleteOnFocus: true
+});" %>

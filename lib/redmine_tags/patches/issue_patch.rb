@@ -5,8 +5,9 @@ module RedmineTags
         base.extend(ClassMethods)
         base.send(:include, InstanceMethods)
         base.class_eval do
-          acts_as_taggable
+          acts_as_ordered_taggable
 
+          safe_attributes 'tag_list'
           alias_method_chain :copy_from, :redmine_tags
 
           searchable_options[:columns] << "tags.name"
@@ -55,15 +56,8 @@ module RedmineTags
             .where(taggings: { taggable_type: 'Issue', taggable_id: issues_scope})
 
           if options[:name_like]
-            matcher = "%#{options[:name_like].downcase}%"
-
-            case connection.adapter_name
-            when 'PostgreSQL'
-              result_scope = result_scope.where('tags.name ILIKE ?', matcher)
-            else
-              result_scope = result_scope.where('tags.name LIKE ? COLLATE utf8_general_ci', matcher)
-            end
-
+            pattern = "%#{options[:name_like].to_s.strip}%"
+            result_scope = result_scope.where('LOWER(tags.name) LIKE LOWER(:p)', :p => pattern)
           end
 
           result_scope
@@ -76,6 +70,16 @@ module RedmineTags
             )
           SQL
           unused.each(&:destroy)
+        end
+
+        def get_common_tag_list_from_multiple_issues(ids)
+          common_tags = ActsAsTaggableOn::Tag.joins(:taggings)
+            .select('tags.id', 'tags.name')
+            .where(:taggings => {:taggable_type => 'Issue', :taggable_id => ids})
+            .group('tags.id')
+            .having("count(*) = #{ids.count}").to_a
+
+          ActsAsTaggableOn::TagList.new(common_tags)
         end
       end
 
