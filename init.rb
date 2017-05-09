@@ -11,7 +11,7 @@ Redmine::Plugin.register :redmine_tags do
   name        'Redmine Tags'
   author      'Aleksey V Zapparov AKA "ixti"'
   description 'Redmine tagging support'
-  version     '3.1.1'
+  version     '3.2.0'
   url         'https://github.com/ixti/redmine_tags/'
   author_url  'http://www.ixti.net/'
 
