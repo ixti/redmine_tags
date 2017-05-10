@@ -34,6 +34,10 @@ module RedmineTags
             project = Project.find(project) unless project.is_a? Project
             where("#{project.project_condition(Setting.display_subprojects_issues?)}")
           }
+
+          Query.operators = Query.operators.merge("&" => :match_all)
+          Query.operators_by_filter_type[:list_optional] << "&"
+
         end
       end
 
