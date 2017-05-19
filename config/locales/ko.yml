@@ -1,0 +1,28 @@
+ko:
+  tags: 태그
+  field_tags: 태그
+  field_tag_list: 태그 목록
+  setting_issue_tags: 일감 태그
+  issues_sidebar: 사이트바에
+  issues_show_count: 일감 수량 표시
+  issues_open_only: 열린 일감만 표시
+  issues_sort_by: 정렬 방식
+  issues_use_colors: 색상 사용
+
+  issue_tags_sidebar_none: 표시하지 않음
+  issue_tags_sidebar_list: 목록으로 표시
+  issue_tags_sidebar_cloud: 태그구름으로 표시
+  issue_tags_sidebar_simple_cloud: 간단한 구름으로 표시
+
+  issues_sort_by_name: 이름
+  issues_sort_by_count: 일감 수량
+  issues_sort_order_asc: 오름차순
+  issues_sort_order_desc: 내림차순
+
+  auto_complete_new_tag: 새 태그...
+
+  issue_tags_label_add_tag: 태그 추가(입력하고 Tab)
+  issue_tags_manage_tags: 태그 관리
+  issue_tags_tag: 태그
+  issue_tags_button_merge: 합치기
+  issue_tags_label_merge: 선택한 태그 합치기

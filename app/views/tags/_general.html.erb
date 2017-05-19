@@ -1,5 +1,5 @@
 <%
-  @settings = ActionController::Parameters.new if !@settings || @settings.blank?
+  @settings = ActionController::Parameters.new(@settings)
 %>
 
 <p>
