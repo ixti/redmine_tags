@@ -20,4 +20,9 @@ ru:
   issues_sort_order_desc: по убыванию
 
   auto_complete_new_tag: Добавить...
+
   issue_tags_label_add_tag: + добавить метку
+  issue_tags_manage_tags: Управление метками
+  issue_tags_tag: Метка
+  issue_tags_button_merge: Объединить
+  issue_tags_label_merge: Объединить выбранные метки
