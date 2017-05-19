@@ -1,0 +1,4 @@
+REVIEWBOARD_URL = 'https://reviewboard.elins.internal/'
+REPOSITORY = 'redmine_tags'
+ENABLE_PROXY = False
+TRACKING_BRANCH = 'master'
