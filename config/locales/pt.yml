@@ -3,7 +3,7 @@ pt:
   field_tags: Tags
   field_tag_list: Tags
   setting_issue_tags: Tags das tarefas
-  issues_sidebar: Mostrar tags na barralateral como
+  issues_sidebar: Mostrar tags na barra lateral como
   issues_show_count: Mostrar número de problemas
   issues_open_only: Mostrar apenas problemas abertos
   issues_sort_by: Ordenar tags por
