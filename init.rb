@@ -17,6 +17,10 @@ Redmine::Plugin.register :redmine_tags do
 
   requires_redmine version_or_higher: '3.0.0'
 
+  project_module :tags do
+    permission :issue_edit_tags, { }
+    permission :wiki_edit_tags, { }
+  end
   settings \
     default:  {
       issues_sidebar:    'none',
@@ -26,6 +30,8 @@ Redmine::Plugin.register :redmine_tags do
       issues_sort_order: 'asc'
     },
     partial: 'tags/settings'
+
+
 end
 
 Rails.application.config.after_initialize do
