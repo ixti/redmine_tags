@@ -16,7 +16,7 @@ module RedmineTags
         include TagsHelper
 
         def column_content_with_redmine_tags(column, issue)
-          if column.name.eql? :tags
+          if column.name == 'tags' || column.name == :tags
             column.value(issue).collect{ |t| render_tag_link(t) }
               .join(RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ')
           else
@@ -27,7 +27,7 @@ module RedmineTags
         def csv_content_with_redmine_tags(column, issue)
           value = column.value_object(issue)
 
-          if column.name.eql? :tags
+          if column.name == 'tags' || column.name == :tags
             value.collect {|v| csv_value(column, issue, v)}.compact.join(', ')
           else
             csv_content_without_redmine_tags(column, issue)
