@@ -19,6 +19,7 @@ matrix:
       env: REDMINE_VER=3.2.7 DB=postgresql
     - rvm: 2.4.2
       env: REDMINE_VER=3.3.4 DB=postgresql
+    - env: REDMINE_VER=master
 
 gemfile:
     - $REDMINE_PATH/Gemfile
@@ -31,6 +32,7 @@ env:
     - REDMINE_VER=3.3.4 DB=postgresql
     - REDMINE_VER=3.4.2 DB=postgresql
     - REDMINE_VER=master DB=mysql
+    - REDMINE_VER=master DB=postgresql
 
 before_install:
     - export PLUGIN_NAME=redmine_tags
