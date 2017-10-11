@@ -11,15 +11,29 @@ rvm:
 
 matrix:
   allow_failures:
+    - rvm: 2.2.8
+      env: REDMINE_VER=master DB=mysql
+    - rvm: 2.2.8
+      env: REDMINE_VER=master DB=postgresql
+
+    - rvm: 2.3.5
+      env: REDMINE_VER=master DB=mysql
+    - rvm: 2.3.5
+      env: REDMINE_VER=master DB=postgresql
+
     - rvm: 2.4.2
       env: REDMINE_VER=3.2.7 DB=mysql
     - rvm: 2.4.2
       env: REDMINE_VER=3.3.4 DB=mysql
     - rvm: 2.4.2
+      env: REDMINE_VER=master DB=mysql
+
+    - rvm: 2.4.2
       env: REDMINE_VER=3.2.7 DB=postgresql
     - rvm: 2.4.2
       env: REDMINE_VER=3.3.4 DB=postgresql
-    - env: REDMINE_VER=master
+    - rvm: 2.4.2
+      env: REDMINE_VER=master DB=postgresql
 
 gemfile:
     - $REDMINE_PATH/Gemfile
