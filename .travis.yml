@@ -63,9 +63,7 @@ before_install:
   - cd $REDMINE_PATH
 
 before_script:
-  - echo "config.active_record.schema_format = :sql" >> config/additional_environment.rb
-  - rake db:create db:migrate redmine:plugins:migrate db:structure:dump
+  - make prepare
 
 script:
-  - rake redmine:plugins:test RAILS_ENV=test NAME=$PLUGIN_NAME
-  - rake redmine:plugins:spec RAILS_ENV=test NAME=$PLUGIN_NAME
+  - make ci
