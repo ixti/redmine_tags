@@ -29,7 +29,7 @@ Redmine::Plugin.register :redmine_tags do
 end
 
 Rails.application.config.after_initialize do
-  test_dependencies = {redmine_testing_gems: '1.3.1'}
+  test_dependencies = {redmine_testing_gems: '1.3.3'}
   current_plugin = Redmine::Plugin.find(:redmine_tags)
   check_dependencies = proc do |plugin, version|
     begin

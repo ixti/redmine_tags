@@ -56,7 +56,7 @@ before_install:
   - export REDMINE_PATH=$HOME/redmine
   - git clone https://github.com/redmine/redmine.git --branch $REDMINE_VER --depth 1 $REDMINE_PATH
   # TODO: This plugin has to go!
-  - git clone https://github.com/ZitecCOM/redmine_testing_gems.git --branch 1.3.2 --depth 1 $REDMINE_PATH/plugins/redmine_testing_gems
+  - git clone https://github.com/ZitecCOM/redmine_testing_gems.git --branch 1.3.3 --depth 1 $REDMINE_PATH/plugins/redmine_testing_gems
   # TODO: this needs to be a `mv` once the testing plugin is removed.
   - ln -s $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
   - cp config/database-$DB-travis.yml $REDMINE_PATH/config/database.yml
