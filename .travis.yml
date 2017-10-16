@@ -63,7 +63,7 @@ before_install:
   - cd $REDMINE_PATH
 
 before_script:
-  - make prepare
+  - make -f plugins/redmine_tags/Makefile prepare
 
 script:
-  - make ci
+  - make -f plugins/redmine_tags/Makefile ci
