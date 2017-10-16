@@ -36,6 +36,32 @@ class IssuesControllerTest < ActionController::TestCase
     User.current = nil
   end
 
+  def test_index_displays_tags_as_html_in_the_correct_column
+    @request.session[:user_id] = 1
+
+    with_settings :issue_list_default_columns => ['tags'] do
+      get :index
+    end
+
+    assert_response :success
+
+    assert_select 'table.issues' do
+      assert_select 'thead' do
+        assert_select 'th', :text => 'Tags'
+      end
+
+      assert_select 'tbody' do
+        assert_select 'tr' do
+          assert_select 'td.tags' do
+            assert_select 'span.tag-label' do
+              assert_select 'a'
+            end
+          end
+        end
+      end
+    end
+  end
+
   def test_show_issue_should_not_display_tags_if_not_exists
     @request.session[:user_id] = 1
     get :show, :id => 10
