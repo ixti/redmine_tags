@@ -18,7 +18,7 @@ module RedmineTags
         def column_content_with_redmine_tags(column, issue)
           if column.name.eql? :tags
             column.value(issue).collect{ |t| render_tag_link(t) }
-              .join(RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ')
+              .join(RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ').html_safe
           else
             column_content_without_redmine_tags(column, issue)
           end
@@ -28,7 +28,7 @@ module RedmineTags
           value = column.value_object(issue)
 
           if column.name == 'tags'
-            value.collect {|v| csv_value(column, issue, v)}.compact.join(', ')
+            value.collect {|v| csv_value(column, issue, v)}.compact.join(', ').html_safe
           else
             csv_content_without_redmine_tags(column, issue)
           end
