@@ -1,6 +1,12 @@
+# frozen_string_literal: true
+
 require 'redmine_tags'
 
-ActionDispatch::Callbacks.to_prepare do
+# ActiveSupport::Reloader for rails >= 5
+# ActionDispatch::Callbacks for rails < 5
+reloader = defined?(ActiveSupport::Reloader) ? ActiveSupport::Reloader : ActionDispatch::Callbacks
+
+reloader.to_prepare do
   paths = '/lib/redmine_tags/{patches/*_patch,hooks/*_hook}.rb'
   Dir.glob(File.dirname(__FILE__) + paths).each do |file|
     require_dependency file
@@ -29,7 +35,10 @@ Redmine::Plugin.register :redmine_tags do
 end
 
 Rails.application.config.after_initialize do
-  test_dependencies = {redmine_testing_gems: '1.3.3'}
+  test_dependencies = {
+    # TODO: do not depend on this for tests.
+    redmine_testing_gems: '1.3.3'
+  }
   current_plugin = Redmine::Plugin.find(:redmine_tags)
   check_dependencies = proc do |plugin, version|
     begin
