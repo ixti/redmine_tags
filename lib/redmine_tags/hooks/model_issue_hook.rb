@@ -22,7 +22,7 @@ module RedmineTags
         params = context[:params]
         issue = context[:issue]
         if params && params[:issue] && !params[:issue][:tag_list].nil?
-          old_tags = issue.tag_list.to_s
+          old_tags = Issue.find(context[:issue].id).tag_list.to_s
           issue.tag_list = params[:issue][:tag_list]
           new_tags = issue.tag_list.to_s
           # without this when reload called in Issue#save all changes will be

@@ -93,6 +93,23 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'input[name=?][value=?]', 'issue[tag_list]', 'Security, Production'
   end
 
+  def test_edit_issue_tags_should_journalize_changes
+    @request.session[:user_id] = 1
+    put :update, :id => 3, :issue => { :tag_list => 'Security' }
+
+    assert_redirected_to :action => 'show', :id => '3'
+
+    issue = Issue.find(3)
+    journals = issue.journals
+    journal_details = journals.first.details
+
+    assert_equal ['Security'], issue.tag_list
+    assert_equal 1, journals.count
+    assert_equal 1, journal_details.count
+    assert_equal 'Security, Production', journal_details.first.old_value
+    assert_equal 'Security', journal_details.first.value
+  end
+
   def test_get_bulk_edit_should_display_only_common_tags
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 3]
