@@ -6,7 +6,7 @@ module RedmineTags
       end
 
       def controller_issues_bulk_edit_before_save(context = {})
-        bulk_update_tags_to_issues context, true
+        bulk_update_tags_to_issues context
       end
 
       # Issue has an after_save method that calls reload (update_nested_set_attributes)
@@ -34,7 +34,7 @@ module RedmineTags
         end
       end
 
-      def bulk_update_tags_to_issues(context, create_journal)
+      def bulk_update_tags_to_issues(context)
         params = context[:params]
         issue = context[:issue]
         common_tags = []
@@ -42,7 +42,7 @@ module RedmineTags
         common_tags = params[:common_tags].split(ActsAsTaggableOn.delimiter).collect(&:strip) if params[:common_tags].present?
         tag_list = params[:issue][:new_tag_list].split(ActsAsTaggableOn.delimiter) if params[:issue] && !params[:issue][:new_tag_list].nil?
 
-        if common_tags && tag_list
+        if (common_tags | tag_list).present?
           current_tags = issue.tag_list
 
           # calculate tags to be added or removed
@@ -57,7 +57,7 @@ module RedmineTags
           # without this when reload called in Issue#save all changes will be
           # gone :(
           issue.save_tags
-          create_journal_entry(issue, old_tags, new_tags) if create_journal
+          create_journal_entry(issue, old_tags, new_tags) if tags_differ?(old_tags, new_tags)
 
           Issue.remove_unused_tags!
         end
@@ -69,6 +69,10 @@ module RedmineTags
             property: 'attr', prop_key: 'tag_list', old_value: old_tags.to_s,
             value: new_tags.to_s)
         end
+      end
+
+      def tags_differ?(old_tags, new_tags)
+        old_tags.split(',').sort != new_tags.to_a.sort
       end
     end
   end
