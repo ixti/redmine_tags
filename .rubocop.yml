@@ -1,21 +1,18 @@
 ## Styles ######################################################################
 
-Style/AlignParameters:
+Layout/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
 Style/BracesAroundHashParameters:
   Enabled: false
 
-Style/EmptyLineBetweenDefs:
+Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
-
-Style/Encoding:
-  EnforcedStyle: when_needed
 
 Style/HashSyntax:
   EnforcedStyle: hash_rockets
 
-Style/IndentHash:
+Layout/IndentHash:
   EnforcedStyle: consistent
 
 # New lambda syntax is as ugly to me as new syntax of Hash.
@@ -28,7 +25,7 @@ Style/Lambda:
 #     conn.hset    :k1, now
 #     conn.hincrby :k2, 123
 #   end
-SingleSpaceBeforeFirstArg:
+Layout/SingleSpaceBeforeFirstArg:
   Enabled: false
 
 Style/StringLiterals:
