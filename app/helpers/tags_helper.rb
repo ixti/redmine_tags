@@ -12,20 +12,29 @@ module TagsHelper
   #   * open_only   - Boolean. Whenever link to the filter with "open" issues
   #                   only limit.
   def render_tag_link(tag, options = {})
+    use_colors = RedmineTags.settings[:issues_use_colors].to_i > 0
+    if use_colors
+      tag_bg_color = tag_color(tag)
+      tag_fg_color = tag_fg_color(tag_bg_color)
+      tag_style = "background-color: #{tag_bg_color}; color: #{tag_fg_color}"
+    end
+
     filters = [[:tags, '=', tag.name]]
     filters << [:status_id, 'o'] if options[:open_only]
     if options[:use_search]
-      content = link_to tag, { controller: 'search', action: 'index',
-        id: @project, q: tag.name, wiki_pages: true, issues: true }
+      content =  link_to tag, { controller: 'search', action: 'index',
+        id: @project, q: tag.name, wiki_pages: true, issues: true,
+        style: tag_style }
     else
       content = link_to_filter tag.name, filters, project_id: @project
     end
     if options[:show_count]
       content << content_tag('span', "(#{ tag.count })", class: 'tag-count')
     end
-    style = if RedmineTags.settings[:issues_use_colors].to_i > 0
+
+    style = if use_colors 
         { class: 'tag-label-color',
-          style: "background-color: #{ tag_color tag }" }
+          style: tag_style }
       else
         { class: 'tag-label' }
       end
@@ -35,6 +44,15 @@ module TagsHelper
   def tag_color(tag)
     tag_name = tag.respond_to?(:name) ? tag.name : tag
     "##{ Digest::MD5.hexdigest(tag_name)[0..5] }"
+  end
+
+  def tag_fg_color(bg_color)
+    # calculate contrast text color according to YIQ method
+    # http://24ways.org/2010/calculating-color-contrast/
+    r = bg_color[1..2].hex
+    g = bg_color[3..4].hex
+    b = bg_color[5..6].hex
+    (r * 299 + g * 587 + b * 114) >= 128000 ? "black" : "white"
   end
 
   # Renders list of tags

@@ -93,6 +93,24 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'input[name=?][value=?]', 'issue[tag_list]', 'Security, Production'
   end
 
+  def test_show_issue_should_display_contrast_tag_colors
+    Setting.plugin_redmine_tags[:issues_use_colors] = '1'
+    @request.session[:user_id] = 1
+    get :show, :id => 7
+    assert_response :success
+
+    assert_select 'div.tags .value' do
+      assert_select 'span.tag-label-color', 2, :text
+      assert_select "span.tag-label-color[style*=?]", "color: white", :text => "Front End"
+      assert_select "span.tag-label-color[style*=?]", "background-color: #f1253f", :text => "Front End"
+      assert_select "span.tag-label-color[style*=?]", "color: black", :text => "Usability"
+      assert_select "span.tag-label-color[style*=?]", "background-color: #16d103", :text => "Usability"
+    end
+
+    assert_select 'input[name=?][value=?]', 'issue[tag_list]', 'Front End, Usability'
+    Setting.plugin_redmine_tags[:issues_use_colors] = '0'
+  end
+
   def test_edit_issue_tags_should_journalize_changes
     @request.session[:user_id] = 1
     put :update, :id => 3, :issue => { :tag_list => 'Security' }

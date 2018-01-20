@@ -39,3 +39,15 @@ tagging_007:
   taggable_id: 6
   taggable_type: Issue
   context: tags
+
+tagging_008:
+  tag_id: 4
+  taggable_id: 7
+  taggable_type: Issue
+  context: tags
+
+tagging_009:
+  tag_id: 5
+  taggable_id: 7
+  taggable_type: Issue
+  context: tags

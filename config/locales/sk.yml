@@ -1,0 +1,29 @@
+# Preložili samo.forus@microstep-mis.com a peter.kovac@microstep-mis.com
+sk:
+  tags: Tagy
+  field_tags: Tagy
+  field_tag_list: Tagy
+  setting_issue_tags: Tagy úlohy
+  issues_sidebar: Zobraziť tagy v bočnom paneli ako
+  issues_show_count: Počet zobrazených úloh
+  issues_open_only: Zobraziť len otvorené úlohy
+  issues_sort_by: Zoradiť tagy podľa
+  issues_use_colors: Použiť farby
+   
+  issue_tags_sidebar_none: Nezobrazovať
+  issue_tags_sidebar_list: Zoznam
+  issue_tags_sidebar_cloud: Cloud
+  issue_tags_sidebar_simple_cloud: Jednoduchý cloud
+
+  issues_sort_by_name: Názov
+  issues_sort_by_count: Počet úloh
+  issues_sort_order_asc: Vzostupne
+  issues_sort_order_desc: Zostupne
+
+  auto_complete_new_tag: Pridať...
+
+  issue_tags_label_add_tag: + Pridať tag
+  issue_tags_manage_tags: Spravovať tagy
+  issue_tags_tag: Tag
+  issue_tags_button_merge: Zlúčiť
+  issue_tags_label_merge: Zlúčiť vybrané tagy

@@ -12,7 +12,7 @@ ul.tags li { margin: .25em 0px; }
 
 table.list tr.issue .tag-label-color a,
 .tags .tag-label-color a,
-.issue .tag-label-color a { color: white; }
+.issue .tag-label-color a { color: inherit; }
 
 tr.issue td.tags {
   text-align: left;
