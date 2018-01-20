@@ -184,4 +184,36 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [], Issue.find(4).tag_list
     assert_equal ['Front End'], Issue.find(6).tag_list
   end
+
+  def test_bulk_edit_journal_without_tag_changing
+    # journal should not log tags changing when tags were not changed
+    @request.session[:user_id] = 2
+    post :bulk_update,
+         :ids => [2, 7],
+         :issue => {
+           :new_tag_list => '',
+           :priority_id => 7
+         },
+         :common_tags => ''
+    assert_response 302
+
+    assert_equal ['priority_id'], Issue.find(2).journals.last.details.map(&:prop_key)
+    assert_equal ['priority_id'], Issue.find(7).journals.last.details.map(&:prop_key)
+    assert_equal 7, Issue.find(2).priority_id
+    assert_equal 7, Issue.find(7).priority_id
+  end
+
+  def test_bulk_edit_journal_with_tag_changing
+    # journal should log tags changing when tags were changed
+    @request.session[:user_id] = 2
+    post :bulk_update,
+         :ids => [2, 7],
+         :issue => {
+           :new_tag_list => ['Production', 'Security']
+         }
+    assert_response 302
+
+    assert_equal ['tag_list'], Issue.find(2).journals.last.details.map(&:prop_key)
+    assert_equal ['tag_list'], Issue.find(7).journals.last.details.map(&:prop_key)
+  end
 end
