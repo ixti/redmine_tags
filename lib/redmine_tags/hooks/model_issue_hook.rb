@@ -6,7 +6,7 @@ module RedmineTags
       end
 
       def controller_issues_bulk_edit_before_save(context = {})
-        bulk_update_tags_to_issues context, true
+        bulk_update_tags_to_issues context
       end
 
       # Issue has an after_save method that calls reload (update_nested_set_attributes)
@@ -34,7 +34,7 @@ module RedmineTags
         end
       end
 
-      def bulk_update_tags_to_issues(context, create_journal)
+      def bulk_update_tags_to_issues(context)
         params = context[:params]
         issue = context[:issue]
         common_tags = []
@@ -49,17 +49,19 @@ module RedmineTags
           tags_to_add = tag_list - common_tags
           tags_to_remove = common_tags - tag_list
 
-          # variables for journal entry
-          old_tags = current_tags.to_s
-          new_tags = current_tags.add(tags_to_add).remove(tags_to_remove)
+          if tags_to_add.any? || tags_to_remove.any?
+            # variables for journal entry
+            old_tags = current_tags.to_s
+            new_tags = current_tags.add(tags_to_add).remove(tags_to_remove)
 
-          issue.tag_list = new_tags
-          # without this when reload called in Issue#save all changes will be
-          # gone :(
-          issue.save_tags
-          create_journal_entry(issue, old_tags, new_tags) if create_journal
+            issue.tag_list = new_tags
+            # without this when reload called in Issue#save all changes will be
+            # gone :(
+            issue.save_tags
+            create_journal_entry(issue, old_tags, new_tags)
 
-          Issue.remove_unused_tags!
+            Issue.remove_unused_tags!
+          end
         end
       end
 
