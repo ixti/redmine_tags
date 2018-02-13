@@ -1,4 +1,6 @@
 <% unless page.tag_list.empty? %>
-  <b><%= l :tags %>:</b>
-  <%= safe_join(page.tag_counts.collect{|t| render_tag_link(t, show_count: false, open_only: false) }, RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ') %>
+  <div id="wiki-tags">
+    <b><%= l :tags %>:</b>
+    <%= safe_join(page.tag_counts.collect{|t| render_tag_link(t, show_count: false, open_only: false) }, RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ') %>
+  </div>
 <% end %>

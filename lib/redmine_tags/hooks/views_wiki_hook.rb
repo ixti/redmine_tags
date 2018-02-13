@@ -15,7 +15,7 @@ module RedmineTags
             hook_res.scan(/<script.*<\/script>/m) {|m| scripts += m }
             hook_res.gsub! /<script.*<\/script>/m, ' '
             hook_res.gsub! /\n/, " \\\n"
-            hook_res = javascript_tag "$('.attachments').before('#{ hook_res }')"
+            hook_res = javascript_tag "$('.other-formats').before('#{ hook_res }')"
             hook_res += scripts.html_safe
           elsif action == 'edit'
             hook_res = view_wiki_form_bottom context
