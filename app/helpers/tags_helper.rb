@@ -12,7 +12,8 @@ module TagsHelper
   #   * open_only   - Boolean. Whenever link to the filter with "open" issues
   #                   only limit.
   def render_tag_link(tag, options = {})
-    use_colors = RedmineTags.settings[:issues_use_colors].to_i > 0
+    use_colors = options[:use_colors]
+    use_colors = RedmineTags.settings[:issues_use_colors].to_i > 0 if use_colors.nil?
     if use_colors
       tag_bg_color = tag_color(tag)
       tag_fg_color = tag_fg_color(tag_bg_color)
@@ -32,7 +33,7 @@ module TagsHelper
       content << content_tag('span', "(#{ tag.count })", class: 'tag-count')
     end
 
-    style = if use_colors 
+    style = if use_colors
         { class: 'tag-label-color',
           style: tag_style }
       else
@@ -86,7 +87,7 @@ module TagsHelper
           logger.warn "[redmine_tags] Unknown sorting option: <#{ sorting }>"
           tags.sort! {|a, b| a.name <=> b.name }
       end
-      if :list == style
+      if :list == style || :simple_list == style
         list_el, item_el = 'ul', 'li'
       elsif :simple_cloud == style
         list_el, item_el = 'div', 'span'
@@ -104,8 +105,12 @@ module TagsHelper
             style: (:simple_cloud == style ? 'font-size: 1em;' : '')) <<
           ' '.html_safe
       end
-      content_tag list_el, content, class: 'tags',
-        style: (:simple_cloud == style ? 'text-align: left;' : '')
+      if :simple_list == style
+        content
+      else
+        content_tag list_el, content, class: 'tags',
+          style: (:simple_cloud == style ? 'text-align: left;' : '')
+      end
     end
   end
 
