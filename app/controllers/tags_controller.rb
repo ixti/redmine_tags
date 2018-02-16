@@ -54,6 +54,37 @@ class TagsController < ApplicationController
     end
   end
 
+  def tagging_issue
+    Rails.logger.info "Tagging issue params: #{params}"
+    if params[:object_type] && params[:object_id]
+      klass = Object.const_get(params[:object_type].camelcase) rescue nil
+      return unless klass && klass.respond_to?('available_tags')
+      scope = klass.where(:id => Array.wrap(params[:object_id]))
+      if klass.reflect_on_association(:project)
+        scope = scope.preload(:project => :enabled_modules)
+      end
+      objects = scope.to_a
+      @issue = objects.first
+      @issue_tags = @issue.tags
+      @available_tags = klass.available_tags - @issue_tags
+      @project = @issue.project
+      case request.method_symbol
+      when :get
+        render layout: false
+      when :post
+        tag_ids = []
+        if params[:tagged]
+          tag_ids << (params[:tagged][:tag_ids] || params[:tagged][:tag_id])
+        else
+          tag_ids << params[:tag_id]
+        end
+        tags = ActsAsTaggableOn::Tag.where(id: tag_ids).all
+        @issue.tag_list << tags
+        @issue.save
+      end
+    end
+  end
+
   private
 
   def bulk_find_tags

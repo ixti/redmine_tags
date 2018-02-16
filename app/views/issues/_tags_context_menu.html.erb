@@ -1,10 +1,9 @@
 <% if @issue -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:tags) %></a>
-    <% Rails.logger.info "Safe attributes: #{@safe_attrinutes}" %>
     <ul class="tags">
       <%= render_tags_list @issue.tags, :style => :simple_list, :use_colors => false %>
-      <li><%= context_menu_link l(:button_add), new_watchers_path(:object_type => 'issue', :object_id => @issue.id), :remote => true, :class => 'icon-add' %></li>
+      <li><%= context_menu_link l(:button_add), tagging_issue_path(:object_type => 'issue', :object_id => @issue.id), :remote => true, :class => 'icon-add' %></li>
     </ul>
   </li>
 <% end %>
