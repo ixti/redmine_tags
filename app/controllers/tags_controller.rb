@@ -55,7 +55,6 @@ class TagsController < ApplicationController
   end
 
   def tagging_issue
-    Rails.logger.info "Tagging issue params: #{params}"
     if params[:object_type] && params[:object_id]
       klass = Object.const_get(params[:object_type].camelcase) rescue nil
       return unless klass && klass.respond_to?('available_tags')
@@ -70,7 +69,9 @@ class TagsController < ApplicationController
       @project = @issue.project
       case request.method_symbol
       when :get
-        render layout: false
+        respond_to do |format|
+          format.js { render layout: false }
+        end
       when :post
         tag_ids = []
         if params[:tagged]
@@ -78,7 +79,7 @@ class TagsController < ApplicationController
         else
           tag_ids << params[:tag_id]
         end
-        tags = ActsAsTaggableOn::Tag.where(id: tag_ids).all
+        tags = ActsAsTaggableOn::Tag.where(id: tag_ids.flatten).all
         @issue.tag_list << tags
         @issue.save
       end

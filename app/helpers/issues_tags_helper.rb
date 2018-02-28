@@ -16,12 +16,4 @@ module IssuesTagsHelper
       open_only: (RedmineTags.settings[:issues_open_only].to_i == 1),
       style: RedmineTags.settings[:issues_sidebar].to_sym }
   end
-
-  def issue_tags_check_box_tags(name, issue_tags)
-    s = ""
-    issue_tags.each do |issue_tag|
-      s << "<label>#{ check_box_tag name, issue_tag.id, false, :id => nil } #{h issue_tag}</label>\n"
-    end
-    s.html_safe
-  end
 end

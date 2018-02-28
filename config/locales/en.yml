@@ -26,3 +26,4 @@ en:
   issue_tags_tag: Tag
   issue_tags_button_merge: Merge
   issue_tags_label_merge: Merge selected tags
+  issue_tags_label_search: Search for tag

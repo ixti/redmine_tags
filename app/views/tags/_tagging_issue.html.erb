@@ -1,9 +1,6 @@
 <h3 class="title"><%= l(:issue_tags_manage_tags) %></h3>
 
-<%= form_tag(tagging_issue_path,
-             :remote => true,
-             :method => :post,
-             :id => 'tagging-issue-form') do %>
+<%= form_tag(tagging_issue_path, remote: true, id: 'tagging-issue-form') do %>
 
   <% if issue.present? %>
     <%= hidden_field_tag 'object_type', issue.class.name.underscore %>
@@ -11,14 +8,18 @@
   <% end %>
   <%= hidden_field_tag 'project_id', @project.id if @project %>
 
-  <p><%= label_tag 'tag_search', l(:label_user_search) %><%= text_field_tag 'tag_search', nil %></p>
-  <%= javascript_tag "observeSearchfield('tag_search', 'issue_tags', '#{ escape_javascript auto_complete_issue_tags_path(
+  <div id="issue_tags" class="tags">
+    <%= safe_join(issue.tag_counts.collect {|t| render_tag_link(t, show_count: false, open_only: false) }, RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ') %>
+  </div>
+  <p><%= label_tag 'tag_search', l(:issue_tags_label_search) %><%= text_field_tag 'tag_search', nil %></p>
+  <%= javascript_tag "observeSearchfield('tag_search', 'available_tags', '#{ escape_javascript auto_complete_issue_tags_path(
                  :object_type => (issue.present? ? issue.class.name.underscore : nil),
                  :object_id => (issue.present? ? issue.id : nil),
-                 :project_id => @project) }')" %>
+                 :project_id => @project,
+                 :partial => :tag_list_with_checkboxes) }')" %>
 
-  <div id="issue_tags">
-    <%= issue_tags_check_box_tags('tagged[tag_ids][]', available_tags) %>
+  <div id="available_tags" class="tags">
+    <%= render partial: 'auto_completes/tag_list_with_checkboxes', locals: {tags: available_tags} %>
   </div>
 
   <p class="buttons">

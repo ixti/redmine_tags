@@ -32,6 +32,10 @@ module TagsHelper
     if options[:show_count]
       content << content_tag('span', "(#{ tag.count })", class: 'tag-count')
     end
+    if options[:show_checkbox]
+      id_name = options[:id_name] || tag.name
+      content = check_box_tag(id_name, tag.id, options[:checked] || false, id: nil) + content
+    end
 
     style = if use_colors
         { class: 'tag-label-color',
@@ -112,6 +116,14 @@ module TagsHelper
           style: (:simple_cloud == style ? 'text-align: left;' : '')
       end
     end
+  end
+
+  def render_tags_list_with_checkboxes(name, tags)
+    s = ""
+    tags.each do |tag|
+      s << content_tag('label', render_tag_link(tag, show_count: false, open_only: false, show_checkbox: true, checked: false, id_name: name))
+    end
+    s.html_safe
   end
 
   private
