@@ -82,6 +82,7 @@ class TagsController < ApplicationController
         tags = ActsAsTaggableOn::Tag.where(id: tag_ids.flatten).all
         @issue.tag_list << tags
         @issue.save
+        render nothing: true, status: ok
       end
     end
   end
