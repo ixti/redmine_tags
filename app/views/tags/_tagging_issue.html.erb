@@ -4,7 +4,7 @@
 
   <% if issue.present? %>
     <%= hidden_field_tag 'object_type', issue.class.name.underscore %>
-    <%= hidden_field_tag 'object_id[]', issue.id %>
+    <%= hidden_field_tag 'object_id', issue.id %>
   <% end %>
   <%= hidden_field_tag 'project_id', @project.id if @project %>
 

@@ -55,17 +55,9 @@ class TagsController < ApplicationController
   end
 
   def tagging_issue
-    if params[:object_type] && params[:object_id]
-      klass = Object.const_get(params[:object_type].camelcase) rescue nil
-      return unless klass && klass.respond_to?('available_tags')
-      scope = klass.where(:id => Array.wrap(params[:object_id]))
-      if klass.reflect_on_association(:project)
-        scope = scope.preload(:project => :enabled_modules)
-      end
-      objects = scope.to_a
-      @issue = objects.first
+    if params[:object_type] == 'issue' && params[:object_id] && @issue = Issue.find_by(id: params[:object_id])
       @issue_tags = @issue.tags
-      @available_tags = klass.available_tags - @issue_tags
+      @available_tags = Issue.available_tags - @issue_tags
       @project = @issue.project
       case request.method_symbol
       when :get
@@ -79,10 +71,13 @@ class TagsController < ApplicationController
         else
           tag_ids << params[:tag_id]
         end
-        tags = ActsAsTaggableOn::Tag.where(id: tag_ids.flatten).all
-        @issue.tag_list << tags
-        @issue.save
-        render nothing: true, status: ok
+        tags = @issue.tag_list + ActsAsTaggableOn::Tag.where(id: tag_ids.flatten).all
+        tags_context = { issue: @issue, params: {} }
+        tags_context[:params].store :issue, { tag_list: tags }
+        @issue.init_journal(User.current)
+        RedmineTags::Hooks::ModelIssueHook.instance.save_tags_to_issue tags_context, true
+        @issue.current_journal.save
+        render nothing: true, status: :ok
       end
     end
   end
