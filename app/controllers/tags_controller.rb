@@ -5,6 +5,8 @@ class TagsController < ApplicationController
 
   helper :issues_tags
 
+  delegate :save_tags_to_issue, to: "RedmineTags::Hooks::ModelIssueHook.instance"
+
   def edit; end
 
   def destroy
@@ -75,7 +77,7 @@ class TagsController < ApplicationController
         tags_context = { issue: @issue, params: {} }
         tags_context[:params].store :issue, { tag_list: tags }
         @issue.init_journal(User.current)
-        RedmineTags::Hooks::ModelIssueHook.instance.save_tags_to_issue tags_context, true
+        save_tags_to_issue tags_context, true
         @issue.current_journal.save
         render nothing: true, status: :ok
       end
