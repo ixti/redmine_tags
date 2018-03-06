@@ -12,6 +12,9 @@ module RedmineTags
         def issue_tags
           @name = params[:q].to_s
           @tags = Issue.available_tags project: @project, name_like: @name
+          if params[:object_type] == 'issue' && params[:object_id] && issue = Issue.find_by(id: params[:object_id])
+            @tags -= issue.tags
+          end
           render layout: false, partial: params[:partial] || 'tag_list', locals: {tags: @tags}
         end
 
