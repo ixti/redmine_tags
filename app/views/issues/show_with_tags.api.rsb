@@ -1,0 +1,3 @@
+render_api_redmine_tags @issue, api
+
+api.created_on @issue.created_on

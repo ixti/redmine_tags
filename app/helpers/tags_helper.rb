@@ -32,7 +32,7 @@ module TagsHelper
       content << content_tag('span', "(#{ tag.count })", class: 'tag-count')
     end
 
-    style = if use_colors 
+    style = if use_colors
         { class: 'tag-label-color',
           style: tag_style }
       else
@@ -107,6 +107,14 @@ module TagsHelper
       content_tag list_el, content, class: 'tags',
         style: (:simple_cloud == style ? 'text-align: left;' : '')
     end
+  end
+
+  def render_api_redmine_tags(taggable, api)
+    api.array :tags do
+      taggable.tags.each do |tag|
+        api.tag(:id => tag.id, :name => tag.name)
+      end
+    end if include_in_api_response?('tags')
   end
 
   private
