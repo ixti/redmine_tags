@@ -6,8 +6,8 @@ module RedmineTags
       end
 
       module InstanceMethods
-        def tags
-          Issue.available_tags project: self
+        def tags(options = {})
+          Issue.available_tags options.merge(project: self)
         end
       end
     end
