@@ -9,7 +9,7 @@
   <%= hidden_field_tag 'project_id', @project.id if @project %>
 
   <div id="issue_tags" class="tags">
-    <%= safe_join(issue.tag_counts.collect {|t| render_tag_link(t, show_count: false, open_only: false) }, RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ') %>
+    <%= render partial: 'auto_completes/tag_list_with_checkboxes', locals: {tags: issue_tags, checked: checked} %>
   </div>
   <p><%= label_tag 'tag_search', l(:issue_tags_label_search) %><%= text_field_tag 'tag_search', nil %></p>
   <%= javascript_tag "observeSearchfield('tag_search', 'available_tags', '#{ escape_javascript auto_complete_issue_tags_path(
@@ -23,7 +23,7 @@
   </div>
 
   <p class="buttons">
-    <%= submit_tag l(:button_add), :name => nil, :onclick => "hideModal(this);" %>
+    <%= submit_tag l(:button_change), :name => nil, :onclick => "hideModal(this);" %>
     <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
   </p>
 <% end %>

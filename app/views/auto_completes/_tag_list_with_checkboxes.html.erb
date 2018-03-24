@@ -1,1 +1,2 @@
-<%= render_tags_list_with_checkboxes('tagged[tag_ids][]', tags) %>
+<% checked = local_assigns.fetch :checked, {} %>
+<%= render_tags_list(tags, style: :with_checkbox, id_name: 'tagged[tag_ids][]', checked: checked) %>

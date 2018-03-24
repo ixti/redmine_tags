@@ -59,6 +59,7 @@ class TagsController < ApplicationController
   def tagging_issue
     if params[:object_type] == 'issue' && params[:object_id] && @issue = Issue.find_by(id: params[:object_id])
       @issue_tags = @issue.tags
+      @checked = {}; @issue_tags.each { |tag| @checked[tag.name] = true }
       @available_tags = Issue.available_tags - @issue_tags
       @project = @issue.project
       case request.method_symbol
@@ -73,7 +74,7 @@ class TagsController < ApplicationController
         else
           tag_ids << params[:tag_id]
         end
-        tags = @issue.tag_list + ActsAsTaggableOn::Tag.where(id: tag_ids.flatten).all
+        tags = ActsAsTaggableOn::Tag.where(id: tag_ids.flatten).all
         tags_context = { issue: @issue, params: {} }
         tags_context[:params].store :issue, { tag_list: tags }
         @issue.init_journal(User.current)

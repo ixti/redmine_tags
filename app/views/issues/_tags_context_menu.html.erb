@@ -2,8 +2,7 @@
   <li class="folder">
     <a href="#" class="submenu"><%= l(:tags) %></a>
     <ul class="tags">
-      <%= render_tags_list @issue.tags, :style => :simple_list, :use_colors => false %>
-      <li><%= context_menu_link l(:button_add), tagging_issue_path(:object_type => 'issue', :object_id => @issue.id), :remote => true, :class => 'icon-add' %></li>
+      <li><%= context_menu_link l(:button_edit), tagging_issue_path(:object_type => 'issue', :object_id => @issue.id), :remote => true, :class => 'icon-edit' %></li>
     </ul>
   </li>
 <% end %>
