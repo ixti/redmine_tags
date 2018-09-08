@@ -8,7 +8,8 @@ module RedmineTags
           acts_as_ordered_taggable
 
           safe_attributes 'tag_list'
-          alias_method_chain :copy_from, :redmine_tags
+          alias_method :copy_from_without_redmine_tags, :copy_from
+          alias_method :copy_from, :copy_from_with_redmine_tags
 
           searchable_options[:columns] << "tags.name"
           searchable_options[:preload] << :tags

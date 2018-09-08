@@ -14,8 +14,8 @@ Inspired by original `redmine_tags` of Eric Davis.
 
 ## Requirements
 
-- Ruby `>= 2.1.9`
-- Redmine `>= 3.1.7`
+- Ruby `>= 2.2.10`
+- Redmine `>= 4.0.0`
 
 
 ## Installing
@@ -42,23 +42,14 @@ Inspired by original `redmine_tags` of Eric Davis.
 Make sure you have the latest database structure loaded to the test database:
 
 ```
-rake db:structure:dump
-rake db:drop db:create db:structure:load RAILS_ENV=test
+
+rake db:drop db:create db:migrate RAILS_ENV=test
 ```
 
-You need to have the
-[redmine_testing_gems](https://github.com/ZitecCOM/redmine_testing_gems)
-plugin:
+After you cloned the plugin, run the following command:
 
 ```
-git clone https://github.com/ZitecCOM/redmine_testing_gems.git --branch 1.3.1
-bundle install
-```
-
-After you cloned the plugin, run the follwing command:
-
-```
-rake redmine:plugins:spec RAILS_ENV=test NAME=redmine_tags
+rake redmine:plugins:test RAILS_ENV=test NAME=redmine_tags
 ```
 
 

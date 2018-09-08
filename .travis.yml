@@ -5,58 +5,43 @@ services:
   - postgresql
 
 rvm:
-  - 2.2.8
-  - 2.3.5
-  - 2.4.2
+  - 2.2.10
+  - 2.3.8
+  - 2.4.5
+  - 2.5.3
 
 matrix:
   allow_failures:
     # Master may fail for any reason, on any ruby version.
     # It's good to keep an eye on it in case if fails because of us.
-    - rvm: 2.2.8
+    - rvm: 2.2.10
       env: REDMINE_VER=master DB=mysql
-    - rvm: 2.2.8
-      env: REDMINE_VER=master DB=postgresql
-
-    - rvm: 2.3.5
+    - rvm: 2.3.8
       env: REDMINE_VER=master DB=mysql
-    - rvm: 2.3.5
-      env: REDMINE_VER=master DB=postgresql
-
-    # Redmine < 3.4 does not work with ruby 2.4.
-    - rvm: 2.4.2
-      env: REDMINE_VER=3.2.8 DB=mysql
-    - rvm: 2.4.2
-      env: REDMINE_VER=3.3.5 DB=mysql
-    - rvm: 2.4.2
+    - rvm: 2.4.5
       env: REDMINE_VER=master DB=mysql
-
-    - rvm: 2.4.2
-      env: REDMINE_VER=3.2.8 DB=postgresql
-    - rvm: 2.4.2
-      env: REDMINE_VER=3.3.5 DB=postgresql
-    - rvm: 2.4.2
+    - rvm: 2.5.3
+      env: REDMINE_VER=master DB=mysql
+    - rvm: 2.2.10
       env: REDMINE_VER=master DB=postgresql
-
-gemfile:
-  - $REDMINE_PATH/Gemfile
+    - rvm: 2.3.8
+      env: REDMINE_VER=master DB=postgresql
+    - rvm: 2.4.5
+      env: REDMINE_VER=master DB=postgresql
+    - rvm: 2.5.3
+      env: REDMINE_VER=master DB=postgresql
 
 env:
-  - REDMINE_VER=3.2.8 DB=mysql
-  - REDMINE_VER=3.3.5 DB=mysql
-  - REDMINE_VER=3.4.3 DB=mysql
-  - REDMINE_VER=3.2.8 DB=postgresql
-  - REDMINE_VER=3.3.5 DB=postgresql
-  - REDMINE_VER=3.4.3 DB=postgresql
+  - REDMINE_VER=4.0.0 DB=mysql
+  - REDMINE_VER=4.0.0 DB=postgresql
   - REDMINE_VER=master DB=mysql
   - REDMINE_VER=master DB=postgresql
 
 before_install:
   - export PLUGIN_NAME=redmine_tags
   - export REDMINE_PATH=$HOME/redmine
+  - export BUNDLE_GEMFILE=$REDMINE_PATH/Gemfile
   - git clone https://github.com/redmine/redmine.git --branch $REDMINE_VER --depth 1 $REDMINE_PATH
-  # TODO: This plugin has to go!
-  - git clone https://github.com/ZitecCOM/redmine_testing_gems.git --branch 1.3.3 --depth 1 $REDMINE_PATH/plugins/redmine_testing_gems
   # TODO: this needs to be a `mv` once the testing plugin is removed.
   - ln -s $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
   - cp config/database-$DB-travis.yml $REDMINE_PATH/config/database.yml

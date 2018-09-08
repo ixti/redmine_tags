@@ -1,4 +1,4 @@
-class ActsAsTaggableMigration < ActiveRecord::Migration
+class ActsAsTaggableMigration < ActiveRecord::Migration[4.2]
   def up
     # ActsAsTaggableOnMigration
     unless table_exists?(:tags)
