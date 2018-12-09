@@ -5,6 +5,8 @@
 Allows marking up different models in Redmine with tags.
 Inspired by original `redmine_tags` of Eric Davis.
 
+## Important news
+**This plugin is EOL** and all my efforts will be pointed to move the current features to the Redmine core. Please see http://www.redmine.org/issues/1448 for more details or to track the progress. I will continue to accept/implement only bug fixes and future Redmine versions.
 
 ## Supported models
 
