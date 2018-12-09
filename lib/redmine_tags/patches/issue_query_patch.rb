@@ -4,10 +4,11 @@ module RedmineTags
       def self.included(base)
         base.send :include, InstanceMethods
         base.class_eval do
-          unloadable
+          alias_method :available_filters_without_tags, :available_filters
+          alias_method :available_filters, :available_filters_with_tags
 
-          alias_method_chain :available_filters, :tags
-          alias_method_chain :available_columns, :tags
+          alias_method :available_columns_without_tags, :available_columns
+          alias_method :available_columns, :available_columns_with_tags
         end
       end
 

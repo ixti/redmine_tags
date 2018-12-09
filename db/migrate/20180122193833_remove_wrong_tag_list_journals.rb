@@ -1,4 +1,4 @@
-class RemoveWrongTagListJournals < ActiveRecord::Migration
+class RemoveWrongTagListJournals < ActiveRecord::Migration[4.2]
   def change
     # First, remove from journal details the tag changes where the new value is the same with the old_value
     JournalDetail.where("prop_key = 'tag_list' AND old_value = value").destroy_all
