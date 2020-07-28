@@ -16,7 +16,7 @@ Inspired by original `redmine_tags` of Eric Davis.
 
 ## Requirements
 
-- Ruby `>= 2.2.10`
+- Ruby `>= 2.3.8`
 - Redmine `>= 4.0.0`
 
 
