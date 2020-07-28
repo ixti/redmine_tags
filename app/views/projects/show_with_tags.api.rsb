@@ -1,0 +1,3 @@
+render_api_redmine_tags(@project, api)
+
+api.created_on @project.created_on
