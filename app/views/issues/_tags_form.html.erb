@@ -1,3 +1,4 @@
+<% if @project.module_enabled?(:tags) && User.current.allowed_to?(:issue_edit_tags, @project) %>
 <p><%= form.text_field :tag_list, :size => 60, :value => issue.tag_list.to_s %></p>
 
 <%= javascript_tag "$('#issue_tag_list').tagit({
@@ -17,3 +18,4 @@
   removeConfirmation: true,
   showAutocompleteOnFocus: true,
 });" %>
+<% end %>

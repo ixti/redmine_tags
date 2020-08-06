@@ -1,3 +1,4 @@
+<% if @project.module_enabled?(:tags) %>
 <% unless issue.tag_list.empty? %>
   <div class="tags attribute">
     <div class="label">
@@ -7,4 +8,5 @@
       <%= safe_join(issue.tag_counts.collect {|t| render_tag_link(t, show_count: false, open_only: false) }, RedmineTags.settings[:issues_use_colors].to_i > 0 ? ' ' : ', ') %>
     </div>
   </div>
+<% end %>
 <% end %>
