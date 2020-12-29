@@ -5,7 +5,8 @@ module RedmineTags
         base.extend(ClassMethods)
         base.class_eval do
           class << self
-            alias_method_chain :call, :redmine_tags
+            alias_method :call_without_redmine_tags, :call
+            alias_method :call, :call_with_redmine_tags
           end
         end
       end
