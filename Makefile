@@ -16,4 +16,5 @@ ci:
 # ```
 .PHONY: prepare
 prepare:
+	@rails db:create db:migrate || true
 	@rake db:create db:migrate redmine:plugins:migrate

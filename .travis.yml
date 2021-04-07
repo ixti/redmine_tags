@@ -5,30 +5,37 @@ services:
   - postgresql
 
 rvm:
-  - 2.3.8
-  - 2.4.5
-  - 2.5.3
+  - 2.4.10
+  - 2.5.9
+  - 2.6.7
+  - 2.7.3
 
 matrix:
   allow_failures:
     # Master may fail for any reason, on any ruby version.
     # It's good to keep an eye on it in case if fails because of us.
-    - rvm: 2.3.8
+    - rvm: 2.4.10
       env: REDMINE_VER=master DB=mysql
-    - rvm: 2.4.5
+    - rvm: 2.5.9
       env: REDMINE_VER=master DB=mysql
-    - rvm: 2.5.3
+    - rvm: 2.6.7
       env: REDMINE_VER=master DB=mysql
-    - rvm: 2.2.10
+    - rvm: 2.7.3
+      env: REDMINE_VER=master DB=mysql
+    - rvm: 2.4.10
       env: REDMINE_VER=master DB=postgresql
-    - rvm: 2.3.8
+    - rvm: 2.5.9
       env: REDMINE_VER=master DB=postgresql
-    - rvm: 2.4.5
+    - rvm: 2.6.7
       env: REDMINE_VER=master DB=postgresql
-    - rvm: 2.5.3
+    - rvm: 2.7.3
       env: REDMINE_VER=master DB=postgresql
 
 env:
+  - REDMINE_VER=4.2-stable DB=mysql
+  - REDMINE_VER=4.2-stable DB=postgresql
+  - REDMINE_VER=4.1-stable DB=mysql
+  - REDMINE_VER=4.1-stable DB=postgresql
   - REDMINE_VER=4.0-stable DB=mysql
   - REDMINE_VER=4.0-stable DB=postgresql
   - REDMINE_VER=master DB=mysql
@@ -43,6 +50,7 @@ before_install:
   - ln -s $TRAVIS_BUILD_DIR $REDMINE_PATH/plugins/$PLUGIN_NAME
   - cp config/database-$DB-travis.yml $REDMINE_PATH/config/database.yml
   - cd $REDMINE_PATH
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS redmine;' || psql -c 'create database redmine;' -U postgres || true
 
 before_script:
   - make -f plugins/redmine_tags/Makefile prepare
