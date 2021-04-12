@@ -1,5 +1,7 @@
 # http://about.travis-ci.org/docs/user/database-setup/#PostgreSQL
 test:
   adapter: postgresql
+  host: localhost
   database: redmine
   username: postgres
+  password: supers3kretdonthacklel
