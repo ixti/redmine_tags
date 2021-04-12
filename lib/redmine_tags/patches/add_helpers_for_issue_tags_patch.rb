@@ -13,6 +13,7 @@ end
 
 bases = [
   IssuesController,
+  ContextMenusController,
   CalendarsController,
   GanttsController,
   SettingsController

@@ -5,6 +5,8 @@ class TagsController < ApplicationController
 
   helper :issues_tags
 
+  delegate :save_tags_to_issue, to: "RedmineTags::Hooks::ModelIssueHook.instance"
+
   def edit; end
 
   def destroy
@@ -50,6 +52,35 @@ class TagsController < ApplicationController
         @tags.select{|t| t.id != tag.id }.each {|t| t.destroy }
         redirect_to controller: 'settings', action: 'plugin',
           id: 'redmine_tags', tab: 'manage_tags'
+      end
+    end
+  end
+
+  def tagging_issue
+    if params[:object_type] == 'issue' && params[:object_id] && @issue = Issue.find_by(id: params[:object_id])
+      @issue_tags = @issue.tags
+      @checked = {}; @issue_tags.each { |tag| @checked[tag.name] = true }
+      @available_tags = Issue.available_tags - @issue_tags
+      @project = @issue.project
+      case request.method_symbol
+      when :get
+        respond_to do |format|
+          format.js { render layout: false }
+        end
+      when :post
+        tag_ids = []
+        if params[:tagged]
+          tag_ids << (params[:tagged][:tag_ids] || params[:tagged][:tag_id])
+        else
+          tag_ids << params[:tag_id]
+        end
+        tags = ActsAsTaggableOn::Tag.where(id: tag_ids.flatten).all
+        tags_context = { issue: @issue, params: {} }
+        tags_context[:params].store :issue, { tag_list: tags }
+        @issue.init_journal(User.current)
+        save_tags_to_issue tags_context, true
+        @issue.current_journal.save
+        render nothing: true, status: :ok
       end
     end
   end

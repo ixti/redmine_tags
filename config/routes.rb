@@ -12,3 +12,5 @@ resources :tags, only: [:edit, :update] do
     get :context_menu, :merge
   end
 end
+
+match '/tags/tagging_issue', to: 'tags#tagging_issue', as: 'tagging_issue', via: [:get, :post]
