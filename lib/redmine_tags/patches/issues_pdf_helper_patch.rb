@@ -12,26 +12,32 @@ module RedmineTags
       module InstanceMethods
         def fetch_row_values_with_redmine_tags(issue, query, level)
           query.inline_columns.collect do |column|
-            s = if column.is_a?(QueryCustomFieldColumn)
-              cv = issue.visible_custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
-              show_value(cv, false)
-            else
-              value = issue.send(column.name)
-              if column.name == :subject
-                value = "  " * level + value
-              end
-              if value.is_a?(Date)
-                format_date(value)
-              elsif value.is_a?(Time)
-                format_time(value)
-              elsif value.respond_to?(:map)
-                # If a value is mappable then we need each of it's elements
-                # string representation
-                value.map(&:to_s).compact.join(',')
+            s =
+              if column.is_a?(QueryCustomFieldColumn)
+                cv = issue.visible_custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
+                show_value(cv, false)
               else
-                value
+                value = column.value_object(issue)
+                case column.name
+                when :subject
+                  value = "  " * level + value
+                when :attachments
+                  value = value.to_a.map {|a| a.filename}.join("\n")
+                end
+                if value.is_a?(Date)
+                  format_date(value)
+                elsif value.is_a?(Time)
+                  format_time(value)
+                elsif value.is_a?(Float)
+                  sprintf "%.2f", value
+                elsif value.respond_to?(:map)
+                  # If a value is mappable then we need each of it's elements
+                  # string representation
+                  value.map(&:to_s).compact.join(',')
+                else
+                  value
+                end
               end
-            end
             s.to_s
           end
         end
