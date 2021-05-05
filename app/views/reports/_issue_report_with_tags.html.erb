@@ -1,0 +1,9 @@
+<h3>
+  <%=l(:field_tags)%>&nbsp;
+  <%= link_to l(:label_details),
+        project_issues_report_details_path(@project, :detail => 'tag'),
+        :class => 'icon-only icon-zoom-in',
+        :title => l(:label_details) %>
+</h3>
+<%= render :partial => 'simple', :locals => { :data => @issues_by_tags, :field_name => 'tag_id', :rows => @tags } %>
+<br />
