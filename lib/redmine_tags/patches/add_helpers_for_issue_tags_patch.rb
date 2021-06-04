@@ -12,6 +12,7 @@ module RedmineTags
 end
 
 bases = [
+  ProjectsController,
   IssuesController,
   CalendarsController,
   GanttsController,
