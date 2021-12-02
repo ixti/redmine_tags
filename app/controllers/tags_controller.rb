@@ -2,6 +2,7 @@ class TagsController < ApplicationController
   before_action :require_admin
   before_action :find_tag, only: [:edit, :update]
   before_action :bulk_find_tags, only: [:context_menu, :merge, :destroy]
+  before_action :find_project_by_project_id, only: [:add_tag, :delete_tag]
 
   helper :issues_tags
 
@@ -52,6 +53,55 @@ class TagsController < ApplicationController
           id: 'redmine_tags', tab: 'manage_tags'
       end
     end
+  end
+
+  def add_tag
+    @issue_ids = params[:issue_ids]
+    @back_url = params[:back_url]
+  end
+
+  def delete_tag
+    @issue_ids = params[:issue_ids]
+    @back_url = params[:back_url]
+
+    issues = Issue.where(id: @issue_ids)
+    @candidate_tags = ActsAsTaggableOn::Tag
+      .joins(:taggings)
+      .where(taggings: {taggable_type: 'Issue', taggable_id: issues})
+      .distinct
+      .order('tags.name')
+  end
+
+  def update_tag
+    operate = params[:operate]
+    return if operate.blank?
+
+    sabun = params[:tag_list]
+    return if sabun.blank?
+
+    sabun = sabun.split(ActsAsTaggableOn.delimiter) unless sabun.is_a?(Array)
+
+    Issue.where(id: params[:issue_ids]).each do |issue|
+      old_tags = issue.tag_list.to_s
+
+      case operate
+      when 'add'
+        issue.tag_list |= sabun
+      when 'delete'
+        issue.tag_list -= sabun
+      end
+
+      new_tags = issue.tag_list.to_s
+      unless old_tags == new_tags
+        issue.save_tags
+        unless issue.current_journal.blank?
+          issue.current_journal.details << JournalDetail.new(
+            property: 'attr', prop_key: 'tag_list', old_value: old_tags, value: new_tags)
+        end
+      end
+    end
+    Issue.remove_unused_tags!
+    # redirect_to params[:back_url] if params[:back_url]
   end
 
   private

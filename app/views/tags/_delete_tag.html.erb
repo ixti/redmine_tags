@@ -1,0 +1,28 @@
+<h3 class="title"><%= l(:label_delete_tag) %></h3>
+
+<%= form_tag({action: :update_tag},
+             remote: true,
+             method: :patch,
+             id: 'delete-tag-form') do %>
+
+  <%= hidden_field_tag 'project_id', @project.id if @project %>
+  <% @issue_ids.each do |i| %>
+    <%= hidden_field_tag 'issue_ids[]', i %>
+  <% end %>
+  <%= hidden_field_tag 'back_url', @back_url if @back_url %>
+  <%= hidden_field_tag 'operate', 'delete' %>
+
+  <div id="delete-tags" style="overflow: auto;">
+    <% @candidate_tags.each do |t| %>
+      <label style="display: block;">
+        <%= check_box_tag 'tag_list[]', t.name, false, id: nil %>
+        <%= t.name %>
+      </label>
+    <% end %>
+  </div>
+
+  <p class="buttons">
+    <%= submit_tag l(:button_delete), name: nil, onclick: "hideModal(this); setTimeout(function(){location.reload(false);},300);" %>
+    <%= link_to_function l(:button_cancel), "hideModal(this);" %>
+  </p>
+<% end %>

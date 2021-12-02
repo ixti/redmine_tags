@@ -6,6 +6,7 @@ module RedmineTags
       render_on :view_issues_sidebar_planning_bottom, partial: 'issues/tags_sidebar'
       render_on :view_issues_bulk_edit_details_bottom, partial: 'issues/bulk_edit_tags'
       render_on :view_layouts_base_html_head, partial: 'tags/header_assets'
+      render_on :view_issues_context_menu_start, partial: 'issues/add_context_menu'
     end
   end
 end

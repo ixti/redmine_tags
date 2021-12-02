@@ -1,0 +1,43 @@
+<h3 class="title"><%= l(:label_add_tag) %></h3>
+
+<%= form_tag({action: :update_tag},
+             remote: true,
+             method: :patch,
+             id: 'add-tag-form') do %>
+
+  <%= hidden_field_tag 'project_id', @project.id if @project %>
+  <% @issue_ids.each do |i| %>
+    <%= hidden_field_tag 'issue_ids[]', i %>
+  <% end %>
+  <%= hidden_field_tag 'back_url', @back_url if @back_url %>
+  <%= hidden_field_tag 'operate', 'add' %>
+
+  <p>
+    <label for="add-issue-tag-list"><%= l(:tags) %></label>
+    <%= text_field_tag :tag_list, '', size: 30, id: 'add-issue-tag-list' %>
+  </p>
+
+  <p class="buttons">
+    <%= submit_tag l(:button_add), name: nil, onclick: "hideModal(this); setTimeout(function(){location.reload(false);},300);" %>
+    <%= link_to_function l(:button_cancel), "hideModal(this);" %>
+  </p>
+<% end %>
+
+<%= javascript_tag "$('#add-issue-tag-list').tagit({
+  tagSource: function(search, showChoices) {
+    var that = this;
+    $.ajax({
+      url: '#{escape_javascript auto_complete_issue_tags_path(@project)}',
+      data: {q: search.term},
+      success: function(choices) {
+        showChoices(that._subtractArray(jQuery.parseJSON(choices.replace(/<!--.*-->/g, '')), that.assignedTags()));
+      }
+    });
+  },
+  allowSpaces: true,
+  placeholderText: '#{l(:issue_tags_label_add_tag)}',
+  caseSensitive: false,
+  removeConfirmation: true,
+  showAutocompleteOnFocus: true,
+  autocomplete: {delay: 1, minLength: 1},
+});" %>

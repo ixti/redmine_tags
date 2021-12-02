@@ -1,0 +1,13 @@
+<% if @can[:edit] %>
+  <li class="folder">
+    <a href="#" class="submenu"><%= l(:field_tags) %></a>
+    <ul>
+      <li><%= context_menu_link(l(:button_add),
+                tags_add_path(issue_ids: @issue_ids, project_id: @project, back_url: back),
+                remote: true) %></li>
+      <li><%= context_menu_link(l(:button_delete),
+                tags_delete_path(issue_ids: @issue_ids, project_id: @project, back_url: back),
+                remote: true) %></li>
+    </ul>
+  </li>
+<% end %>
