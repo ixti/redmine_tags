@@ -1,5 +1,6 @@
 class TagsController < ApplicationController
-  before_action :require_admin
+  before_action :require_admin, except: [:add_tag, :delete_tag, :update_tag]
+  before_action :require_login, only: [:update_tag]
   before_action :find_tag, only: [:edit, :update]
   before_action :bulk_find_tags, only: [:context_menu, :merge, :destroy]
   before_action :find_project_by_project_id, only: [:add_tag, :delete_tag]
