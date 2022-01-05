@@ -95,10 +95,10 @@ class TagsController < ApplicationController
       new_tags = issue.tag_list.to_s
       unless old_tags == new_tags
         issue.save_tags
-        unless issue.current_journal.blank?
-          issue.current_journal.details << JournalDetail.new(
-            property: 'attr', prop_key: 'tag_list', old_value: old_tags, value: new_tags)
-        end
+        issue.init_journal(User.current) if issue.current_journal.blank?
+        issue.current_journal.details << JournalDetail.new(
+          property: 'attr', prop_key: 'tag_list', old_value: old_tags, value: new_tags)
+        issue.current_journal.save
       end
     end
     Issue.remove_unused_tags!
