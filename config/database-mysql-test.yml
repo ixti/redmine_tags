@@ -1,8 +1,7 @@
-# http://about.travis-ci.org/docs/user/database-setup/#MySQL
 test:
   adapter: mysql2
   host: 127.0.0.1
   database: redmine
-  username: redmineuser
+  username: root
   password: supers3kretdonthacklel
   encoding: utf8mb4
