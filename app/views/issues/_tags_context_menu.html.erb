@@ -1,0 +1,8 @@
+<% if @issue -%>
+  <li class="folder">
+    <a href="#" class="submenu"><%= l(:tags) %></a>
+    <ul class="tags">
+      <li><%= context_menu_link l(:button_edit), tagging_issue_path(:object_type => 'issue', :object_id => @issue.id), :remote => true, :class => 'icon-edit' %></li>
+    </ul>
+  </li>
+<% end %>

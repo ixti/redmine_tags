@@ -11,8 +11,11 @@ module TagsHelper
   #   * show_count  - Boolean. Whenever show tag counts
   #   * open_only   - Boolean. Whenever link to the filter with "open" issues
   #                   only limit.
+  #   * with_checkbox - Boolean. Renders tag as checkbox considering additional
+  #                     "checked" option
   def render_tag_link(tag, options = {})
-    use_colors = RedmineTags.settings[:issues_use_colors].to_i > 0
+    use_colors = options[:use_colors]
+    use_colors = RedmineTags.settings[:issues_use_colors].to_i > 0 if use_colors.nil?
     if use_colors
       tag_bg_color = tag_color(tag)
       tag_fg_color = tag_fg_color(tag_bg_color)
@@ -25,11 +28,15 @@ module TagsHelper
       content =  link_to tag, { controller: 'search', action: 'index',
         id: @project, q: tag.name, wiki_pages: true, issues: true,
         style: tag_style }
+    elsif options[:with_checkbox]
+      id_name = options[:id_name] || tag.name
+      with_tick = options[:checked] || {}
+      content = check_box_tag(id_name, tag.id, with_tick[tag.name] || false, id: nil, project_id: @project) + tag.name
     else
       content = link_to_filter tag.name, filters, project_id: @project
     end
     if options[:show_count]
-      content << content_tag('span', "(#{ tag.count })", class: 'tag-count')
+      content << content_tag('span', "(#{ tag.count })", class: 'tag-count', style: tag_style)
     end
 
     style = if use_colors
@@ -65,7 +72,7 @@ module TagsHelper
   #   * show_count  - Boolean. Whenever show tag counts
   #   * open_only   - Boolean. Whenever link to the filter with "open" issues
   #                   only limit.
-  #   * style       - list, cloud
+  #   * style       - list, cloud, simple_list, simple_cloud, with_checkbox
   def render_tags_list(tags, options = {})
     unless tags.nil? or tags.empty?
       content, style = '', options.delete(:style)
@@ -86,13 +93,16 @@ module TagsHelper
           logger.warn "[redmine_tags] Unknown sorting option: <#{ sorting }>"
           tags.sort! {|a, b| a.name <=> b.name }
       end
-      if :list == style
+      if :list == style || :simple_list == style
         list_el, item_el = 'ul', 'li'
       elsif :simple_cloud == style
         list_el, item_el = 'div', 'span'
       elsif :cloud == style
         list_el, item_el = 'div', 'span'
         tags = cloudify tags
+      elsif :with_checkbox == style
+        list_el, item_el = 'div', 'label'
+        options[:with_checkbox] = true
       else
         raise 'Unknown list style'
       end
@@ -104,8 +114,12 @@ module TagsHelper
             style: (:simple_cloud == style ? 'font-size: 1em;' : '')) <<
           ' '.html_safe
       end
-      content_tag list_el, content, class: 'tags',
-        style: (:simple_cloud == style ? 'text-align: left;' : '')
+      if :simple_list == style || :with_checkbox == style
+        content
+      else
+        content_tag list_el, content, class: 'tags',
+          style: (:simple_cloud == style ? 'text-align: left;' : '')
+      end
     end
   end
 

@@ -1,0 +1,29 @@
+<h3 class="title"><%= l(:issue_tags_manage_tags) %></h3>
+
+<%= form_tag(tagging_issue_path, remote: true, id: 'tagging-issue-form') do %>
+
+  <% if issue.present? %>
+    <%= hidden_field_tag 'object_type', issue.class.name.underscore %>
+    <%= hidden_field_tag 'object_id', issue.id %>
+  <% end %>
+  <%= hidden_field_tag 'project_id', @project.id if @project %>
+
+  <div id="issue_tags" class="tags">
+    <%= render partial: 'auto_completes/tag_list_with_checkboxes', locals: {tags: issue_tags, checked: checked} %>
+  </div>
+  <p><%= label_tag 'tag_search', l(:issue_tags_label_search) %><%= text_field_tag 'tag_search', nil %></p>
+  <%= javascript_tag "observeSearchfield('tag_search', 'available_tags', '#{ escape_javascript auto_complete_issue_tags_path(
+                 :object_type => (issue.present? ? issue.class.name.underscore : nil),
+                 :object_id => (issue.present? ? issue.id : nil),
+                 :project_id => @project,
+                 :partial => :tag_list_with_checkboxes) }')" %>
+
+  <div id="available_tags" class="tags">
+    <%= render partial: 'auto_completes/tag_list_with_checkboxes', locals: {tags: available_tags} %>
+  </div>
+
+  <p class="buttons">
+    <%= submit_tag l(:button_change), :name => nil, :onclick => "hideModal(this);" %>
+    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+  </p>
+<% end %>
