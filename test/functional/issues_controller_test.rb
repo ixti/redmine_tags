@@ -257,4 +257,71 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal ['tag_list'], Issue.find(2).journals.last.details.map(&:prop_key)
     assert_equal ['tag_list'], Issue.find(7).journals.last.details.map(&:prop_key)
   end
+
+  def test_post_create_with_tags
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count' do
+      assert_no_difference 'Journal.count' do
+        post(
+          :create,
+          :params => {
+            :project_id => 1,
+            :issue => {
+              :tracker_id => 3,
+              :status_id => 2,
+              :subject => 'This is the test_post_create_with_tags issue',
+              :description => 'This is the description',
+              :priority_id => 5,
+              :estimated_hours => '',
+              :custom_field_values => {
+                '2' => 'Value for field 2'
+              },
+              :tag_list => ['Production', 'Functional'],
+            }
+          }
+        )
+      end
+    end
+    assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
+
+    issue = Issue.find_by_subject('This is the test_post_create_with_tags issue')
+    assert_not_nil issue
+    # custom fields might be special
+    v = issue.custom_values.where(:custom_field_id => 2).first
+    assert_not_nil v
+    assert_equal 'Value for field 2', v.value
+    # tags should not be cleared with any sort of reload call in Issue after_save methods
+    assert_equal ['Production', 'Functional'], issue.tag_list
+  end
+
+  def test_create_as_copy_should_copy_tags
+    issue = Issue.generate! {|i| i.tag_list = ['Production', 'Security']}
+    child = Issue.generate!(:parent_issue_id => issue.id) {|i| i.tag_list = ['Functional']}
+    @request.session[:user_id] = 1
+    assert_difference 'Issue.count', 2 do
+      post(
+        :create,
+        :params => {
+          :project_id => 1,
+          :copy_from => issue.id,
+          :issue => {
+            :project_id => '1',
+            :tracker_id => '3',
+            :status_id => '1',
+            :subject => 'Copy with subtask and tags'
+          },
+          :copy_subtasks => '1'
+        }
+      )
+    end
+    child_copy, issue_copy = Issue.order(:id => :desc).limit(2).to_a
+    # make sure we have the newly copied issues
+    assert [issue_copy.id, child_copy.id].min > [issue.id, child.id].max
+    # https://github.com/ixti/redmine_tags/issues/228
+    assert_equal child_copy.parent_issue_id, issue_copy.id
+    assert_nil issue_copy.parent_issue_id
+
+    assert_equal ['Production', 'Security'], issue_copy.tag_list
+    assert_equal ['Functional'], child_copy.tag_list
+  end
 end
