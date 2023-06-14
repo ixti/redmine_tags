@@ -17,7 +17,7 @@ class TagsController < ApplicationController
   end
 
   def update
-    @tag.update_attributes(name: params[:tag][:name])
+    @tag.update(name: params[:tag][:name])
     if @tag.save
       flash[:notice] = l :notice_successful_update
       respond_to do |format|

@@ -9,15 +9,6 @@ module RedmineTags
         bulk_update_tags_to_issues context
       end
 
-      # Issue has an after_save method that calls reload (update_nested_set_attributes)
-      # This makes it impossible for a new record to get a tag_list, it's
-      # cleared on reload. So instead, hook in after the Issue#save to update
-      # this issue's tag_list and call #save ourselves.
-      def controller_issues_new_after_save(context = {})
-        save_tags_to_issue context, false
-        context[:issue].save
-      end
-
       def save_tags_to_issue(context, create_journal)
         params = context[:params]
         issue = context[:issue]
