@@ -11,3 +11,6 @@ Desktop.ini
 # Application
 .rvmrc
 /tmp
+
+# vsCode
+.vscode

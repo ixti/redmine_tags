@@ -1,0 +1,9 @@
+$('#ajax-modal').html('<%= escape_javascript(render partial: 'tags/add_tag') %>');
+showModal('ajax-modal', '400px');
+$('#ajax-modal').addClass('add-tag');
+
+var ac = $('.ui-autocomplete');
+<%# モーダルダイアログでオートコンプリート候補表示を手前に チケット画面で呼ばれるとissues_catalog.cssが読み込まれないのでここで指定 %>
+ac.css('z-index', '2147483647');
+<%# ダイアログの子になる場合があり、そうなると表示がクリップされるのでbody直下に移動 %>
+$('body').append(ac);
